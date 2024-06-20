@@ -24,11 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
+    'homepage.apps.HomepageConfig',
     'about.apps.AboutConfig',
     'business.apps.BusinessConfig',
     'catalog.apps.CatalogConfig',
     'forum.apps.ForumConfig',
-    'homepage.apps.HomepageConfig',
     'users.apps.UsersConfig'
 ]
 
@@ -106,12 +107,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 
-STATIC_URL = "/static_dev/"
+STATIC_URL = '/static_dev/'
 
-STATICFILES_DIRS = [BASE_DIR / "static_dev"]
+STATICFILES_DIRS = [BASE_DIR / 'static_dev']
 
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'core.User'
