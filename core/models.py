@@ -6,6 +6,9 @@ class Category(models.Model):
     name = models.CharField('Название', max_length=50)
     objects = models.Manager()
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
@@ -14,6 +17,9 @@ class Category(models.Model):
 class Universe(models.Model):
     name = models.CharField('Название', max_length=50)
     objects = models.Manager()
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Вселенная'

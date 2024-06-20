@@ -6,7 +6,7 @@ from core.models import User, Category, Universe
 
 class BaseMessage(models.Model):
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
-    message = models.CharField('Сообщение', max_length=1000)
+    message = models.TextField('Сообщение')
 
     class Meta:
         abstract = True
@@ -20,11 +20,17 @@ class FloodMessage(BaseMessage):
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
 
+    def __str__(self):
+        return f'Сообщение #{self.id}'
+
 
 class ProductMessage(BaseMessage):
     product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
-    users_upvotes = models.ManyToManyField(User, verbose_name='upvotes', related_name='upvotes')
+    users_upvotes = models.ManyToManyField(User, verbose_name='Апвоуты', related_name='upvotes')
 
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return f'Отзыв #{self.id}'
