@@ -1,4 +1,16 @@
-{% load static %}
-<header>
-    Хедер
+<header style="margin-bottom: 50px">
+    {% if user.is_authenticated %}
+        Ты {{ user.type }}!
+        {% if user.is_superuser %}
+            <a target=”_blank”  href="/admin/">Админка</a>
+        {% endif%}
+        <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+        </form>
+    {% else %}
+        Ты не авторизован!
+        <a href="{% url 'users:signup' %}">Регистрация</a>
+        <a href="{% url 'users:login' %}">Вход</a>
+    {% endif%}
 </header>

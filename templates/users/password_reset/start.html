@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+    Восстановить пароль
+{% endblock %}
+{% block content %}
+    <form action="." method="post">
+        {% include "includes/form.html" %}
+        {% include "includes/form_errors.html" %}
+        <button type="submit">Восстановить</button>
+    </form>
+{% endblock %}
