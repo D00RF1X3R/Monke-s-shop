@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+    Избранное
+{% endblock %}
+{% block content %}
+    <h1>Избранное</h1>
+    {% for product in favorite_products %}
+        <form action="." method="POST">
+            {% csrf_token %}
+            {{ product.name }}
+            <input hidden name="id" value="{{ product.id }}">
+            <button type="button" onclick="productFavorite(this)">Изменить состояние избранного</button>
+        </form>
+    {% endfor %}
+    <script>
+        function productFavorite(clickedElement){
+            var frm = $(clickedElement).parent();
+            $.ajax({
+                type: 'POST',
+                data: $(frm).serialize(),
+                url: '{% url 'users:favorites' %}',
+                success:  function (data) {
+                    console.log('God dammit');
+                },
+                error: function () {
+                    console.log('I want to die');
+            }
+        });
+        return false;
+    }
+    </script>
+{% endblock %}

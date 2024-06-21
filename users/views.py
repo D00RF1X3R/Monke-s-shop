@@ -1,10 +1,13 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, UpdateView
+from django.views.generic import FormView
 
-from core.models import Universe
+from catalog.models import Product
 from users.forms import CustomerCreateForm, CustomerProfileForm, CustomerImageForm, CustomerFavoriteCategoriesForm, \
     CustomerFavoriteUniversesForm, CustomerBalanceAddForm
 from users.models import Customer, CustomerData, BalanceAddHistory
@@ -60,8 +63,26 @@ class CartView(LoginRequiredMixin, View):
     pass
 
 
-class FavoritesView(LoginRequiredMixin, View):
-    pass
+class FavoriteProductsView(LoginRequiredMixin, View):
+    def get(self, request, **kwargs):
+        template = 'users/favorite_products.html'
+        customer_data = get_object_or_404(CustomerData, user=request.user)
+
+        context = {'favorite_products': customer_data.favorite_products.all()}
+        return render(request, template, context)
+
+    @staticmethod
+    def post(request):
+        customer_data = get_object_or_404(CustomerData, user=request.user)
+        product = get_object_or_404(Product, id=request.POST.get('id'))
+        if product in customer_data.favorite_products.all():
+            customer_data.favorite_products.remove(product)
+        else:
+            customer_data.favorite_products.add(product)
+
+        response = {}
+
+        return JsonResponse(response)
 
 
 class FavoriteCategoriesView(LoginRequiredMixin, View):
