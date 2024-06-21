@@ -33,6 +33,19 @@ class CustomerData(models.Model):
         return self.user.username
 
 
+class BalanceAddHistory(models.Model):
+    customer = models.ForeignKey(Customer, verbose_name='Покупатель', on_delete=models.CASCADE)
+    amount = models.IntegerField(verbose_name='Сумма', validators=[MinValueValidator(1)], default=1)
+    date = models.DateTimeField(verbose_name='Дата', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'История пополнений'
+        verbose_name_plural = 'Истории пополнений'
+
+    def __str__(self):
+        return f'История пополнений #{self.id}'
+
+
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, verbose_name='Покупатель', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
@@ -50,7 +63,7 @@ class BuyHistory(models.Model):
     customer = models.ForeignKey(Customer, verbose_name='Покупатель', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
     count = models.IntegerField('Кол-во', validators=[MinValueValidator(1)], default=1)
-    date = models.DateField(auto_now=True)
+    date = models.DateField(verbose_name='Дата', auto_now_add=True)
 
     class Meta:
         verbose_name = 'История покупки'

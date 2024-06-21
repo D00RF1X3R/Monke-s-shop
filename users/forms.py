@@ -1,8 +1,9 @@
 from django import forms
 from django.forms import widgets
+from django.shortcuts import get_object_or_404
 
 from core.models import Category, Universe
-from users.models import Customer, CustomerData
+from users.models import Customer, CustomerData, BalanceAddHistory
 
 
 class CustomerProfileForm(forms.ModelForm):
@@ -30,12 +31,27 @@ class CustomerFavoriteCategoriesForm(forms.Form):
     )
 
 
+class CustomerBalanceAddForm(forms.Form):
+    amount = forms.IntegerField(min_value=1, max_value=100000, label='Сумма', initial=1)
+
+    def save(self, current_user):
+        amount = self.cleaned_data['amount']
+        balance_history = BalanceAddHistory.objects.create(
+            customer=current_user,
+            amount=amount
+        )
+
+        customer_data = get_object_or_404(CustomerData, user=current_user.id)
+        customer_data.balance += amount
+        customer_data.save()
+
+
 class CustomerFavoriteUniversesForm(forms.Form):
     favorite_universes = forms.ModelMultipleChoiceField(
         queryset=Universe.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        label='Любимые вселенные'
+        label=''
     )
 
 

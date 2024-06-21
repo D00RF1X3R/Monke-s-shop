@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from users.models import Customer, CustomerData, Cart, BuyHistory, Rating
+from users.models import Customer, CustomerData, Cart, BuyHistory, Rating, BalanceAddHistory
 from django.contrib.auth.models import Group
 
 
@@ -33,6 +33,12 @@ class CustomerAdmin(UserAdmin):
     def balance(self, obj):
         return CustomerData.objects.get_or_create(user=obj.id)[0].balance
     balance.short_description = 'Баланс'
+
+
+@admin.register(BalanceAddHistory)
+class BalanceAddHistoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'customer', 'amount', 'date')
+    fields = ('customer', 'amount')
 
 
 @admin.register(Cart)

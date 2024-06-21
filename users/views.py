@@ -6,8 +6,8 @@ from django.views.generic import FormView, UpdateView
 
 from core.models import Universe
 from users.forms import CustomerCreateForm, CustomerProfileForm, CustomerImageForm, CustomerFavoriteCategoriesForm, \
-    CustomerFavoriteUniversesForm
-from users.models import Customer, CustomerData
+    CustomerFavoriteUniversesForm, CustomerBalanceAddForm
+from users.models import Customer, CustomerData, BalanceAddHistory
 
 
 class SignupView(FormView):
@@ -56,11 +56,11 @@ class ProfileView(LoginRequiredMixin, View):
         return redirect("users:profile")
 
 
-class CartView(View):
+class CartView(LoginRequiredMixin, View):
     pass
 
 
-class FavoritesView(View):
+class FavoritesView(LoginRequiredMixin, View):
     pass
 
 
@@ -82,13 +82,14 @@ class FavoriteCategoriesView(LoginRequiredMixin, View):
             customer_data.favorite_categories.clear()
             for category in form.cleaned_data['favorite_categories']:
                 customer_data.favorite_categories.add(category)
+            customer_data.save()
 
-        return redirect("users:favorite_categories")
+        return redirect('users:favorite_categories')
 
 
 class FavoriteUniversesView(LoginRequiredMixin, View):
     def get(self, request):
-        template = 'users/favorite_categories.html'
+        template = 'users/favorite_universes.html'
 
         customer_data = get_object_or_404(CustomerData, user=request.user.id)
         form = CustomerFavoriteUniversesForm(initial={
@@ -104,17 +105,28 @@ class FavoriteUniversesView(LoginRequiredMixin, View):
             customer_data.favorite_universes.clear()
             for universe in form.cleaned_data['favorite_universes']:
                 customer_data.favorite_universes.add(universe)
+            customer_data.save()
 
-        return redirect("users:favorite_universes")
-
-
-class BalanceAddView(View):
-    pass
+        return redirect('users:favorite_universes')
 
 
-class BalanceHistoryView(View):
-    pass
+class BalanceAddView(LoginRequiredMixin, FormView):
+    form_class = CustomerBalanceAddForm
+    success_url = reverse_lazy('users:profile')
+    template_name = 'users/balance/add.html'
+
+    def form_valid(self, form):
+        form.save(self.request.user)
+        return super().form_valid(form)
 
 
-class CartHistoryView(View):
+class BalanceHistoryView(LoginRequiredMixin, View):
+    def get(self, request):
+        template = 'users/balance/history.html'
+        histories = BalanceAddHistory.objects.filter(customer=request.user)
+        context = {'histories': histories}
+        return render(request, template, context)
+
+
+class CartHistoryView(LoginRequiredMixin, View):
     pass

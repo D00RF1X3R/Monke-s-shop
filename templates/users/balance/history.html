@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+    История пополнений
+{% endblock %}
+{% block content %}
+    <h1>История пополнений</h1>
+    {% for history in histories %}
+        <div style="margin: 20px 0">
+            {{ history.amount }} — {{ history.date }}
+        </div>
+    {% endfor %}
+{% endblock %}
