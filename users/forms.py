@@ -1,13 +1,48 @@
 from django import forms
+from django.forms import widgets
 
 from core.models import Category, Universe
 from users.models import Customer, CustomerData
 
 
-class CustomerForm(forms.ModelForm):
+class CustomerProfileForm(forms.ModelForm):
+    username = forms.CharField(
+        label='Имя пользователя',
+        widget=forms.TextInput(
+            attrs={
+                'minlength': 1,
+                'maxlength': Customer._meta.get_field('username').max_length,
+            }
+        ),
+    )
+
     class Meta:
         model = Customer
-        fields = [Customer.username.field.name, Customer.email.field.name]
+        fields = [Customer.email.field.name]
+
+
+class CustomerFavoriteCategoriesForm(forms.Form):
+    favorite_categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        label=''
+    )
+
+
+class CustomerFavoriteUniversesForm(forms.Form):
+    favorite_universes = forms.ModelMultipleChoiceField(
+        queryset=Universe.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        label='Любимые вселенные'
+    )
+
+
+class CustomerImageForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = [Customer.image.field.name]
 
 
 class CustomerCreateForm(forms.ModelForm):
@@ -43,7 +78,7 @@ class CustomerCreateForm(forms.ModelForm):
         super(CustomerCreateForm, self).__init__(*args, **kwargs)
         self.fields[Customer.email.field.name].required = True
 
-    def clean(self):
+    def clean(self, commit=True):
         password = self.cleaned_data.get('password')
         password_repeat = self.cleaned_data.get('password_repeat')
 

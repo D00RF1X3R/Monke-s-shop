@@ -1,8 +1,21 @@
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, \
-    PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django.urls import path, reverse, reverse_lazy
-
-from users.views import ProfileView, SignupView, CartView, FavoritesView, BalanceAddView, HistoryView
+from django.urls import path, reverse_lazy
+from django.contrib.auth.views import (LoginView,
+                                       LogoutView,
+                                       PasswordChangeView,
+                                       PasswordChangeDoneView,
+                                       PasswordResetView,
+                                       PasswordResetDoneView,
+                                       PasswordResetConfirmView,
+                                       PasswordResetCompleteView)
+from users.views import (ProfileView,
+                         SignupView,
+                         CartView,
+                         CartHistoryView,
+                         FavoritesView,
+                         FavoriteCategoriesView,
+                         FavoriteUniversesView,
+                         BalanceAddView,
+                         BalanceHistoryView)
 
 app_name = 'users'
 urlpatterns = [
@@ -10,7 +23,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path(
         'password_change/',
-        PasswordChangeView.as_view(template_name='users/password_change/start.html'),
+        PasswordChangeView.as_view(
+            template_name='users/password_change/start.html',
+            success_url=reverse_lazy('users:password_change_done')
+        ),
         name='password_change_start',
     ),
     path(
@@ -44,7 +60,10 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('favorites/', FavoritesView.as_view(), name='favorites'),
+    path('favorite_categories/', FavoriteCategoriesView.as_view(), name='favorite_categories'),
+    path('favorite_universes/', FavoriteUniversesView.as_view(), name='favorite_universes'),
     path('cart/', CartView.as_view(), name='cart'),
+    path('cart_history/', CartHistoryView.as_view(), name='cart_history'),
     path('balance_add/', BalanceAddView.as_view(), name='balance_add'),
-    path('history/', HistoryView.as_view(), name='history'),
+    path('balance_history/', BalanceHistoryView.as_view(), name='balance_history'),
 ]

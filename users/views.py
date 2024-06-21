@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, UpdateView
 
-from users.forms import CustomerCreateForm, CustomerForm
+from core.models import Universe
+from users.forms import CustomerCreateForm, CustomerProfileForm, CustomerImageForm, CustomerFavoriteCategoriesForm, \
+    CustomerFavoriteUniversesForm
 from users.models import Customer, CustomerData
 
 
@@ -24,14 +26,34 @@ class ProfileView(LoginRequiredMixin, View):
 
         customer = request.user
         customer_data = get_object_or_404(CustomerData, user=customer.id)
-
-        main_form = CustomerForm(initial={
+        form = CustomerProfileForm(initial={
             Customer.email.field.name: customer.email,
             Customer.username.field.name: customer.username,
-        },)
+        })
+        image_form = CustomerImageForm()
 
-        context = {'form': main_form}
+        context = {
+            'form': form,
+            'form_image': image_form,
+            'customer_data': customer_data
+        }
+
         return render(request, template, context)
+
+    def post(self, request):
+        customer = request.user
+        form = CustomerProfileForm(request.POST)
+        form_image = CustomerImageForm(request.POST, request.FILES, instance=customer)
+
+        if form.is_valid():
+            customer.username = form.cleaned_data['username']
+            customer.email = form.cleaned_data[Customer.email.field.name]
+            customer.save()
+
+        if form_image.is_valid():
+            form_image.save()
+
+        return redirect("users:profile")
 
 
 class CartView(View):
@@ -42,9 +64,57 @@ class FavoritesView(View):
     pass
 
 
+class FavoriteCategoriesView(LoginRequiredMixin, View):
+    def get(self, request):
+        template = 'users/favorite_categories.html'
+
+        customer_data = get_object_or_404(CustomerData, user=request.user.id)
+        form = CustomerFavoriteCategoriesForm(initial={
+            'favorite_categories': customer_data.favorite_categories.all()
+        })
+        context = {'form': form}
+        return render(request, template, context)
+
+    def post(self, request):
+        form = CustomerFavoriteCategoriesForm(request.POST)
+        if form.is_valid():
+            customer_data = get_object_or_404(CustomerData, user=request.user.id)
+            customer_data.favorite_categories.clear()
+            for category in form.cleaned_data['favorite_categories']:
+                customer_data.favorite_categories.add(category)
+
+        return redirect("users:favorite_categories")
+
+
+class FavoriteUniversesView(LoginRequiredMixin, View):
+    def get(self, request):
+        template = 'users/favorite_categories.html'
+
+        customer_data = get_object_or_404(CustomerData, user=request.user.id)
+        form = CustomerFavoriteUniversesForm(initial={
+            'favorite_universes': customer_data.favorite_universes.all()
+        })
+        context = {'form': form}
+        return render(request, template, context)
+
+    def post(self, request):
+        form = CustomerFavoriteUniversesForm(request.POST)
+        if form.is_valid():
+            customer_data = get_object_or_404(CustomerData, user=request.user.id)
+            customer_data.favorite_universes.clear()
+            for universe in form.cleaned_data['favorite_universes']:
+                customer_data.favorite_universes.add(universe)
+
+        return redirect("users:favorite_universes")
+
+
 class BalanceAddView(View):
     pass
 
 
-class HistoryView(View):
+class BalanceHistoryView(View):
+    pass
+
+
+class CartHistoryView(View):
     pass

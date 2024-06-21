@@ -1,6 +1,11 @@
 <header style="margin-bottom: 50px">
     {% if user.is_authenticated %}
         Ты {{ user.type }}!
+        {%if user.type == "Покупатель"%}
+            <a href="{% url 'users:profile' %}">Профиль</a>
+            <a href="{% url 'users:favorites' %}">Избранное</a>
+            <a href="{% url 'users:cart' %}">Корзина</a>
+        {% endif %}
         {% if user.is_superuser %}
             <a target=”_blank”  href="/admin/">Админка</a>
         {% endif%}
