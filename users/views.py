@@ -1,6 +1,4 @@
-import json
-
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum, F, Value, Subquery, OuterRef
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -10,7 +8,17 @@ from django.views.generic import FormView
 from catalog.models import Product
 from users.forms import CustomerCreateForm, CustomerProfileForm, CustomerImageForm, CustomerFavoriteCategoriesForm, \
     CustomerFavoriteUniversesForm, CustomerBalanceAddForm
-from users.models import Customer, CustomerData, BalanceAddHistory
+from users.mixins import CustomerRequiredMixin
+from users.models import Customer, CustomerData, BalanceAddHistory, Cart, BuyHistory, Rating
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def is_rated(product):
+    subquery = Rating.objects.filter(product=product).exists()
+    return subquery
 
 
 class SignupView(FormView):
@@ -23,7 +31,7 @@ class SignupView(FormView):
         return super().form_valid(form)
 
 
-class ProfileView(LoginRequiredMixin, View):
+class ProfileView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/profile.html'
 
@@ -59,11 +67,63 @@ class ProfileView(LoginRequiredMixin, View):
         return redirect("users:profile")
 
 
-class CartView(LoginRequiredMixin, View):
-    pass
+class CartView(CustomerRequiredMixin, View):
+    def get(self, request, **kwargs):
+        template = 'users/cart.html'
+        cart_products = Cart.objects.filter(customer=request.user.id)
+        sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
+
+        context = {
+            'cart_products': cart_products,
+            'sum_price': sum_price,
+            'balance': customer_data.balance
+        }
+        return render(request, template, context)
+
+    def post(self, request):
+        if not is_ajax(request):
+            cart_products = Cart.objects.filter(customer=request.user.id)
+            sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
+
+            for cart_product in cart_products:
+                BuyHistory.objects.create(
+                    customer=request.user,
+                    product=cart_product.product,
+                    count=cart_product.count
+                )
+            cart_products.delete()
+
+            customer_data.balance -= sum_price
+            customer_data.save()
+
+            return redirect('users:cart')
+        else:
+            cart_product = get_object_or_404(Cart, id=request.POST.get('id'))
+            json = {}
+
+            if request.POST.get('action') in ('add', 'subtract'):
+                coef = 1
+                if request.POST.get('action') == 'subtract':
+                    coef = -1
+                cart_product.count += coef
+                cart_product.save()
+                json['new_count'] = cart_product.count
+            elif request.POST.get('action') == 'delete':
+                cart_product.delete()
+            elif request.POST.get('action') == 'favorite':
+                customer_data = get_object_or_404(CustomerData, user=request.user)
+                if cart_product.product in customer_data.favorite_products.all():
+                    customer_data.favorite_products.remove(cart_product.product)
+                else:
+                    customer_data.favorite_products.add(cart_product.product)
+
+            cart_products = Cart.objects.filter(customer=request.user.id)
+            sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
+            json['new_sum_price'] = sum_price
+            return JsonResponse(json)
 
 
-class FavoriteProductsView(LoginRequiredMixin, View):
+class FavoriteProductsView(CustomerRequiredMixin, View):
     def get(self, request, **kwargs):
         template = 'users/favorite_products.html'
         customer_data = get_object_or_404(CustomerData, user=request.user)
@@ -85,7 +145,7 @@ class FavoriteProductsView(LoginRequiredMixin, View):
         return JsonResponse(response)
 
 
-class FavoriteCategoriesView(LoginRequiredMixin, View):
+class FavoriteCategoriesView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/favorite_categories.html'
 
@@ -108,7 +168,7 @@ class FavoriteCategoriesView(LoginRequiredMixin, View):
         return redirect('users:favorite_categories')
 
 
-class FavoriteUniversesView(LoginRequiredMixin, View):
+class FavoriteUniversesView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/favorite_universes.html'
 
@@ -131,7 +191,7 @@ class FavoriteUniversesView(LoginRequiredMixin, View):
         return redirect('users:favorite_universes')
 
 
-class BalanceAddView(LoginRequiredMixin, FormView):
+class BalanceAddView(CustomerRequiredMixin, FormView):
     form_class = CustomerBalanceAddForm
     success_url = reverse_lazy('users:profile')
     template_name = 'users/balance/add.html'
@@ -141,7 +201,7 @@ class BalanceAddView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class BalanceHistoryView(LoginRequiredMixin, View):
+class BalanceHistoryView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/balance/history.html'
         histories = BalanceAddHistory.objects.filter(customer=request.user)
@@ -149,5 +209,34 @@ class BalanceHistoryView(LoginRequiredMixin, View):
         return render(request, template, context)
 
 
-class CartHistoryView(LoginRequiredMixin, View):
-    pass
+class CartHistoryView(CustomerRequiredMixin, View):
+    def get(self, request):
+        template = 'users/buy_history.html'
+        context = {
+            'buy_histories': {}
+        }
+
+        buy_histories = BuyHistory.objects.filter(customer=request.user)
+        for buy_history in buy_histories:
+            rating = Rating.objects.filter(user=request.user, product=buy_history.product).first()
+            if rating:
+                buy_history.product_rating = rating.mark
+            else:
+                buy_history.product_rating = 0
+
+            if buy_history.date in context['buy_histories']:
+                context['buy_histories'][buy_history.date].append(buy_history)
+            else:
+                context['buy_histories'][buy_history.date] = [buy_history]
+
+        return render(request, template, context)
+
+    @staticmethod
+    def post(request):
+        product = get_object_or_404(Product, id=request.POST.get('product'))
+        Rating.objects.create(
+            user=request.user,
+            product=product,
+            mark=request.POST.get('mark')
+        )
+        return JsonResponse({'product': product.id})

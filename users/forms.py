@@ -36,14 +36,15 @@ class CustomerBalanceAddForm(forms.Form):
 
     def save(self, current_user):
         amount = self.cleaned_data['amount']
+        customer_data = get_object_or_404(CustomerData, user=current_user.id)
+
         balance_history = BalanceAddHistory.objects.create(
             customer=current_user,
             amount=amount
         )
-
-        customer_data = get_object_or_404(CustomerData, user=current_user.id)
         customer_data.balance += amount
         customer_data.save()
+        balance_history.save()
 
 
 class CustomerFavoriteUniversesForm(forms.Form):
