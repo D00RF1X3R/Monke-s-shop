@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+    Чаты
+{% endblock %}
+{% block content %}
+    <a href="{% url 'forum:sub_forums' category_id %}">Назад</a>
+    <p>{{ category.name }} > {{ universe.name }}</p>
+    <a href="{% url 'forum:flood' category_id universe_id %}">Флудилка</a>
+    {% for product in products %}
+        <a href="{% url 'forum:product_discussion' product.id %}" style="margin-bottom: 50px; display: block">
+            {{ product.chat_rating }}
+            {% if product.preview %}
+                <img width="100" height="100" src="{{ product.preview.url }}">
+            {% else %}
+                Нет картинки
+            {% endif %}
+            {{ product.name }}
+            {{ cart_product.product.name }}
+        </a>
+    {% endfor %}
+{% endblock %}

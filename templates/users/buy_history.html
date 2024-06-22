@@ -39,6 +39,7 @@
                         if ($(this).attr('value') == data.product) {
                             var history = $(this).parent();
                             history.find('input[name="mark"]').prop('disabled', true);
+                            history.find('input[name="mark"]').attr('value', data.mark);
                             history.find('button[name="subButton"]').remove()
                         }
                     });

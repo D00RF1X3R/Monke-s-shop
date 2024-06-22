@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+    Форумы
+{% endblock %}
+{% block content %}
+    <h1>Форумы</h1>
+    {% for category in object_list %}
+        <a href="{% url 'forum:sub_forums' category.id %}">{{ category.name }}</a>
+        <br>
+    {% endfor %}
+{% endblock %}

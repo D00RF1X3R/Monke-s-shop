@@ -70,6 +70,7 @@ class ProfileView(CustomerRequiredMixin, View):
 class CartView(CustomerRequiredMixin, View):
     def get(self, request, **kwargs):
         template = 'users/cart.html'
+        customer_data = get_object_or_404(CustomerData, user=request.user.id)
         cart_products = Cart.objects.filter(customer=request.user.id)
         sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
 
@@ -93,6 +94,7 @@ class CartView(CustomerRequiredMixin, View):
                 )
             cart_products.delete()
 
+            customer_data = get_object_or_404(CustomerData, user=request.user.id)
             customer_data.balance -= sum_price
             customer_data.save()
 
@@ -239,4 +241,4 @@ class CartHistoryView(CustomerRequiredMixin, View):
             product=product,
             mark=request.POST.get('mark')
         )
-        return JsonResponse({'product': product.id})
+        return JsonResponse({'product': product.id, 'mark': request.POST.get('mark')})
