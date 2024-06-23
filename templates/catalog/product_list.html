@@ -4,6 +4,7 @@
     {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 {% block content %}
+{% csrf_token %}
     <div id="sidebar" style="display: flex; gap: 20px;">
         <div id="filterUniverse" style="border: 1px solid; border-radius: 8px;">
             <h3>Вселенные</h3>

@@ -1,4 +1,6 @@
 {% load static %}
 <header>
-    Хедер
+    <form action="." method="get">
+        <input type="text" placeholder="Search for items" name="q" value="{{ current_search }}"><button type="submit">Найти</button>
+    </form>
 </header>
