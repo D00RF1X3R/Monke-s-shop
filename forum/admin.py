@@ -17,12 +17,12 @@ class FloodMessageAdmin(admin.ModelAdmin):
 @admin.register(ProductMessage)
 class ProductMessageAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product', 'upvotes_count', 'short_message')
-    fields = ('user', 'product', 'message', 'users_upvotes')
-    filter_horizontal = ('users_upvotes',)
+    fields = ('user', 'product', 'message', 'users_upvotes', 'users_downvotes',)
+    filter_horizontal = ('users_upvotes', 'users_downvotes',)
 
     def upvotes_count(self, obj):
-        return obj.users_upvotes.count()
-    upvotes_count.short_description = 'Кол-во апвоутов'
+        return obj.users_upvotes.count() - obj.users_downvotes.count()
+    upvotes_count.short_description = 'Рейтинг'
 
     def short_message(self, obj):
         return truncatechars(obj.message, 35)

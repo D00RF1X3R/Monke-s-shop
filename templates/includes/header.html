@@ -1,7 +1,7 @@
 <header style="margin-bottom: 50px">
     <a href="{% url 'forum:forums' %}">Форум</a>
     {% if user.is_authenticated %}
-        Ты {{ user.type }}!
+        Ты {{ user.username }}!
         {%if user.type == "Покупатель"%}
             <a href="{% url 'users:profile' %}">Профиль</a>
             <a href="{% url 'users:favorites' %}">Избранное</a>

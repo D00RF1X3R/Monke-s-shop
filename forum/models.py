@@ -27,6 +27,7 @@ class FloodMessage(BaseMessage):
 class ProductMessage(BaseMessage):
     product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
     users_upvotes = models.ManyToManyField(User, verbose_name='Апвоуты', related_name='upvotes', blank=True)
+    users_downvotes = models.ManyToManyField(User, verbose_name='Даунвоуты', related_name='downvotes', blank=True)
 
     class Meta:
         verbose_name = 'Отзыв'

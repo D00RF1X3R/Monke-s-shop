@@ -24,13 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
     'about.apps.AboutConfig',
     'business.apps.BusinessConfig',
     'catalog.apps.CatalogConfig',
     'forum.apps.ForumConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'geekshop.wsgi.application'
+ASGI_APPLICATION = 'geekshop.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 
 # Database
