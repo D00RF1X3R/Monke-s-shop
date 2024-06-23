@@ -1,0 +1,9 @@
+{% for product in products %}
+    <div class="item" style="border: 1px solid; width: 300px;">
+        <a href="{% url 'catalog:product_detail' product.id %}" style="width: 100%;">
+            <img src="{% if product.preview %}{{ product.preview.url }}{% endif %}" style="object-fit: cover; max-width: 300px;">
+        </a>
+        <a href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a><br>
+        ${{ product.price }}
+    </div>
+{% endfor %}

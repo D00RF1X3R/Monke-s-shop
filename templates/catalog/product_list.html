@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+    <div id="sidebar" style="display: flex; gap: 20px;">
+        <div id="filterUniverse" style="border: 1px solid; border-radius: 8px;">
+            <h3>Вселенные</h3>
+                {% for u in universes %}
+                    <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="universe" id="exampleChekbox1" value="{{ u.id }}" />
+                    <label class="form_check-label" for="exampleChekbox1"><span>{{ u.name }}</span></label>
+                    <br>
+                {% endfor %}
+        </div>
+        <div id="filterCategory" style="border: 1px solid; border-radius: 8px;">
+            <h3>Категории</h3>
+                {% for c in categories %}
+                    <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="category" id="exampleChekbox2" value="{{ c.id }}" />
+                    <label class="form_check-label" for="exampleChekbox2"><span>{{ c.name }}</span></label>
+                    <br>
+                {% endfor %}
+        </div>
+        <div id="filterSeller" style="border: 1px solid; border-radius: 8px;">
+            <h3>Продавцы</h3>
+                {% for s in sellers %}
+                    <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="seller" id="exampleChekbox3" value="{{ s.id }}" />
+                    <label class="form_check-label" for="exampleChekbox3"><span>{{ s.username }}</span></label>
+                    <br>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="filtered-product" class="product-list" style="display: flex; gap: 1%; margin-top: 50px;">
+        {% for product in products %}
+            <div class="item" style="border: 1px solid; width: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+                <a href="{% url 'catalog:product_detail' product.id %}" style="width: 100%;">
+                    <img src="{% if product.preview %}{{ product.preview.url }}{% endif %}" style="object-fit: cover; max-width: 300px; max-height: 300px;">
+                </a>
+                <a href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a><br>
+                ${{ product.price }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

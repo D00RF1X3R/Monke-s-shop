@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.title }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="product-detail">
+        <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" style="object-fit: cover; max-width: 300px;">
+        <h1>{{ product.name }}</h1>
+        <h2><a href="{% url 'catalog:filter-products' product.universe_id %}">{{ product.universe }}</a></h2>
+        <h2><a href="{% url 'catalog:filter-products' product.category_id %}">{{ product.category }}</a></h2>
+        <p class="price">${{ product.price }}</p>
+        {{ product.description|linebreaks }}
+    </div>
+{% endblock %}
