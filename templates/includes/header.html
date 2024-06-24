@@ -1,6 +1,11 @@
 {% load static %}
 <header>
-    <form action="." method="get">
-        <input type="text" placeholder="Search for items" name="q" value="{{ current_search }}"><button type="submit">Найти</button>
-    </form>
+    <nav class="navbar" style="display: flex; gap: 1%;">
+        <a href="{% url 'homepage:home' %}">Главная</a>
+        <a href="{% url 'catalog:products' %}">Каталог</a>
+        <a href="{% url 'about:about' %}">О нас</a>
+        <form action="{% url 'catalog:products' %}" method="get">
+            <input type="text" placeholder="Search for items" name="q" value="{{ current_search }}"><button type="submit">Найти</button>
+        </form>
+    </nav>
 </header>

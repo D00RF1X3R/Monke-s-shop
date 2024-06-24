@@ -1,37 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-    {% if category %}{{ category.name }}{% else %}Products{% endif %}
-{% endblock %}
+{% block title %} Товары {% endblock %}
 {% block content %}
-{% csrf_token %}
     <div id="sidebar" style="display: flex; gap: 20px;">
-        <div id="filterUniverse" style="border: 1px solid; border-radius: 8px;">
-            <h3>Вселенные</h3>
+        <div class="filterUniverse"  id="filterUniverse">
+            <h4>Вселенная</h4>
+            <div id="checkboxes" style="display: flex; flex-direction: column;">
                 {% for u in universes %}
-                    <input class="form-check-input filter-checkbox" type="checkbox"
-                    name="chekbox" data-filter="universe" id="exampleChekbox1" value="{{ u.id }}" />
-                    <label class="form_check-label" for="exampleChekbox1"><span>{{ u.name }}</span></label>
-                    <br>
+                    <div>
+                        <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="universe" id="exampleChekbox1{{ u.id }}" value="{{ u.id }}" />
+                        <label for="exampleChekbox1{{ u.id }}"><span>{{ u.name }}</span></label>
+                    </div>
                 {% endfor %}
+            </div>
         </div>
-        <div id="filterCategory" style="border: 1px solid; border-radius: 8px;">
-            <h3>Категории</h3>
+        <div class="filterCategory" id="filterCategory">
+            <h4>Категория</h4>
+            <div id="checkboxes">
                 {% for c in categories %}
-                    <input class="form-check-input filter-checkbox" type="checkbox"
-                    name="chekbox" data-filter="category" id="exampleChekbox2" value="{{ c.id }}" />
-                    <label class="form_check-label" for="exampleChekbox2"><span>{{ c.name }}</span></label>
-                    <br>
+                    <div>
+                        <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="category" id="exampleChekbox2{{ c.id }}" value="{{ c.id }}" />
+                        <label for="exampleChekbox2{{ c.id }}"><span>{{ c.name }}</span></label>
+                    </div>
                 {% endfor %}
+            </div>
         </div>
-        <div id="filterSeller" style="border: 1px solid; border-radius: 8px;">
-            <h3>Продавцы</h3>
+        <div class="filterSeller" id="filterSeller">
+            <h4>Продавец</h4>
+            <div id="checkboxes">
                 {% for s in sellers %}
+                <div>
                     <input class="form-check-input filter-checkbox" type="checkbox"
-                    name="chekbox" data-filter="seller" id="exampleChekbox3" value="{{ s.id }}" />
-                    <label class="form_check-label" for="exampleChekbox3"><span>{{ s.username }}</span></label>
-                    <br>
+                name="chekbox" data-filter="seller" id="exampleChekbox3{{ s.id }}" value="{{ s.id }}" />
+                    <label for="exampleChekbox3{{ s.id }}"><span>{{ s.username }}</span></label>
+                </div>
                 {% endfor %}
+            </div>
         </div>
     </div>
     <div id="filtered-product" class="product-list" style="display: flex; gap: 1%; margin-top: 50px;">
@@ -40,8 +46,13 @@
                 <a href="{% url 'catalog:product_detail' product.id %}" style="width: 100%;">
                     <img src="{% if product.preview %}{{ product.preview.url }}{% endif %}" style="object-fit: cover; max-width: 300px; max-height: 300px;">
                 </a>
-                <a href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a><br>
+                <a href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a>
+                <br>
                 ${{ product.price }}
+                <div style="display: flex">
+                    <button class="addtocart">В корзину</button>
+                    <button class="quickbuy">Купить</button>
+                </div>
             </div>
         {% endfor %}
     </div>

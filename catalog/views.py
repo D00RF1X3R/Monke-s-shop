@@ -23,7 +23,7 @@ class ProductListView(TemplateView):
                 q = ( q_aux & q ) if bool( q ) else q_aux
             context["products"] = products.filter(q)
             context["current_search"] = search_query
-            
+
         context["categories"] = Category.objects.all()
         context["universes"] = Universe.objects.all()
         context["sellers"] = Seller.objects.all()
@@ -34,10 +34,11 @@ class ProductListView(TemplateView):
 class ProductDetailView(TemplateView):
     template_name = 'catalog\product_detail.html'
 
-    def get_context_data(self, id):
-        context = super().get_context_data(id)
-
-        context["product"] = get_object_or_404(Product.objects.filter(id=id))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        product = get_object_or_404(Product.objects.filter(id=kwargs.get("id")))
+        context["product"] = product
+        
 
         return context
 
