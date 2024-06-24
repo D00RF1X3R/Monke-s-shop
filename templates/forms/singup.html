@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static_dev/css/style.css">
+    <title>singin</title>
+</head>
+<body>
+    <div class="form__container container">
+      <form class="singup__form">
+            <div class="singup_form__content flex--column">
+                <p class="singin_form__title">
+                    Вход
+                </p>
+                <input class="singup_form__username" type="text" placeholder="Имя пользователя">
+                <input class="singup_form__email" type="text" placeholder="Адрес эл. почты">
+                <input class="singup_form__password" type="text" placeholder="Пароль">
+                <input class="singup_form__passwordConfirm" type="text" placeholder="Повторите пароль">
+                <div class="singup_form__confirmations flex--column">
+                    <div class="singup_form_confirmations__block flex--row">
+                        <div class="singup_form_confirmations_block__check">
+                            <img class="singup_form_confirmations_block_check__image" src="../../static_dev/svg/correct.svg">
+                        </div>
+                        <p class="singup_form_confirmations_block__text">Согласен на обработку персональных данных</p>
+                    </div>
+                    <div class="singup_form_confirmations__block flex--row">
+                        <div class="singup_form_confirmations_block__check">
+                            <img class="singup_form_confirmations_block_check__image" src="../../static_dev/svg/correct.svg">
+                        </div>
+                        <p class="singup_form_confirmations_block__text">Я продавец</p>
+                    </div>
+                </div>
+                <div class="singup_form__favorites flex--row">
+                    <select class="singup_form_favorites__universe text--default" id="0">
+                        <option class="singup_form_favorites_universe__option" selected>Любимая вселенная</option>
+                    </select>
+                    <select class="singup_form_favorites__category text--default" id="0">
+                        <option class="singup_form_favorites_category__option" selected>Любимая категория</option>
+                    </select>
+
+                </div>
+                <button class="singup_form__button text--default button--dgreen">Зарегистрироваться</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
