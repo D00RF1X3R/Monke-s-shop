@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Min, Max
 from catalog.models import Product
 from business.models import Seller
 from core.models import Universe, Category
@@ -28,6 +28,7 @@ class ProductListView(TemplateView):
         context["categories"] = Category.objects.all()
         context["universes"] = Universe.objects.all()
         context["sellers"] = Seller.objects.all()
+        context["min_max_price"] = Product.objects.aggregate(Min("price"), Max("price"))
 
         return context
     def get_popular_products(self):
@@ -56,6 +57,8 @@ class filter_product(View):
         universes = request.GET.getlist("universe[]")
         categories = request.GET.getlist("category[]")
         sellers = request.GET.getlist("seller[]")
+        min_price = request.GET["min_price"]
+        max_price = request.GET["max_price"]
         search_query = request.GET.get('q')
 
         products = Product.objects.all().order_by("name")
@@ -69,6 +72,9 @@ class filter_product(View):
         if search_query:
             q_aux = Q(name__icontains=search_query)
             products = products.filter(q_aux)
+        
+        products = products.filter(price__gte=min_price)
+        products = products.filter(price__lte=max_price)
 
         data = render_to_string("catalog/async/product_list.html", {"products": products})
         return JsonResponse({"data": data})

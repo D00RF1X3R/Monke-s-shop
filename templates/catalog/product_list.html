@@ -39,6 +39,14 @@
                 {% endfor %}
             </div>
         </div>
+        <div style="width: 150px;">
+            <h4>Цена</h4>
+            <div style="display: flex; gap: 1%;">
+                <input type="number" id="min_price" name="min_price" style="width: 48%;" min="{{ min_max_price.price__min }}" value="{{ min_max_price.price__min }}">-
+                <input type="number" id="max_price" name="max_price" style="width: 48%;" max="{{ min_max_price.price__max }}" value="{{ min_max_price.price__max }}">
+            </div>
+            <button id="price-filter-btn" type="submit" style="width: 100%;">Фильтр</button>
+        </div>
     </div>
     <div id="filtered-product" class="product-list" style="display: flex; gap: 1%; margin-top: 50px;">
         {% for product in products %}
