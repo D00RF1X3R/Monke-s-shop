@@ -1,0 +1,25 @@
+<header style="margin-bottom: 50px">
+    <a href="{% url 'forum:forums' %}">Форум</a>
+    {% if user.is_authenticated %}
+        Ты {{ user.username }}!
+        {%if user.type == "Покупатель"%}
+            <a href="{% url 'users:profile' %}">Профиль</a>
+            <a href="{% url 'users:favorites' %}">Избранное</a>
+            <a href="{% url 'users:cart' %}">Корзина</a>
+        {% else %}
+            <a href="{% url 'business:profile' %}">Профиль</a>
+            <a href="{% url 'business:products' %}">Список товаров</a>
+        {% endif %}
+        {% if user.is_superuser %}
+            <a target=”_blank”  href="/admin/">Админка</a>
+        {% endif%}
+        <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+        </form>
+    {% else %}
+        Ты не авторизован!
+        <a href="{% url 'users:signup' %}">Регистрация</a>
+        <a href="{% url 'users:login' %}">Вход</a>
+    {% endif%}
+</header>

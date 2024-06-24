@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+    Товары
+{% endblock %}
+{% block content %}
+    <h1>Товары</h1>
+    <a href="{% url 'business:product_add' %}">Добавить товар</a>
+    {% for product in products %}
+        <form action="." method="POST" style="margin-bottom: 50px">
+            {% csrf_token %}
+            <input hidden name="id" value="{{ product.id }}">
+
+            {% if product.preview %}
+                <img width="100" height="100" src="{{ product.preview.url }}">
+            {% else %}
+                Нет картинки
+            {% endif %}
+            {{ product.name }}.
+            Категория: {{ product.category.name }}.
+            Вселенная: {{ product.universe.name }}.
+            <button type="button" onclick="deleteProduct(this)">Удалить</button>
+            <button type="button"><a style="text-decoration: none; color: black" href="{% url 'business:product_change' product.id %}">Изменить</a></button>
+        </form>
+    {% endfor %}
+    <script>
+        function deleteProduct(clickedElement){
+            var frm = $(clickedElement).parent();
+            $.ajax({
+                type: 'POST',
+                data: $(frm).serialize(),
+                url: '{% url 'business:products' %}',
+                success:  function (data) {
+                    $(frm).remove();
+                },
+                error: function () {
+                    console.log('I want to die');
+                }
+            });
+            return false;
+    }
+    </script>
+{% endblock %}

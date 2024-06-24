@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+    Форумы
+{% endblock %}
+{% block content %}
+    <a href="{% url 'forum:forums' %}">Назад</a>
+    <p>{{ category.name }} > </p>
+    {% for universe in object_list %}
+        <a href="{% url 'forum:chats' category.id universe.id %}">{{ universe.name }}</a>
+        <br>
+    {% endfor %}
+{% endblock %}
