@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+    Пополнить баланс
+{% endblock %}
+{% block content %}
+    <h1>Пополнить баланс</h1>
+    <form action="." method="post">
+        {% include "includes/form.html" %}
+        {% include "includes/form_errors.html" %}
+        <button type="submit">Пополнить</button>
+    </form>
+{% endblock %}

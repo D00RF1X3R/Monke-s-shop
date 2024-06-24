@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    Регистрация покупателя
+{% endblock %}
+{% block content %}
+    <h1>Регистрация покупателя</h1>
+    <a href="{% url 'business:signup' %}">Я продавец</a>
+    <form action="." method="post">
+        {% include "includes/form_create.html" %}
+        {% include "includes/form_errors.html" %}
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}

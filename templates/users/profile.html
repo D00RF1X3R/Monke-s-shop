@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}
+    Профиль
+{% endblock %}
+{% block content %}
+    <h1>Профиль покупателя</h1>
+    <div style="margin-bottom: 50px">
+        {% if user.image %}
+            <img width="100" height="100" src="{{ user.image.url }}">
+        {% else %}
+            Изображения профиля нет
+        {% endif %}
+        <form id="upload_image_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="{{ form_image.image.html_name }}" name="{{ form_image.image.html_name }}" style="display:none" onchange="document.getElementById('upload_image_form').submit()" accept="image/jpeg, image/png"/>
+            <button type="button" onclick="document.getElementById('{{ form_image.image.html_name }}').click();">Изменить фото</button>
+        </form>
+    </div>
+
+    <form action="." method="post" style="margin-bottom: 50px">
+        {% include "includes/form.html" %}
+        {% include "includes/form_errors.html" %}
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <div style="margin-bottom: 50px">
+        <a href="{% url 'users:password_change_start' %}">Изменить пароль</a>
+        <a href="{% url 'users:cart_history' %}">История покупок</a>
+        <a href="{% url 'users:favorite_categories' %}">Любимые категории</a>
+        <a href="{% url 'users:favorite_universes' %}">Любимые вселенные</a>
+    </div>
+
+    <div>
+        <p>Баланс: {{ customer_data.balance }}</p>
+        <a href="{% url 'users:balance_add' %}">Пополнить баланс</a>
+        <a href="{% url 'users:balance_history' %}">История пополнений</a>
+    </div>
+{% endblock %}

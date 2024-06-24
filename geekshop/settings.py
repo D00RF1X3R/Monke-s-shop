@@ -24,13 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
     'about.apps.AboutConfig',
     'business.apps.BusinessConfig',
     'catalog.apps.CatalogConfig',
     'forum.apps.ForumConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'geekshop.wsgi.application'
+ASGI_APPLICATION = 'geekshop.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 
 # Database
@@ -98,7 +107,7 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -121,3 +130,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = 'users:login'

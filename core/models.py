@@ -32,7 +32,7 @@ class User(AbstractUser):
 
     base_type = Types.CUSTOMER
     type = models.CharField('Тип', max_length=15, choices=Types.choices, default=base_type)
-    image = models.ImageField('Изображение', upload_to='uploads/', null=True, blank=True)
+    image = models.ImageField('Иконка', upload_to='uploads/', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:

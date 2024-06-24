@@ -1,0 +1,12 @@
+{% csrf_token %}
+{% for field in form %}
+    <div>
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+            {% if field.field.required %}
+                <span>*</span>
+            {% endif %}
+        </label>
+        {{ field }}
+    </div>
+{% endfor %}
