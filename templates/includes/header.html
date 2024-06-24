@@ -6,6 +6,9 @@
             <a href="{% url 'users:profile' %}">Профиль</a>
             <a href="{% url 'users:favorites' %}">Избранное</a>
             <a href="{% url 'users:cart' %}">Корзина</a>
+        {% else %}
+            <a href="{% url 'business:profile' %}">Профиль</a>
+            <a href="{% url 'business:products' %}">Список товаров</a>
         {% endif %}
         {% if user.is_superuser %}
             <a target=”_blank”  href="/admin/">Админка</a>

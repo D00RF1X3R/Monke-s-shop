@@ -1,9 +1,9 @@
 from django.core.exceptions import PermissionDenied
 
 
-class CustomerRequiredMixin:
+class SellerRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.type == 'Покупатель':
+        if request.user.is_authenticated and request.user.type == 'Продавец':
             return super().dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied

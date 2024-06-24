@@ -1,4 +1,4 @@
-from django.db.models import Sum, F, Value, Subquery, OuterRef
+from django.db.models import Sum, F
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -6,8 +6,8 @@ from django.views import View
 from django.views.generic import FormView
 
 from catalog.models import Product
-from users.forms import CustomerCreateForm, CustomerProfileForm, CustomerImageForm, CustomerFavoriteCategoriesForm, \
-    CustomerFavoriteUniversesForm, CustomerBalanceAddForm
+from core.forms import UserImageForm, UserProfileForm
+from users.forms import CustomerCreateForm, CustomerFavoriteCategoriesForm, CustomerFavoriteUniversesForm, CustomerBalanceAddForm
 from users.mixins import CustomerRequiredMixin
 from users.models import Customer, CustomerData, BalanceAddHistory, Cart, BuyHistory, Rating
 
@@ -37,11 +37,11 @@ class ProfileView(CustomerRequiredMixin, View):
 
         customer = request.user
         customer_data = get_object_or_404(CustomerData, user=customer.id)
-        form = CustomerProfileForm(initial={
+        form = UserProfileForm(initial={
             Customer.email.field.name: customer.email,
             Customer.username.field.name: customer.username,
         })
-        image_form = CustomerImageForm()
+        image_form = UserImageForm()
 
         context = {
             'form': form,
@@ -53,8 +53,8 @@ class ProfileView(CustomerRequiredMixin, View):
 
     def post(self, request):
         customer = request.user
-        form = CustomerProfileForm(request.POST)
-        form_image = CustomerImageForm(request.POST, request.FILES, instance=customer)
+        form = UserProfileForm(request.POST)
+        form_image = UserImageForm(request.POST, request.FILES, instance=customer)
 
         if form.is_valid():
             customer.username = form.cleaned_data['username']

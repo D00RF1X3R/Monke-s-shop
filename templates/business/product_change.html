@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+    Изменить товар
+{% endblock %}
+{% block content %}
+    <h1>Изменить товар</h1>
+    <form action="{% url 'business:product_change' product_id %}" method="post">
+        {% include "includes/form_create.html" %}
+        {% include "includes/form_errors.html" %}
+        <button type="submit">Изменить</button>
+    </form>
+{% endblock %}

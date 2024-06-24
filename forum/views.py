@@ -1,4 +1,5 @@
-from django.db.models import Sum, BooleanField, Count, F, OuterRef, Subquery, Exists
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum, BooleanField, Count, F, OuterRef, Subquery, Exists, Value
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -35,6 +36,7 @@ class ChatsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ChatsView, self).get_context_data(**kwargs)
+        print(context)
         context['category'] = get_object_or_404(Category, id=self.kwargs['category_id'])
         context['universe'] = get_object_or_404(Universe, id=self.kwargs['universe_id'])
 
@@ -46,7 +48,7 @@ class ChatsView(TemplateView):
         return context
 
 
-class FloodView(TemplateView):
+class FloodView(LoginRequiredMixin, TemplateView):
     template_name = 'forum/flood.html'
 
     def get_context_data(self, **kwargs):
@@ -58,7 +60,7 @@ class FloodView(TemplateView):
         return context
 
 
-class ProductDiscussionView(View):
+class ProductDiscussionView(LoginRequiredMixin, View):
 
     def get(self, request, product_id):
         template_name = 'forum/product_discussion.html'
@@ -67,11 +69,12 @@ class ProductDiscussionView(View):
 
         buy_history = BuyHistory.objects.filter(customer=OuterRef('customer'), product=product)
         is_upvoted = ProductMessage.objects.filter(id=OuterRef('id'), users_upvotes=request.user)
+
         context['messages'] = ProductMessage.objects.filter(product=product).annotate(
             customer=F('user'),
             is_buyed=Exists(Subquery(buy_history.values('customer')), output_field=BooleanField()),
             is_upvoted=Exists(Subquery(is_upvoted.values('id')), output_field=BooleanField()),
-            rating=Count('users_upvotes') - Count('users_downvotes')
+            rating=Count('users_upvotes') - Count('users_downvotes'),
         )
         context['product'] = product
         return render(request, template_name, context)

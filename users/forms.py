@@ -1,25 +1,8 @@
 from django import forms
-from django.forms import widgets
 from django.shortcuts import get_object_or_404
 
 from core.models import Category, Universe
 from users.models import Customer, CustomerData, BalanceAddHistory
-
-
-class CustomerProfileForm(forms.ModelForm):
-    username = forms.CharField(
-        label='Имя пользователя',
-        widget=forms.TextInput(
-            attrs={
-                'minlength': 1,
-                'maxlength': Customer._meta.get_field('username').max_length,
-            }
-        ),
-    )
-
-    class Meta:
-        model = Customer
-        fields = [Customer.email.field.name]
 
 
 class CustomerFavoriteCategoriesForm(forms.Form):
@@ -54,12 +37,6 @@ class CustomerFavoriteUniversesForm(forms.Form):
         required=False,
         label=''
     )
-
-
-class CustomerImageForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = [Customer.image.field.name]
 
 
 class CustomerCreateForm(forms.ModelForm):

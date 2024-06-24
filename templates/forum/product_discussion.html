@@ -25,10 +25,14 @@
                     <span id="rating">{{message.rating }}</span>
                     <button name="upvote" type="button" onclick="changeRating(this)">+</button>
                     <b>{{ message.user.username }}</b>: {{ message.message }} /
-                    {% if message.is_buyed %}
-                        Пользователь покупал товар
+                    {% if  message.user.id == product.seller.id %}
+                        author
                     {% else %}
-                        Пользователь не покупал товар
+                        {% if message.is_buyed %}
+                            Пользователь покупал товар
+                        {% else %}
+                            Пользователь не покупал товар
+                        {% endif %}
                     {% endif %}
                 </form>
             {% endfor %}
