@@ -651,3 +651,22 @@ body{
 .catalog__content{
     gap: 40px;
 }
+.about{
+    margin: 40px 213px;
+}
+.about__content{
+    gap: 40px;
+}
+.about__title{
+    text-align: center;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 78.02px;
+}
+.about__block{
+    background-color: var(--dark-white);
+    border-radius: 16px;
+    justify-content: flex-start;
+    gap: 93px;
+    padding: 3% 10%;
+}
