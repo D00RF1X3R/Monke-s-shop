@@ -4,6 +4,7 @@ from django.db.models import Q
 from catalog.models import Product
 from business.models import Seller
 from core.models import Universe, Category
+from users.models import Rating
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, View
 
@@ -29,6 +30,9 @@ class ProductListView(TemplateView):
         context["sellers"] = Seller.objects.all()
 
         return context
+    def get_popular_products(self):
+        context = self.get_context_data()
+        context["products"] = context["products"].filter()
 
 
 class ProductDetailView(TemplateView):
@@ -37,8 +41,13 @@ class ProductDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         product = get_object_or_404(Product.objects.filter(id=kwargs.get("id")))
+        product_marks = Rating.objects.filter(product=kwargs.get("id")).values_list('mark', flat=True)
+        if product_marks:
+            product_rating = sum(product_marks)/len(product_marks)
+        else:
+            product_rating = 0
         context["product"] = product
-        
+        context["product_rating"] = product_rating
 
         return context
 

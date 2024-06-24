@@ -1,10 +1,10 @@
+from django.contrib.auth.models import UserManager
 from django.db import models
 
 from core.models import User
-from django.contrib.auth.base_user import BaseUserManager
 
 
-class SellerManager(BaseUserManager):
+class SellerManager(UserManager):
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(type=User.Types.SELLER)
 

@@ -1,6 +1,7 @@
-from django.urls import include, path
+from django.urls import path
 
-app_name = "business"
+
+app_name = 'business'
 urlpatterns = [
-
+    
 ]

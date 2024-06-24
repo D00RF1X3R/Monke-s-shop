@@ -1,6 +1,6 @@
-from django.urls import include, path
+from django.urls import path
 
-app_name = "forum"
+app_name = 'forum'
 urlpatterns = [
 
 ]

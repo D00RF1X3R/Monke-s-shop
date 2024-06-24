@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-    {% if category %}{{ category.title }}{% else %}Products{% endif %}
+    {% if product %}{{ product.name }}{% else %} Товар {% endif %}
 {% endblock %}
 {% block content %}
     <div class="product-detail">
         <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" style="object-fit: cover; max-width: 300px;">
-        <div style="display: flex; gap: 1%;">
-            <h3><a class=filter-link href="{% url 'catalog:products' %}" data-filter="universe" value="product.universe_id">{{ product.universe }}</a></h3>
-            <h3><a class=filter-link href="{% url 'catalog:products' %}" data-filter="category" value="product.category_id">{{ product.category }}</a></h3>
+        <script>
+            document.write('<h3><a href="' + document.referrer + '">Назад</a></h3>');
+        </script>
+        <div style="display: flex; gap: 3px;">
+            <h3><a class=filter-link href="{% url 'catalog:products' %}" data-filter="universe" value="product.universe_id">{{ product.universe }}</a>></h3>
+            <h3><a class=filter-link href="{% url 'catalog:products' %}" data-filter="category" value="product.category_id">{{ product.category }}</a>></h3>
             <h3><a class=filter-link href="{% url 'catalog:products' %}" data-filter="seller" value="product.seller_id">{{ product.seller.username }}</a></h3>
             
         </div>
         
         <h1>{{ product.name }}</h1>
         <p class="price">${{ product.price }}</p>
+        <h3>Оценка: {{ product_rating }}</h3>
         {{ product.description|linebreaks }}
         <div style="display: flex">
             <button class="addtocart">В корзину</button>
