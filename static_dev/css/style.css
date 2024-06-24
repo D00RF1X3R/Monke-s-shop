@@ -645,3 +645,9 @@ body{
     padding: 2%;
     border: none;
 }
+.catalog{
+    margin: 44px 0 44px 0;
+}
+.catalog__content{
+    gap: 40px;
+}
