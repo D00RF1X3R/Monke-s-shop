@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Главная {% endblock %}
+{% block content %}
+    <div id="sidebar" style="display: flex; gap: 20px;">
+        <div class="filterUniverse"  id="filterUniverse">
+            <h4>Вселенная</h4>
+            <div id="checkboxes" style="display: flex; flex-direction: column;">
+                {% for u in universes %}
+                    <div>
+                        <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="universe" id="exampleChekbox1{{ u.id }}" value="{{ u.id }}" />
+                        <label for="exampleChekbox1{{ u.id }}"><span>{{ u.name }}</span></label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="filterCategory" id="filterCategory">
+            <h4>Категория</h4>
+            <div id="checkboxes">
+                {% for c in categories %}
+                    <div>
+                        <input class="form-check-input filter-checkbox" type="checkbox"
+                    name="chekbox" data-filter="category" id="exampleChekbox2{{ c.id }}" value="{{ c.id }}" />
+                        <label for="exampleChekbox2{{ c.id }}"><span>{{ c.name }}</span></label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="filterSeller" id="filterSeller">
+            <h4>Продавец</h4>
+            <div id="checkboxes">
+                {% for s in sellers %}
+                <div>
+                    <input class="form-check-input filter-checkbox" type="checkbox"
+                name="chekbox" data-filter="seller" id="exampleChekbox3{{ s.id }}" value="{{ s.id }}" />
+                    <label for="exampleChekbox3{{ s.id }}"><span>{{ s.username }}</span></label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div style="width: 150px;">
+            <h4>Цена</h4>
+            <div style="display: flex; gap: 1%;">
+                <input type="number" id="min_price" name="min_price" style="width: 48%;" min="{{ min_max_price.price__min }}" value="{{ min_max_price.price__min }}">-
+                <input type="number" id="max_price" name="max_price" style="width: 48%;" max="{{ min_max_price.price__max }}" value="{{ min_max_price.price__max }}">
+            </div>
+            <button id="price-filter-btn" type="submit" style="width: 100%;">Фильтр</button>
+        </div>
+    </div>
+    <div id="filtered-product" class="product-list" style="display: flex; gap: 1%; margin-top: 50px;">
+        {% for product in products %}
+            <div class="item" style="border: 1px solid; width: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+                <a href="{% url 'catalog:product_detail' product.id %}" style="width: 100%;">
+                    <img src="{% if product.preview %}{{ product.preview.url }}{% endif %}" style="object-fit: cover; width: 300px; height: 200px;">
+                </a>
+                <a href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a>
+                <br>
+                ${{ product.price }}
+                <div style="display: flex">
+                    <button class="addtocart">В корзину</button>
+                    <button class="quickbuy">Купить</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

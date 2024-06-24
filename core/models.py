@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class Category(models.Model):
     name = models.CharField('Название', max_length=50)
     objects = models.Manager()
@@ -39,3 +38,4 @@ class User(AbstractUser):
         if not self.id:
             self.type = self.base_type
         return super().save(*args, **kwargs)
+    

@@ -1,7 +1,12 @@
+
+{% load static %}
 <header style="margin-bottom: 50px">
     <a href="{% url 'forum:forums' %}">Форум</a>
     {% if user.is_authenticated %}
         Ты {{ user.username }}!
+        <form action="{% url 'catalog:products' %}" method="get">
+            <input type="text" placeholder="Search for items" name="q" value="{{ current_search }}"><button type="submit">Найти</button>
+        </form>
         {%if user.type == "Покупатель"%}
             <a href="{% url 'users:profile' %}">Профиль</a>
             <a href="{% url 'users:favorites' %}">Избранное</a>

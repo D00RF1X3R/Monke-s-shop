@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from catalog.views import ProductListView
 
-# Create your views here.
+class HomeView(ProductListView):
+    template_name = "homepage/home.html"
+
