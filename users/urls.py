@@ -7,6 +7,8 @@ from django.contrib.auth.views import (LoginView,
                                        PasswordResetDoneView,
                                        PasswordResetConfirmView,
                                        PasswordResetCompleteView)
+
+from users.forms import CustomerAuthenticationForm
 from users.views import (ProfileView,
                          SignupView,
                          CartView,
@@ -19,7 +21,9 @@ from users.views import (ProfileView,
 
 app_name = 'users'
 urlpatterns = [
-    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('login/', LoginView.as_view(template_name='users/login.html',
+                                     authentication_form=CustomerAuthenticationForm),
+         name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path(
         'password_change/',
