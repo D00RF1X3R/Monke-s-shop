@@ -1,3 +1,24 @@
-<footer style="margin-top: 50px">
-    Футер
+{% load static %}
+<footer class="footer">
+    <div class="container">
+        <div class="footer__content flex--row">
+            <div class="footer__contacts">
+                <div class="footer_contacts__socials flex--column text--default">
+                    <h2 class="footer_text__title">Поддержка</h2>
+                    <a href="https://vk.com/csharpguy" class="footer_text__string">
+                        Поделиться багом
+                    </a>
+                    <a href="https://vk.com/balumbola" class="footer_text__string">
+                        Поделиться багом 2
+                    </a>
+                    <a href="https://vk.com/iheaaywdily" class="footer_text__string">
+                        Предложить идею
+                    </a>
+                </div>
+            </div>
+            <div class="footer__checker">
+                <img class="footer_checker__image" src="{% static 'images/placeholderImage.png' %}">
+            </div>
+        </div>
+    </div>
 </footer>
