@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static_dev/css/style.css">
+    <title>product add</title>
+</head>
+<body>
+    <div class="prodadd">
+        <div class="container">
+            <div class="prodadd__content flex--column">
+                <p class="prodadd__title">Добавьте товар на продажу</p>
+                <div class="prodadd__main flex--row">
+                    <div class="prodadd_main__addBlock flex--column">
+                        <img class="prodadd_main_addBlock__image" src="../../static_dev/svg/plus.svg">
+                        <p class="prodadd_main_addBlock__text">
+                            Загрузите изображение
+                        </p>
+                    </div>
+                    <div class="prodadd_main__info flex--column">
+                        <input class="prodadd_main_info__input text--default" type="text" placeholder="Название товара">
+                        <div class="prodadd_main_info__categories flex--row">
+                            <select class="prodadd_main_info_categories__select text--default">
+                                <option class="prodadd_main_info_categories_select__option" selected>Категория</option>
+                            </select>
+                            <select class="prodadd_main_info_categories__select text--default">
+                                <option class="prodadd_main_info_categories_select__option" selected>Вселенная</option>
+                            </select>
+                        </div>
+                        <textarea class="prodadd_main_info_textarea text--default" placeholder="Описание товара" type="text"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
