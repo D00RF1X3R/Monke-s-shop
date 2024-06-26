@@ -1079,3 +1079,162 @@ body{
     font-weight: 500;
     line-height: 43.88px; 
 }
+
+.flud{
+    margin: 40px 0;
+}
+.flud__content{
+
+    justify-content: center;
+    align-items: center;
+    height: 1098px;
+    
+}
+
+
+
+.flud__main{
+    background-color: #CAE8D3;
+    margin: 40px 0;
+    height: fit-content;
+    width: 1600px;
+    border-radius: 32px;
+    gap: 21px;
+    padding: 3%;
+    overflow-y: overlay;
+    scrollbar-width: none;
+    padding-bottom: 0;
+}
+.flud_main__message{
+    display: block;
+    width: 369px;
+    height: fit-content;
+    position: relative;
+}
+.flud_main_message__body{
+
+    width: 358px;
+    height: fit-content;
+    border-radius: 12px;
+    background-color: white;
+    padding: 3%;
+}
+.flud_main_message__name{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19.5px;   
+    text-align: left; 
+}
+.flud_main_message__text{
+    font-size: 28px;
+    line-height: 34.13px;
+    text-align: left;
+    margin: 4px 0 24px 0;
+}
+.flud_main_message__time{
+    text-align: right;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.5px;    
+}
+.flud_main_message__tail{
+    display: block;
+    height: 44px;
+    width: 44px;
+    position: absolute;
+    z-index: 1;
+    left: -14px;
+    bottom: -4px;
+}
+.flud_main__bar{
+    width: 1489px;
+    /* z-index: 1; */
+    background-color: white;
+    position: static;
+    height: 80px;
+    border-radius: 16px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3%;
+    
+}
+.flud_main_bar__input{
+    color: var(--grey);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 34.13px;
+    width: 85%;
+    border: none;
+    outline: none;
+}
+.flud_main_bar__image{
+   background-color: var(--dark-green);
+   width: 83px;
+   height: 64px; 
+   border-radius: 8px;
+}
+.margin{
+    height: 10px;
+    margin-bottom: 1000px;
+}
+.flud__card{
+    background-color: var(--dark-white);
+    border-radius: 12px;
+    width: 1141px;
+    height: 280px;
+    justify-content: space-around;
+    padding: 1.5%;
+}
+.flud_card__image{
+    width: 204px;
+    height: 240px;
+    border: black solid 1px;
+    border-radius: 8px;
+}
+.flud_card__info{
+    margin: 0 146px 0 104px;
+}
+.flud_card_info__name{
+    font-size: 36px;
+    line-height: 43.88px;
+}
+.flud_card_info__description{
+    color: var(--grey);
+    font-size: 16px;
+    line-height: 19.5px;
+    margin: 10px 0 66px 0;
+}
+.flud_card_info__images{
+    gap: 15px;
+    justify-content:   flex-start;
+}
+.flud_card_buying__price{
+    font-size: 36px;
+    line-height: 43.88px;
+}
+.flud_card_buying__button{
+  font-size: 24px;
+  padding: 1%;
+  white-space: nowrap;
+  width: 157px;
+  height: 53px;
+  border: none;
+}
+.margin--button{
+    margin: 64px 0 12px 0;
+}
+.flud_main_message__rating{
+    gap: 10px;
+    padding: 0.5%;
+    position: absolute;
+    align-items: center;
+    left: -45px;
+    background-color: var(--dark-white);
+    border-radius: 4px;
+}
+.flud_main_message_rating__text{
+    font-size: 24px;
+}
+.forum_card--seller{
+    background-color: var(--dark-green);
+}
