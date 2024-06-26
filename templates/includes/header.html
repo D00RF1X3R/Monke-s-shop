@@ -37,6 +37,16 @@
                 </a>
             </div>
 
+            {% if user.is_superuser %}
+                <div class="navbar__forum" >
+                    <a href="/admin/" class="navbar_forum__link">
+                        <button class="navbar_forum__button button button--dgreen text--default">
+                            Админка
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+
             <div class="navbar__purchase flex--row">
                 {% if user.is_authenticated %}
                     {%if user.type == "Покупатель"%}
@@ -79,18 +89,6 @@
                             <p class="navbar_purchase_basket__text text--default">Регистрация</p>
                         </div>
                      </a>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                <form method="post" action="{% url 'users:logout' %}">
-                    {% csrf_token %}
-                    <button class="navbar_button" type="submit">
-                        <div class="navbar_purchase__basket">
-                            <img class="navbar_purchase_basket__svg" src="{% static '/svg/logout.svg' %}">
-                            <p class="navbar_purchase_basket__text text--default">Выйти</p>
-                        </div>
-                    </button>
-                </form>
                 {% endif %}
             </div>
         </div>

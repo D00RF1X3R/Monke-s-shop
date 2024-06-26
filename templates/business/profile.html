@@ -3,33 +3,70 @@
     Профиль
 {% endblock %}
 {% block content %}
-    <h1>Профиль продавца</h1>
-    <div style="margin-bottom: 50px">
-        {% if user.image %}
-            <img width="100" height="100" src="{{ user.image.url }}">
-        {% else %}
-            Изображения профиля нет
-        {% endif %}
-        {% if seller_data.is_verified %}
-            Подтверждён
-        {% else %}
-            Не подтверждён
-        {% endif %}
-        <form id="upload_image_form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" id="{{ form_image.image.html_name }}" name="{{ form_image.image.html_name }}" style="display:none" onchange="document.getElementById('upload_image_form').submit()" accept="image/jpeg, image/png"/>
-            <button type="button" onclick="document.getElementById('{{ form_image.image.html_name }}').click();">Изменить фото</button>
-        </form>
-    </div>
+{% load static %}
+    <div class="profile">
+        <div class="container">
+            <div class="profile__content flex--column">
+                <div class="profile_business__card">
 
-    <form action="." method="post" style="margin-bottom: 50px">
-        {% include "includes/form.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Сохранить</button>
-    </form>
+                    <div class="profile_card__user card--profile flex--row">
+                        <form id="upload_image_form" method="post" enctype="multipart/form-data" class="profile_card_user__image">
+                            {% csrf_token %}
+                            <input type="file" id="{{ form_image.image.html_name }}" name="{{ form_image.image.html_name }}" hidden onchange="document.getElementById('upload_image_form').submit()" accept="image/jpeg, image/png"/>
+                            <button class="profile_card_user_info_buttons__image-change" type="button" onclick="document.getElementById('{{ form_image.image.html_name }}').click();"></button>
+                            {% if user.image %}
+                                <img class="profile_card_user_image__pic" src="{{ user.image.url }}">
+                            {% else %}
+                                <img class="profile_card_user_image__pic" src="{% static 'images/placeholderImage.png' %}">
+                            {% endif %}
+                        </form>
+                        <div class="profile_card_user__info flex--column">
+                            <form id="change_profile_form" action="." method="post">
+                                {% include "includes/form.html" %}
+                                {% include "includes/form_errors.html" %}
+                            </form>
+                            <div class="profile_card_user_info__buttons flex--row">
+                                {% if seller_data.is_verified %}
+                                    <div class="profile_card_user_info_buttons__button button--dgreen">
+                                        Подтверждён
+                                    </div>
+                                {% else %}
+                                    <div class="profile_card_user_info_buttons__button button--border-lgreen">
+                                        Не подтверждён
+                                    </div>
+                                {% endif %}
+                                <a href="{% url 'users:password_change_start' %}" class="profile_card_user_info_buttons__button button button--lgreen">
+                                    Сменить пароль
+                                </a>
+                                <form method="post" action="{% url 'users:logout' %}">
+                                    {% csrf_token %}
+                                    <button class="profile_card_user_info_buttons__button button button--lgreen" type="submit">
+                                        Выйти
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-    <div style="margin-bottom: 50px">
-        <a href="{% url 'users:password_change_start' %}">Изменить пароль</a>
-        <a href="{% url 'business:products' %}">Список товаров</a>
+                    <div class="profile_card__products profile_click__card card--profile">
+                        <a href="{% url 'business:products' %}" class="card_profile__link">
+                            <div class="profile_card__clickable flex--column">
+                                <div class="profile_card_clickable__title flex--row">
+                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/products.svg">
+                                    <p class="profile_card_clickable_title__text">
+                                        Мои товары
+                                    </p>
+                                </div>
+                                <div class="profile_card_clickable__description flex--column">
+                                    <p class="profile_card_clickable_description__text">
+                                        Товары, которые вы продаёте
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

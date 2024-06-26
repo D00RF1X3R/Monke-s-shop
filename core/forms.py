@@ -4,20 +4,30 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, Set
 from core.models import User
 
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(forms.Form):
     username = forms.CharField(
         label='Имя пользователя',
         widget=forms.TextInput(
             attrs={
                 'minlength': 1,
-                'maxlength': User._meta.get_field('username').max_length,
+                'maxlength': 20,
+                'class': 'profile_card_user_info__name',
+                'onchange': 'document.getElementById("change_profile_form").submit()'
             }
         ),
     )
 
-    class Meta:
-        model = User
-        fields = [User.email.field.name]
+    email = forms.EmailField(
+        label='Почта',
+        widget=forms.EmailInput(
+            attrs={
+                'minlength': 1,
+                'maxlength': 40,
+                'class': 'profile_card_user_info__e-mail',
+                'onchange': 'document.getElementById("change_profile_form").submit()'
+            }
+        )
+    )
 
 
 class UserImageForm(forms.ModelForm):

@@ -3,36 +3,142 @@
     Профиль
 {% endblock %}
 {% block content %}
-    <h1>Профиль покупателя</h1>
-    <div style="margin-bottom: 50px">
-        {% if user.image %}
-            <img width="100" height="100" src="{{ user.image.url }}">
-        {% else %}
-            Изображения профиля нет
-        {% endif %}
-        <form id="upload_image_form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" id="{{ form_image.image.html_name }}" name="{{ form_image.image.html_name }}" style="display:none" onchange="document.getElementById('upload_image_form').submit()" accept="image/jpeg, image/png"/>
-            <button type="button" onclick="document.getElementById('{{ form_image.image.html_name }}').click();">Изменить фото</button>
-        </form>
-    </div>
+    {% load static %}
+    <div class="profile">
+        <div class="container">
+            <div class="profile__content flex--column">
+                <div class="profile__card">
 
-    <form action="." method="post" style="margin-bottom: 50px">
-        {% include "includes/form.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Сохранить</button>
-    </form>
+                    <div class="profile_card__user card--profile flex--row">
+                        <form id="upload_image_form" method="post" enctype="multipart/form-data" class="profile_card_user__image">
+                            {% csrf_token %}
+                            <input type="file" id="{{ form_image.image.html_name }}" name="{{ form_image.image.html_name }}" hidden onchange="document.getElementById('upload_image_form').submit()" accept="image/jpeg, image/png"/>
+                            <button class="profile_card_user_info_buttons__image-change" type="button" onclick="document.getElementById('{{ form_image.image.html_name }}').click();"></button>
+                            {% if user.image %}
+                                <img class="profile_card_user_image__pic" src="{{ user.image.url }}">
+                            {% else %}
+                                <img class="profile_card_user_image__pic" src="{% static 'images/placeholderImage.png' %}">
+                            {% endif %}
+                        </form>
+                        <div class="profile_card_user__info flex--column">
+                            <form id="change_profile_form" action="." method="post">
+                                {% include "includes/form.html" %}
+                                {% include "includes/form_errors.html" %}
+                            </form>
+                            <div class="profile_card_user_info__buttons flex--row">
+                                <a href="{% url 'users:password_change_start' %}" class="profile_card_user_info_buttons__button button button--lgreen">
+                                    Сменить пароль
+                                </a>
+                                <form method="post" action="{% url 'users:logout' %}">
+                                    {% csrf_token %}
+                                    <button class="profile_card_user_info_buttons__button button button--lgreen" type="submit">
+                                        Выйти
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-    <div style="margin-bottom: 50px">
-        <a href="{% url 'users:password_change_start' %}">Изменить пароль</a>
-        <a href="{% url 'users:cart_history' %}">История покупок</a>
-        <a href="{% url 'users:favorite_categories' %}">Любимые категории</a>
-        <a href="{% url 'users:favorite_universes' %}">Любимые вселенные</a>
-    </div>
+                    <div class="profile_card__basket profile_click__card card--profile">
+                        <a href="{% url 'users:cart' %}" class="card_profile__link">
+                            <div class="profile_card__clickable flex--column">
+                                <div class="profile_card_clickable__title flex--row">
+                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/basketBig.svg">
+                                    <p class="profile_card_clickable_title__text">
+                                        Корзина
+                                    </p>
+                                </div>
+                                <div class="profile_card_clickable__description flex--column">
+                                    <p class="profile_card_clickable_description__text">
+                                        Товары, которые вы запланировали купить
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-    <div>
-        <p>Баланс: {{ customer_data.balance }}</p>
-        <a href="{% url 'users:balance_add' %}">Пополнить баланс</a>
-        <a href="{% url 'users:balance_history' %}">История пополнений</a>
+
+                    <div class="profile_card__purchases profile_click__card card--profile">
+                        <a href="{% url 'users:cart_history' %}" class="card_profile__link">
+                            <div class="profile_card__clickable flex--column">
+                                <div class="profile_card_clickable__title flex--row">
+                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/history.svg">
+                                    <p class="profile_card_clickable_title__text">
+                                        Покупки
+                                    </p>
+                                </div>
+                                <div class="profile_card_clickable__description flex--column">
+                                    <p class="profile_card_clickable_description__text">
+                                        История ваших покупок на сайте
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="profile_card__categories text--default profile_click__card card--profile">
+                        <a href="{% url 'users:favorite_categories' %}" class="card_profile__link">
+                            <p class="profile_card_categories__text">Любимые<br>категории</p>
+                        </a>
+                    </div>
+
+                    <div class="profile_card__universe text--default profile_click__card card--profile">
+                        <a href="{% url 'users:favorite_universes' %}" class="card_profile__link">
+                            <p class="profile_card_universe__text">Любимые<br>вселенные</p>
+                        </a>
+                    </div>
+
+
+                    <div class="profile_card__favorites profile_click__card card--profile">
+                        <a href="{% url 'users:favorites' %}" class="card_profile__link">
+                            <div class="profile_card__clickable flex--column">
+                                <div class="profile_card_clickable__title flex--row">
+                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/heartBig.svg">
+                                    <p class="profile_card_clickable_title__text">
+                                        Избранное
+                                    </p>
+                                </div>
+                                <div class="profile_card_clickable__description flex--column">
+                                    <p class="profile_card_clickable_description__text">
+                                        Список вещей, которые вам понравились
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="profile_card__forum  profile_click__card card--button card--profile ">
+                        <a href="{% url 'forum:forums' %}" class="card_profile__link">
+                            <div class="profile_card__clickable flex--column">
+                                <div class="profile_card_clickable__title flex--row">
+                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/forum.svg">
+                                    <p class="profile_card_clickable_title__text">
+                                        Форум
+                                    </p>
+                                </div>
+                                <div class="profile_card_clickable__description flex--column">
+                                    <p class="profile_card_clickable_description__text">
+                                        Обсудите новый товар или просто поболтайте
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="profile_card__finances card--profile  flex--row">
+                        <button class="profile_card_finances__button text--default button--dgreen">
+                            {{ customer_data.balance }} &#8381;
+                        </button>
+                        <a href="{% url 'users:balance_add' %}" class="profile_card_finances__button text--default button button--dgreen">
+                            Пополнить баланс
+                        </a>
+                        <a href="{% url 'users:balance_history' %}"  class="profile_card_finances__text text--default">
+                            История
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
