@@ -3,28 +3,42 @@
     Товары
 {% endblock %}
 {% block content %}
-    <h1>Товары</h1>
-    <a href="{% url 'business:product_add' %}">Добавить товар</a>
-    {% for product in products %}
-        <form action="." method="POST" style="margin-bottom: 50px">
-            {% csrf_token %}
-            <input hidden name="id" value="{{ product.id }}">
+    {% load static %}
+    <div class="prodlist">
+        <div class="container">
+            <div class="prodlist__content flex--column">
+                <p class="prodlist__title">Список ваших товаров</p>
+                <a href="{% url 'business:product_add' %}" class="prodlist__add button button--dgreen text--default">Добавить</a>
+                <div class="prodlist__block flex--row">
+                    {% for product in products %}
+                    <form action="." method="POST" class="prodlist_block__card flex--row">
+                        {% csrf_token %}
+                        <input hidden name="id" value="{{ product.id }}">
 
-            {% if product.preview %}
-                <img width="100" height="100" src="{{ product.preview.url }}">
-            {% else %}
-                Нет картинки
-            {% endif %}
-            {{ product.name }}.
-            Категория: {{ product.category.name }}.
-            Вселенная: {{ product.universe.name }}.
-            <button type="button" onclick="deleteProduct(this)">Удалить</button>
-            <button type="button"><a style="text-decoration: none; color: black" href="{% url 'business:product_change' product.id %}">Изменить</a></button>
-        </form>
-    {% endfor %}
+                        {% if product.preview %}
+                            <img class="prodlist_block_card__image" src="{{ product.preview.url }}">
+                        {% else %}
+                            <img class="prodlist_block_card__image" src="{% static 'images/placeholderImage.png' %}">
+                        {% endif %}
+                        <div class="prodlist_block_card__info flex--column">
+                            <p class="prodlist_block_card_info__name">{{ product.name }}</p>
+                            <p class="prodlist_block_card_info__price">{{ product.price }} &#8381;</p>
+                            <p class="prodlist_block_card_info__amount text--default">{{ product.category}} > {{ product.universe}}</p>
+                            <div class="prodlist_block_card_info__buttons flex--row ">
+                                <button type="button" onclick="deleteProduct(this)" class="prodlist_block_card_info_buttons__button button button--lgreen text--default">Удалить</button>
+                                <a href="{% url 'business:product_change' product.id %}" class="prodlist_block_card_info_buttons__button button button--lgreen text--default">Изменить</a>
+                            </div>
+                        </div>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function deleteProduct(clickedElement){
-            var frm = $(clickedElement).parent();
+            var frm = $(clickedElement).parent().parent().parent();
             $.ajax({
                 type: 'POST',
                 data: $(frm).serialize(),

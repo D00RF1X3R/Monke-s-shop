@@ -61,6 +61,7 @@ class ProductAddForm(forms.ModelForm):
         }
 
     def save(self, user_id):
+        print(self.cleaned_data[Product.preview.field.name])
         Product.objects.create(
             seller=get_object_or_404(Seller, id=user_id),
             name=self.cleaned_data[Product.name.field.name],

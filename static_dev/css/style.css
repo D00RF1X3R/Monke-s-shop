@@ -64,6 +64,7 @@ body {
     text-align: center;
     align-content: center;
     cursor: pointer;
+    font-family: Montserrat, sans-serif;
 }
 .singin_form__link {
     margin-top: 20px;
@@ -124,7 +125,6 @@ body {
 }
 .navbar_search__string{
     width: 92%;
-    cursor: pointer;
     border: solid var(--dark-green) 4px;
     border-radius: 20px 0 0 20px;
     padding: 3% 0 3% 3%;
@@ -143,6 +143,7 @@ body {
     height: 100%;
     width: 72px;
     border: none;
+    cursor: pointer;
 }
 .navbar__forum{
     align-content: center;  
@@ -743,14 +744,22 @@ body {
 .prodlist{
     margin: 40px 0;
 }
+.prodlist__add {
+    padding: 12px 14px;
+    width: min-content;
+    outline: none;
+    border: none;
+    margin-bottom: 96px;
+    text-decoration: none;
+}
 .prodlist__content{
     justify-content: flex-start;
-    gap: 93px;
 }
 .prodlist__title{
     font-size: 40px;
     font-weight: 500;
     line-height: 48.76px;
+    margin-bottom: 20px;
 }
 .prodlist__block{
     gap: 40px  378px;
@@ -768,6 +777,7 @@ body {
     width: 209px;
     height: 240px;
     border-radius: 8px;
+    object-fit: cover;
 }
 .prodlist_block_card_info__name, .prodlist_block_card_info__price{
     font-size: 36px;
@@ -785,9 +795,10 @@ body {
 .prodlist_block_card_info_buttons__button{
     border-radius: 10px;
     border: none;
-    padding: 3% 6%;
+    padding: 12px 14px;
     font-size: 24px;
     line-height: 29.26px;
+    text-decoration: none;
 }
 .prodadd{
     margin: 40px 0;
@@ -809,16 +820,34 @@ body {
     width: 442px;
     height: 480px;
     border-radius: 12px;
-    background-color: var(--grey);justify-content: space-between;
+    background-color: #D9D9D9;
+    justify-content: space-between;
+    position: relative;
+}
+.prodadd_main_addBlock__input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
 }
 .prodadd_main_addBlock__image{
-    align-self: center;
     text-align: center;
     margin-top: 145px;
+    margin-bottom: 130px;
+}
+.prodadd_main_addBlock__preview{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+}
+.prodadd_main_addBlock__help {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .prodadd_main_addBlock__text{
-    align-self: center;
-    margin-bottom: 24px;
     font-size: 20px;
     font-weight: 400;
     line-height: 24.38px;
@@ -828,7 +857,7 @@ body {
     width: 675px;
     gap: 40px;
 }
-.prodadd_main_info__input, .prodadd_main_info_textarea{
+.prodadd_main_info__input, .prodadd_main_info_textarea {
     padding: 2%;
     border: none;
     outline: none;
