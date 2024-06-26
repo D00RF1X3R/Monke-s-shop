@@ -3,9 +3,16 @@
     Изменение пароля
 {% endblock %}
 {% block content %}
-    <form action="." method="post">
-        {% include "includes/form.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Изменить</button>
-    </form>
+    {% load static %}
+    <div class="form__container container">
+        <form class="singup__form" method="post" action=".">
+            <div class="singup_form__content create_form flex--column">
+                {% include "includes/profile_return.html" %}
+                <p class="singin_form__title">Изменить пароль</p>
+                {% include "includes/form_create.html" %}
+                {% include "includes/form_errors.html" %}
+                <button class="singup_form__button text--default button--dgreen">Изменить</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

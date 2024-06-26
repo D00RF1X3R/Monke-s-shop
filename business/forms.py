@@ -10,17 +10,21 @@ from catalog.models import Product
 class SellerCreateForm(forms.ModelForm):
     password = forms.CharField(
         label="Пароль",
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'Placeholder': 'Пароль'}),
     )
 
     password_repeat = forms.CharField(
         label="Подтверждение пароля",
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'Placeholder': 'Подтвердите пароль'}),
     )
 
     class Meta:
         model = Seller
         fields = [Seller.username.field.name, Seller.email.field.name]
+        widgets = {
+            Seller.username.field.name: forms.TextInput(attrs={'Placeholder': 'Имя пользователя'}),
+            Seller.email.field.name: forms.EmailInput(attrs={'Placeholder': 'Адрес эл. почты'})
+        }
 
     def __init__(self, *args, **kwargs):
         super(SellerCreateForm, self).__init__(*args, **kwargs)

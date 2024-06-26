@@ -124,10 +124,6 @@ django.__path__[0] + "/templates"
 
 STATIC_URL = '/static_dev/'
 
-MEDIA_URL = 'uploads/'
-
-MEDIA_ROOT = BASE_DIR / 'uploads'
-
 STATICFILES_DIRS = [BASE_DIR / 'static_dev']
 
 STATIC_ROOT = BASE_DIR / 'static'

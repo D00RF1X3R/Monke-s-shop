@@ -527,8 +527,9 @@ body {
     font-weight: 700;
     line-height: 58.51px;
     margin-bottom: 40px;
+    text-align: center;
 }
-.create_form input[type='password'], .create_form input[type='text']{
+.create_form input[type='password'], .create_form input[type='text'], .create_form input[type='email'] {
     background-color: var(white);
     border-radius: 12px;
     width: 490px;
@@ -752,4 +753,13 @@ body {
 
 .form-create_input-check:checked + .form-create_label {
     background-color: var(--dark-green);
+}
+
+.back {
+    align-self: start;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    text-decoration: none;
+    margin-bottom: 40px;
 }

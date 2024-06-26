@@ -2,6 +2,12 @@
 {% block title %}
     Пароль восстановлен
 {% endblock %}
-{% block content %}
-    <h1>Пароль восстановлен!</h1>
+{% block content %}<div class="form__container container">
+        <div class="singup__form">
+            <div class="singup_form__content create_form flex--column">
+                <p class="singin_form__title">Пароль восстановлен!</p>
+                <a href="{% url 'users:login' %}" class="singin_form__link text--default">Вернуться ко входу</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

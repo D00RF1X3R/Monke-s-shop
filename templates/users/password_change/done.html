@@ -3,5 +3,16 @@
     Пароль изменён
 {% endblock %}
 {% block content %}
-    <h1> Пароль был успешно изменён </h1>
+    <div class="form__container container">
+        <div class="singup__form">
+            <div class="singup_form__content create_form flex--column">
+                <p class="singin_form__title">Пароль был успешно изменён</p>
+                {% if user.type == "Покупатель" %}
+                    <a href="{% url 'users:profile' %}" class="singin_form__link text--default">Вернуться в профиль</a>
+                {% else %}
+                    <a href="{% url 'business:profile' %}" class="singin_form__link text--default">Вернуться в профиль</a>
+                {% endif %}
+                </div>
+        </div>
+    </div>
 {% endblock %}

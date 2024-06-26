@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
 
 from core.models import Category, Universe
@@ -10,7 +9,7 @@ from users.widgets import UserMultiChoiceWidget
 class CustomerFavoriteCategoriesForm(forms.Form):
     favorite_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(),
         required=False,
         label=''
     )
@@ -35,15 +34,10 @@ class CustomerBalanceAddForm(forms.Form):
 class CustomerFavoriteUniversesForm(forms.Form):
     favorite_universes = forms.ModelMultipleChoiceField(
         queryset=Universe.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(),
         required=False,
         label=''
     )
-
-
-class CustomerAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Имя пользователя'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Адрес эл. почты'}))
 
 
 class CustomerCreateForm(forms.ModelForm):
@@ -76,7 +70,7 @@ class CustomerCreateForm(forms.ModelForm):
         fields = [Customer.username.field.name, Customer.email.field.name]
         widgets = {
             Customer.username.field.name: forms.TextInput(attrs={'placeholder': 'Имя пользователя'}),
-            Customer.email.field.name: forms.TextInput(attrs={'placeholder': 'Адрес эл. почты'}),
+            Customer.email.field.name: forms.EmailInput(attrs={'placeholder': 'Адрес эл. почты'}),
         }
 
     def __init__(self, *args, **kwargs):
