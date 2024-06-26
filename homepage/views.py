@@ -1,5 +1,5 @@
 from catalog.views import ProductListView
 
 class HomeView(ProductListView):
-    template_name = "homepage/home.html"
+    template_name = "homepage/geekShop.html"
 

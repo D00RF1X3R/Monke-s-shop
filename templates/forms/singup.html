@@ -1,16 +1,12 @@
-{% extends "base.html" %}
-{% block title %}
-    Регистрация покупателя
-{% endblock %}
-{% block content %}
-    <h1>Регистрация покупателя</h1>
-    <a href="{% url 'business:signup' %}">Я продавец</a>
-    <form action="." method="post">
-        {% include "includes/form_create.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static_dev/css/style.css">
+    <title>singup</title>
+</head>
+<body>
     <div class="form__container container">
       <form class="singup__form">
             <div class="singup_form__content flex--column">
@@ -48,4 +44,5 @@
             </div>
         </form>
     </div>
-{% endblock %}
+</body>
+</html>

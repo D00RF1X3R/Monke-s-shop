@@ -74,7 +74,7 @@ class BuyHistory(models.Model):
 
 
 class Rating(models.Model):
-    product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE, related_name="marks")
     user = models.ForeignKey(Customer, verbose_name='Покупатель', on_delete=models.CASCADE)
     mark = models.IntegerField('Оценка', validators=[RangeValidator(0, 5)])
 

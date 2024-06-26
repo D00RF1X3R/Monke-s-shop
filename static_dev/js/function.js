@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     $(".filter-checkbox, #price-filter-btn").on("click", function(){
         console.log("A checkbox have been clicked");

@@ -41,16 +41,16 @@
             $.ajax({
                 type: 'POST',
                 data: data,
-                url: '{% url 'users:cart' %}',
+                url: '{% url "users:cart" %}',
                 success:  function (data) {
                     var actionType = button.attr('value');
                     if (actionType == 'add' || actionType == 'subtract') {
                         frm.find('#product_count').text(data.new_count);
                         frm.find('#sub_button').prop('disabled', data.new_count == 1);
-                        $('#buy_button').prop('disabled', data.new_sum_price > {{ balance }});
+                        $('#buy_button').prop('disabled', data.new_sum_price > "{{ balance }}");
                         $('#sum_price').text(data.new_sum_price);
                     } else if (actionType == 'delete') {
-                        $('#buy_button').prop('disabled', data.new_sum_price > {{ balance }});
+                        $('#buy_button').prop('disabled', data.new_sum_price > "{{ balance }}");
                         $('#sum_price').text(data.new_sum_price);
                         frm.remove();
                     }
