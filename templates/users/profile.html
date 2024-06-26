@@ -43,7 +43,7 @@
                         <a href="{% url 'users:cart' %}" class="card_profile__link">
                             <div class="profile_card__clickable flex--column">
                                 <div class="profile_card_clickable__title flex--row">
-                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/basketBig.svg">
+                                    <img class="profile_card_clickable_title__image" src="{% static 'svg/basketBig.svg' %}">
                                     <p class="profile_card_clickable_title__text">
                                         Корзина
                                     </p>
@@ -62,7 +62,7 @@
                         <a href="{% url 'users:cart_history' %}" class="card_profile__link">
                             <div class="profile_card__clickable flex--column">
                                 <div class="profile_card_clickable__title flex--row">
-                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/history.svg">
+                                    <img class="profile_card_clickable_title__image" src="{% static 'svg/history.svg' %}">
                                     <p class="profile_card_clickable_title__text">
                                         Покупки
                                     </p>
@@ -93,7 +93,7 @@
                         <a href="{% url 'users:favorites' %}" class="card_profile__link">
                             <div class="profile_card__clickable flex--column">
                                 <div class="profile_card_clickable__title flex--row">
-                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/heartBig.svg">
+                                    <img class="profile_card_clickable_title__image" src="{% static 'svg/heartBig.svg'%}">
                                     <p class="profile_card_clickable_title__text">
                                         Избранное
                                     </p>
@@ -112,7 +112,7 @@
                         <a href="{% url 'forum:forums' %}" class="card_profile__link">
                             <div class="profile_card__clickable flex--column">
                                 <div class="profile_card_clickable__title flex--row">
-                                    <img class="profile_card_clickable_title__image" src="../../static_dev/svg/forum.svg">
+                                    <img class="profile_card_clickable_title__image" src="{% static 'svg/forum.svg' %}">
                                     <p class="profile_card_clickable_title__text">
                                         Форум
                                     </p>

@@ -3,44 +3,72 @@
     История покупок
 {% endblock %}
 {% block content %}
-    <h1>История покупок</h1>
-    {% for date, products in buy_histories.items %}
-        <div style="margin-bottom: 60px">
-            {{ date }}
-            {% for cart_product in products %}
-                <form action="." method="POST" style="margin-bottom: 20px">
-                    {% csrf_token %}
-                    {% if cart_product.product.preview %}
-                        <img width="100" height="100" src="{{ cart_product.product.preview.url }}">
-                    {% else %}
-                        Нет картинки
-                    {% endif %}
-                    {{ cart_product.product.name }} - {{ cart_product.count }}
-                    {% if cart_product.product_rating != 0 %}
-                        <input disabled type="number" value="{{ cart_product.product_rating }}" style="width: 40px" />
-                    {% else %}
-                        <input name="mark" type="number" value="1" min="1" max="5" style="width: 40px" />
-                        <input hidden name="product" value="{{ cart_product.product.id }}" />
-                        <button name="subButton" type="button" onclick="rateProduct(this)">Оценить</button>
-                    {% endif %}
-                </form>
-            {% endfor %}
+    {% load static %}
+    {% if buy_histories %}
+        <div class="history">
+            <div class="container">
+                <div class="history__content flex--column">
+                    <p class="history__title">Ваши покупки</p>
+                    <div class="history__main flex--row">
+                        {% for buy_history in buy_histories %}
+                        <div class="history_main__card flex--row">
+                            {% if buy_history.product.preview %}
+                                <img class="basket_main_product_card_info_image" src="{{ buy_history.product.preview.url }}">
+                            {% else %}
+                                <img class="basket_main_product_card_info_image" src="{% static 'images/placeholderImage.png' %}">
+                            {% endif %}
+                            <div class="history_main_card__info flex--column">
+                                <p class="history_main_card_info_title__name">{{ buy_history.product.name }}</p>
+                                <p class="history_main_card_description text--default">{{ buy_history.date }}</p>
+                                <div class="history_main_card_info__stats flex--row">
+                                    <p class="history_main_card_info_stats__price text--default">{% widthratio buy_history.product.price 1 buy_history.count %} &#8381;</p>
+                                    <form action="." method="POST" class="history_main_card_info_stats__rating flex--row">
+                                        {% csrf_token %}
+                                        <input id="id" name="id" hidden value="{{ buy_history.product.id }}">
+                                        {% for i in range %}
+                                            <svg onclick="rateProduct(this);" value="{{ i|add:1 }}" class="{% if i < buy_history.product_rating %} star_active {% else %} star_disable {% endif %} history_main_card_info_stats_rating__star" viewBox="0 0 260 245">
+                                                <path d="m56,237 74-228 74,228L10,96h240"/>
+                                            </svg>
+                                        {% endfor %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endfor %}
+    {% else %}
+        <div class="empty">
+            <div class="container">
+                <div class="empty__content flex--column">
+                    <p class="empty__title">Тут пока пусто...</p>
+                    <a href="{% url 'catalog:products' %}" class="empty__button button button--dgreen">Перейти к товарам</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <script>
         function rateProduct(clickedElement){
             var frm = $(clickedElement).parent();
+            var result = $(frm).serialize() + '&mark=' +  encodeURI($(clickedElement).attr('value'));
             $.ajax({
                 type: 'POST',
-                data: $(frm).serialize(),
+                data: result,
                 url: '{% url 'users:cart_history' %}',
                 success:  function (data) {
-                    $('input[name="product"]').each(function() {
-                        if ($(this).attr('value') == data.product) {
-                            var history = $(this).parent();
-                            history.find('input[name="mark"]').prop('disabled', true);
-                            history.find('input[name="mark"]').attr('value', data.mark);
-                            history.find('button[name="subButton"]').remove()
+                    $('.history_main_card_info_stats__rating').each(function() {
+                        if ($(this).find('#id').attr('value') == data.product) {
+                            $(this).children('.history_main_card_info_stats_rating__star').each(function () {
+                                if ($(this).attr('value') <= data.mark) {
+                                    $(this).addClass('star_active');
+                                    $(this).removeClass('star_disable');
+                                } else {
+                                    $(this).addClass('star_disable');
+                                    $(this).removeClass('star_active');
+                                }
+                            });
                         }
                     });
                 },
@@ -49,6 +77,6 @@
                 }
             });
             return false;
-    }
+        }
     </script>
 {% endblock %}

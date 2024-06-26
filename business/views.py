@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, ListView, UpdateView
+from django.views.generic import FormView, UpdateView
 from business.forms import SellerCreateForm, ProductAddForm
 from business.mixins import SellerRequiredMixin
 from business.models import SellerData, Seller

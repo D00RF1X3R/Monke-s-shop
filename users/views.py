@@ -1,4 +1,4 @@
-from django.db.models import Sum, F
+from django.db.models import Sum, F, OuterRef, Exists, Value
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -72,11 +72,15 @@ class CartView(CustomerRequiredMixin, View):
         template = 'users/cart.html'
         customer_data = get_object_or_404(CustomerData, user=request.user.id)
         cart_products = Cart.objects.filter(customer=request.user.id)
+        for cart_product in cart_products:
+            cart_product.is_favorite = cart_product.product in customer_data.favorite_products.all()
         sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
+        sum_count = cart_products.aggregate(total=Sum('count'))['total']
 
         context = {
             'cart_products': cart_products,
             'sum_price': sum_price,
+            'sum_count': sum_count,
             'balance': customer_data.balance
         }
         return render(request, template, context)
@@ -110,18 +114,23 @@ class CartView(CustomerRequiredMixin, View):
                 cart_product.count += coef
                 cart_product.save()
                 json['new_count'] = cart_product.count
+                json['new_price'] = cart_product.count * cart_product.product.price
             elif request.POST.get('action') == 'delete':
                 cart_product.delete()
             elif request.POST.get('action') == 'favorite':
                 customer_data = get_object_or_404(CustomerData, user=request.user)
                 if cart_product.product in customer_data.favorite_products.all():
                     customer_data.favorite_products.remove(cart_product.product)
+                    json['is_favorite'] = False
                 else:
                     customer_data.favorite_products.add(cart_product.product)
+                    json['is_favorite'] = True
 
             cart_products = Cart.objects.filter(customer=request.user.id)
             sum_price = cart_products.aggregate(total=Sum(F('count') * F('product__price')))['total']
             json['new_sum_price'] = sum_price
+            json['new_sum_count'] = cart_products.aggregate(total=Sum('count'))['total']
+            json['product_cart_count'] = Cart.objects.filter(customer=request.user).count()
             return JsonResponse(json)
 
 
@@ -137,12 +146,21 @@ class FavoriteProductsView(CustomerRequiredMixin, View):
     def post(request):
         customer_data = get_object_or_404(CustomerData, user=request.user)
         product = get_object_or_404(Product, id=request.POST.get('id'))
-        if product in customer_data.favorite_products.all():
-            customer_data.favorite_products.remove(product)
-        else:
-            customer_data.favorite_products.add(product)
-
-        response = {}
+        action_type = request.POST.get('type')
+        if action_type == 'favorite':
+            if product in customer_data.favorite_products.all():
+                customer_data.favorite_products.remove(product)
+            else:
+                customer_data.favorite_products.add(product)
+        elif action_type == 'to_cart':
+            Cart.objects.get_or_create(
+                customer=customer_data.user,
+                product=product,
+            )
+        response = {
+            'fav_count': customer_data.favorite_products.count(),
+            'action': action_type
+        }
 
         return JsonResponse(response)
 
@@ -206,39 +224,37 @@ class BalanceAddView(CustomerRequiredMixin, FormView):
 class BalanceHistoryView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/balance/history.html'
-        histories = BalanceAddHistory.objects.filter(customer=request.user)
-        context = {'histories': histories}
+        histories = BalanceAddHistory.objects.filter(customer=request.user).order_by('-date')
+        customer_data = get_object_or_404(CustomerData, user=request.user.id)
+        context = {'histories': histories, 'customer_data': customer_data}
         return render(request, template, context)
 
 
 class CartHistoryView(CustomerRequiredMixin, View):
     def get(self, request):
         template = 'users/buy_history.html'
-        context = {
-            'buy_histories': {}
-        }
 
-        buy_histories = BuyHistory.objects.filter(customer=request.user)
+        buy_histories = BuyHistory.objects.filter(customer=request.user).order_by('-date')
         for buy_history in buy_histories:
             rating = Rating.objects.filter(user=request.user, product=buy_history.product).first()
             if rating:
                 buy_history.product_rating = rating.mark
             else:
                 buy_history.product_rating = 0
-
-            if buy_history.date in context['buy_histories']:
-                context['buy_histories'][buy_history.date].append(buy_history)
-            else:
-                context['buy_histories'][buy_history.date] = [buy_history]
-
+        context = {
+            'buy_histories': buy_histories,
+            'range': range(5)
+        }
         return render(request, template, context)
 
     @staticmethod
     def post(request):
-        product = get_object_or_404(Product, id=request.POST.get('product'))
-        Rating.objects.create(
+        product = get_object_or_404(Product, id=request.POST.get('id'))
+        rating, _ = Rating.objects.update_or_create(
             user=request.user,
             product=product,
-            mark=request.POST.get('mark')
+            create_defaults={'mark': 5}
         )
+        rating.mark = request.POST.get('mark')
+        rating.save()
         return JsonResponse({'product': product.id, 'mark': request.POST.get('mark')})

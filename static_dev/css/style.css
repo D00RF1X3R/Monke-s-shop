@@ -111,7 +111,6 @@ body {
 }
 .navbar__search{
     width: 49%;
-    height: 100%;
     align-content: center;
     margin: 0 auto;
     position: relative;
@@ -858,13 +857,13 @@ body {
     margin: 90px 0 40px 0;
 }
 .deposits__content{
-    gap: 40px;
     justify-content: flex-start;
 }
 .deposits__title{
     font-size: 40px;
     font-weight: 500;
     line-height: 48.76px;
+    margin-bottom: 40px;
 }
 .deposits__main{
     justify-content: flex-start;
@@ -885,9 +884,16 @@ body {
     font-size: 32px;
     font-weight: 700;
     line-height: 39.01px;
+    width: 200px;
 }
 .deposits_main_operations_card__more{
     color: var(--black) !important;
+}
+.deposits_main_operations_card__date{
+    width: 250px;
+}
+.deposits_main_operations_card__bank{
+    width: 500px;
 }
 .deposits_main__balance{
     width: 675px;
@@ -896,6 +902,7 @@ body {
     padding: 3% 0;
     background-color: var(--dark-white);
     border-radius: 24px;
+    align-items: start;
 }
 .deposits_main_balance__info{
     gap: 40px;
@@ -912,13 +919,16 @@ body {
 }
 .deposits_main_balance__button{
     border: none;
-    padding: 0 1%;
+    padding: 12px 14px;
     border-radius: 12px;
-    height: 53px;
     font-size: 24px;
+    text-decoration: none;
 }
 .empty{
     margin: 100px 0;
+}
+.hide {
+    display: none;
 }
 .empty__content{
     margin:  auto 0;
@@ -937,6 +947,8 @@ body {
     font-weight: 600;
     line-height: 43.88px;
     padding: 1% 2%;
+    color: black;
+    text-decoration: none;
 }
 .basket, .favorites, .history{
     margin: 40px 0;
@@ -972,6 +984,7 @@ body {
     width: 126px;
     height: 148px;
     border: black solid 1px;border-radius: 8px;
+    object-fit: cover;
 }
 .basket_main_product_card_info__functions{
     justify-content: flex-start;
@@ -987,6 +1000,13 @@ body {
     line-height: 43.88px;
     margin-right: 40px;
     white-space: nowrap;
+    color: var(--black);
+    text-decoration: none;
+}
+.favorites_main_card_info_title__button {
+    outline: none;
+    border: none;
+    background: none !important;
 }
 .basket_main_product_card_info_functions_title__image{
     background-color: var(--grey);
@@ -994,6 +1014,17 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 4px;
+    border: none;
+    outline: none;
+}
+.basket_main_product_card_info_functions_title__image[disabled]{
+    background-color: var(--light-grey);
+}
+.basket_main_product_card_info_functions_title_image__pic {
+    stroke: #777;
+}
+.basket_main_product_card_info_functions_title__image[disabled] > .basket_main_product_card_info_functions_title_image__pic {
+    stroke: var(--grey);
 }
 .minus{
     width: 30px;
@@ -1004,7 +1035,14 @@ body {
     font-size: 24px;
 }
 .basket_main_product_card_info_functions_title__favorite{
+    display: flex;
+    align-items: center;
     margin-left: 32px;
+    outline: none;
+    border: none;
+}
+.basket_main_product_card_info_functions_title__favorite:hover{
+    background: none;
 }
 .basket_main_product_card_info_functions__description,
 .favorites_main_card_description,
@@ -1054,8 +1092,16 @@ body {
 .basket_main_sum__button{
     margin-top: 14px;
     font-size: 24px;
-    padding: 2% 2%;
+    padding: 12px 14px;
     border: none;
+}
+.basket_main_sum__button[disabled]{
+    background-color: var(--light-green) !important;
+    color: var(--dark-grey)!important;
+}
+.basket_main_sum__button[disabled]:hover{
+    filter: brightness(100%);
+    cursor: default;
 }
 .favorites__main{
     gap: 40px 24px;
@@ -1084,6 +1130,7 @@ body {
     height: 53px;
     font-size: 24px;
     border: none;
+    text-decoration: none;
 }
 .history__main{
     gap: 40px 257px;
@@ -1106,13 +1153,22 @@ body {
 }
 .history_main_card_info_stats__price{
     font-size: 36px;
+    width: 150px
 }
 .history_main_card_info_stats__rating{
-    gap: 15px;
+    gap: 12px;
 }
 .history_main_card_info_stats_rating__star{
     height: 25px;
     width: 25px;
+    cursor: pointer;
+}
+.star_active {
+    fill-rule: nonzero;
+    fill: #ffb403;
+}
+.star_disable {
+    fill: black;
 }
 .universes, .categories{
     margin: 40px 0;
@@ -1371,4 +1427,11 @@ body {
     width: 100%;
     height: 100%;
     opacity: 0;
+}
+.heart_standard {
+    fill-rule: evenodd;
+    fill: black;
+}
+.heart_active {
+    fill: red;
 }
