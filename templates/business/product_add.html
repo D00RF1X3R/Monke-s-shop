@@ -3,10 +3,56 @@
     Добавить товар
 {% endblock %}
 {% block content %}
-    <h1>Добавить товар</h1>
-    <form action="." method="post">
-        {% include "includes/form_create.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Добавить</button>
-    </form>
+    {% load static %}
+    <div class="prodadd">
+        <div class="container">
+            <form enctype="multipart/form-data" action="." method="post" class="prodadd__content flex--column">
+                {% csrf_token %}
+                <p class="prodadd__title">Добавьте товар на продажу</p>
+                <div class="prodadd__main flex--row">
+                    <div class="prodadd_main__addBlock flex--column">
+                        <img class="prodadd_main_addBlock__preview hide" id="preview" src="#" alt="">
+                        <input onchange="readURL(this);" class="prodadd_main_addBlock__input" type="file" name="preview" accept="image/*" id="id_preview">
+                        <div id="help" class="prodadd_main_addBlock__help">
+                            <img class="prodadd_main_addBlock__image" src="{% static '/svg/plus.svg' %}">
+                            <p class="prodadd_main_addBlock__text">Загрузите изображение</p>
+                        </div>
+                    </div>
+                    <div class="prodadd_main__info flex--column">
+                        <input class="prodadd_main_info__input text--default" type="text" name="name" maxlength="250" required="" id="id_name" placeholder="Название товара">
+                        <input class="prodadd_main_info__input text--default" type="number" name="price" min="1" required="" id="id_price" placeholder="Цена">
+                        <div class="prodadd_main_info__categories flex--row">
+                            <select name="category" id="id_category" class="prodadd_main_info_categories__select text--default">
+                                <option selected disabled class="prodadd_main_info_categories_select__option">Категория</option>
+                                {% for value, label in form.category.field.choices %}
+                                    <option value="{{ value }}" class="prodadd_main_info_categories_select__option">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <select name="universe" id="id_universe" class="prodadd_main_info_categories__select text--default">
+                                <option selected disabled class="prodadd_main_info_categories_select__option">Вселенная</option>
+                                {% for value, label in form.universe.field.choices %}
+                                    <option value="{{ value }}" class="prodadd_main_info_categories_select__option">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <textarea name="description" cols="40" rows="10" required="" id="id_description" class="prodadd_main_info_textarea text--default" placeholder="Описание товара" type="text"></textarea>
+                    </div>
+                </div>
+                <button class="prodlist__add button button--dgreen text--default">Добавить</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#preview').attr('src', e.target.result);
+              $('#preview').removeClass('hide');
+              $('#help').attr('class', 'hide');
+            };
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+    </script>
 {% endblock %}

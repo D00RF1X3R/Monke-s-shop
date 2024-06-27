@@ -1,24 +1,24 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-# from django.db.models import SET_DEFAULT
+from django.db.models import SET_DEFAULT
 
 from business.models import Seller
 from core.models import Category, Universe
 
 
-# def get_default_category():
-#     return Category.objects.get_or_create(name='Прочее')
+def get_default_category():
+    return Category.objects.get_or_create(name='Прочее')[0]
 
 
-# def get_default_universe():
-#     return Universe.objects.get_or_create(name='Прочее')
+def get_default_universe():
+    return Universe.objects.get_or_create(name='Прочее')[0]
 
 
 class Product(models.Model):
     name = models.CharField('Наименование', max_length=250)
     seller = models.ForeignKey(Seller, verbose_name='Продавец', on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
-    universe = models.ForeignKey(Universe, verbose_name='Вселенная', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='Категория', default=get_default_category, on_delete=SET_DEFAULT)
+    universe = models.ForeignKey(Universe, verbose_name='Вселенная', default=get_default_universe, on_delete=SET_DEFAULT)
     preview = models.ImageField('Превью', upload_to='uploads/', null=True, blank=True)
     description = models.TextField('Описание')
     price = models.IntegerField('Цена', validators=[MinValueValidator(0)])

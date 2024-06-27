@@ -1,0 +1,12 @@
+{% load static %}
+{% if user.type == "Покупатель" %}
+    <a href="{% url 'users:profile' %}" class="back">
+        <img src="{% static 'svg/back.svg' %}">
+        <p class="text--default">Назад</p>
+    </a>
+{% else %}
+    <a href="{% url 'business:profile' %}" class="back">
+        <img src="{% static 'svg/back.svg' %}">
+        <p class="text--default">Назад</p>
+    </a>
+{% endif %}

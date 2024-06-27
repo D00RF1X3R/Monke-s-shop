@@ -3,11 +3,15 @@
     Регистрация продавца
 {% endblock %}
 {% block content %}
-    <h1>Регистрация продавца</h1>
-    <a href="{% url 'users:signup' %}">Я покупатель</a>
-    <form action="." method="post">
-        {% include "includes/form_create.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+    <div class="form__container container">
+        <form class="singup__form" method="post" action=".">
+            <div class="singup_form__content create_form flex--column">
+                <p class="singin_form__title">Регистрация продавца</p>
+                {% include "includes/form_create.html" %}
+                {% include "includes/form_errors.html" %}
+                <a href="{% url 'users:signup' %}" class="singin_form__link text--default">Я покупатель</a>
+                <button class="singup_form__button text--default button button--dgreen">Зарегистрироваться</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

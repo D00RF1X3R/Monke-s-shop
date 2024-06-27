@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import django
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +34,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'forum.apps.ForumConfig',
     'users.apps.UsersConfig',
+    'django.forms'
 ]
 
 MIDDLEWARE = [
@@ -113,14 +116,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+django.__path__[0] + "/templates"
+
 
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static_dev/'
-
-MEDIA_URL = 'uploads/'
-
-MEDIA_ROOT = BASE_DIR / 'uploads'
 
 STATICFILES_DIRS = [BASE_DIR / 'static_dev']
 

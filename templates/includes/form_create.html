@@ -1,12 +1,11 @@
 {% csrf_token %}
+<div class="form-create">
 {% for field in form %}
-    <div>
-        <label for="{{ field.id_for_label }}">
-            {{ field.label }}
-            {% if field.field.required %}
-                <span>*</span>
-            {% endif %}
-        </label>
+    <div class="form-create_input">
+        {% if field.field.required %}
+            <span class="form-create_required">*</span>
+        {% endif %}
         {{ field }}
     </div>
 {% endfor %}
+</div>

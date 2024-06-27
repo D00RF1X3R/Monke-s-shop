@@ -1,30 +1,96 @@
-
 {% load static %}
-<header style="margin-bottom: 50px">
-    <a href="{% url 'forum:forums' %}">Форум</a>
-    {% if user.is_authenticated %}
-        Ты {{ user.username }}!
-        <form action="{% url 'catalog:products' %}" method="get">
-            <input type="text" placeholder="Search for items" name="q" value="{{ current_search }}"><button type="submit">Найти</button>
-        </form>
-        {%if user.type == "Покупатель"%}
-            <a href="{% url 'users:profile' %}">Профиль</a>
-            <a href="{% url 'users:favorites' %}">Избранное</a>
-            <a href="{% url 'users:cart' %}">Корзина</a>
-        {% else %}
-            <a href="{% url 'business:profile' %}">Профиль</a>
-            <a href="{% url 'business:products' %}">Список товаров</a>
-        {% endif %}
-        {% if user.is_superuser %}
-            <a target=”_blank”  href="/admin/">Админка</a>
-        {% endif%}
-        <form method="post" action="{% url 'users:logout' %}">
-            {% csrf_token %}
-            <button type="submit">Выйти</button>
-        </form>
-    {% else %}
-        Ты не авторизован!
-        <a href="{% url 'users:signup' %}">Регистрация</a>
-        <a href="{% url 'users:login' %}">Вход</a>
-    {% endif%}
-</header>
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar__content flex--row">
+            <ul class="navbar__list text--default flex--row">
+                <li class="navbar_list__item">
+                    <a href="{% url 'homepage:home' %}" class="navbar_list_item__link">Главная</a>
+                </li>
+                <li class="navbar_list__item">
+                    <a href="{% url 'catalog:products' %}" class="navbar_list_item__link">Каталог</a>
+                </li>
+                <li class="navbar_list__item">
+                    <a href="{% url 'about:about' %}" class="navbar_list_item__link">О нас</a>
+                </li>
+                <li class="navbar_list__item">
+                    {% if user.is_authenticated %}
+                        {%if user.type == "Покупатель"%}
+                            <a href="{% url 'users:profile' %}" class="navbar_list_item__link">Профиль</a>
+                        {% else %}
+                            <a href="{% url 'business:profile' %}" class="navbar_list_item__link">Профиль</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            </ul>
+            <form class="navbar__search" action="{% url 'catalog:products' %}" method="get">
+                <input class="navbar_search__string text--default" placeholder="Поиск" type="text" name="q" value="{{ current_search }}">
+                <button class="navbar_search__pic" type="submit">
+                    <img src="{% static '/svg/search.svg' %}">
+                </button>
+            </form>
+
+            <div class="navbar__forum" >
+                <a href="{% url 'forum:forums' %}" class="navbar_forum__link">
+                    <button class="navbar_forum__button button button--dgreen text--default">
+                        Форум
+                    </button>
+                </a>
+            </div>
+
+            {% if user.is_superuser %}
+                <div class="navbar__forum" >
+                    <a href="/admin/" class="navbar_forum__link">
+                        <button class="navbar_forum__button button button--dgreen text--default">
+                            Админка
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+
+            <div class="navbar__purchase flex--row">
+                {% if user.is_authenticated %}
+                    {%if user.type == "Покупатель"%}
+                        <a href="{% url 'users:favorites' %}" class="navbar_purchase_favorites__link" >
+                            <div class="navbar_purchase__favorites">
+                                <img class="navbar_purchase_favorites__svg" src="{% static '/svg/heart.svg' %}">
+                                <p class="navbar_purchase_favorites__text text--default">Избранное</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'users:login' %}" class="navbar_purchase_favorites__link" >
+                        <div class="navbar_purchase__favorites">
+                            <img class="navbar_purchase_favorites__svg" src="{% static '/svg/login.svg' %}">
+                            <p class="navbar_purchase_favorites__text text--default">Вход</p>
+                        </div>
+                    </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    {%if user.type == "Покупатель"%}
+                        <a href="{% url 'users:cart' %}" class="navbar_purchase_basket__link" >
+                            <div class="navbar_purchase__basket">
+                                <img class="navbar_purchase_basket__svg" src="{% static '/svg/basket.svg' %}">
+                                <p class="navbar_purchase_basket__text text--default">Корзина</p>
+                            </div>
+                         </a>
+                    {% else %}
+                        <a href="{% url 'business:products' %}" class="navbar_purchase_basket__link" >
+                            <div class="navbar_purchase__basket">
+                                <img class="navbar_purchase_basket__svg" src="{% static '/svg/basket.svg' %}">
+                                <p class="navbar_purchase_basket__text text--default">Мои товары</p>
+                            </div>
+                         </a>
+                    {% endif %}
+                {% else %}
+                     <a href="{% url 'users:signup' %}" class="navbar_purchase_basket__link" >
+                        <div class="navbar_purchase__basket">
+                            <img class="navbar_purchase_basket__svg" src="{% static '/svg/signup.svg' %}">
+                            <p class="navbar_purchase_basket__text text--default">Регистрация</p>
+                        </div>
+                     </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

@@ -3,12 +3,13 @@ from django.shortcuts import get_object_or_404
 
 from core.models import Category, Universe
 from users.models import Customer, CustomerData, BalanceAddHistory
+from users.widgets import UserMultiChoiceWidget
 
 
 class CustomerFavoriteCategoriesForm(forms.Form):
     favorite_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(),
         required=False,
         label=''
     )
@@ -33,7 +34,7 @@ class CustomerBalanceAddForm(forms.Form):
 class CustomerFavoriteUniversesForm(forms.Form):
     favorite_universes = forms.ModelMultipleChoiceField(
         queryset=Universe.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(),
         required=False,
         label=''
     )
@@ -42,24 +43,24 @@ class CustomerFavoriteUniversesForm(forms.Form):
 class CustomerCreateForm(forms.ModelForm):
     password = forms.CharField(
         label="Пароль",
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}),
     )
 
     password_repeat = forms.CharField(
         label="Подтверждение пароля",
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}),
     )
 
     favorite_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(attrs={'label': 'Любимые категории'}),
         required=False,
         label='Любимые категории'
     )
 
     favorite_universes = forms.ModelMultipleChoiceField(
         queryset=Universe.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=UserMultiChoiceWidget(attrs={'label': 'Любимые вселенные'}),
         required=False,
         label='Любимые вселенные'
     )
@@ -67,6 +68,10 @@ class CustomerCreateForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = [Customer.username.field.name, Customer.email.field.name]
+        widgets = {
+            Customer.username.field.name: forms.TextInput(attrs={'placeholder': 'Имя пользователя'}),
+            Customer.email.field.name: forms.EmailInput(attrs={'placeholder': 'Адрес эл. почты'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(CustomerCreateForm, self).__init__(*args, **kwargs)

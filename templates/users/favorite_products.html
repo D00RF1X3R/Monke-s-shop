@@ -3,24 +3,78 @@
     Избранное
 {% endblock %}
 {% block content %}
-    <h1>Избранное</h1>
-    {% for product in favorite_products %}
-        <form action="." method="POST">
-            {% csrf_token %}
-            {{ product.name }}
-            <input hidden name="id" value="{{ product.id }}">
-            <button type="button" onclick="productFavorite(this)">Изменить состояние избранного</button>
-        </form>
-    {% endfor %}
+    {% load static %}
+    <div id="fav" class="favorites {% if not favorite_products %} hide {% endif %}">
+        <div class="container">
+            <div class="favorites__content flex--column">
+                <p class="favorites__title">Ваши избранные товары</p>
+                {% for product in favorite_products %}
+                <form action="." method="POST" class="favorites__main flex--row">
+                    {% csrf_token %}
+                    <input hidden name="id" value="{{ product.id }}">
+
+                    <div class="favorites_main__card flex--row">
+                        {% if product.preview %}
+                            <img class="favorites_main_card__image" src="{{ product.preview.url }}">
+                        {% else %}
+                            <img class="favorites_main_card__image" src="{% static 'images/placeholderImage.png' %}">
+                        {% endif %}
+
+                        <div class="favorites_main_card__info flex--column">
+                            <div class="favorites_main_card_info__title flex--row">
+                                <p class="favorites_main_card_info_title__name">{{ product.name }}</p>
+                                <button class="favorites_main_card_info_title__button" value="favorite" type="button" onclick="productChange(this)">
+                                    <img class="favorites_main_card_info_title__image" src="{% static 'svg/trash.svg' %}">
+                                </button>
+                            </div>
+                            <p class="favorites_main_card_description text--default">{{ product.description|truncatechars:20 }}</p>
+                            <p class="favorites_main_card_info__price text--default">{{ product.price }} &#8381;</p>
+                        </div>
+                        <div class="favorites_main_card__buttons flex--column">
+                            <button type="button" onclick="productChange(this)" value="to_cart" class="favorites_main_card_buttons__button button button--lgreen text--default">
+                                В корзину
+                            </button>
+                            <a href="{% url 'users:cart' %}" target="_blank" onclick="productChange(this)" value="to_cart" class="favorites_main_card_buttons__button button button--dgreen text--default">
+                                Купить
+                            </a>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div id="empty" class="empty {% if favorite_products %} hide {% endif %}">
+        <div class="container">
+            <div class="empty__content flex--column">
+                <p class="empty__title">Тут пока пусто...</p>
+                <a href="{% url 'catalog:products' %}" class="empty__button button button--dgreen">Перейти к товарам</a>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function productFavorite(clickedElement){
-            var frm = $(clickedElement).parent();
+        function productChange(clickedElement){
+            var button = $(clickedElement);
+            var frm = $(clickedElement).parent().parent().parent();
+            if (button.attr('value') == 'favorite') {
+                frm = frm.parent();
+            }
+
+            var data = $(frm).serialize() + '&type=' + encodeURI(button.attr('value'));
             $.ajax({
                 type: 'POST',
-                data: $(frm).serialize(),
+                data: data,
                 url: '{% url 'users:favorites' %}',
                 success:  function (data) {
-                    console.log('God dammit');
+                    if (data.action == 'favorite') {
+                        frm.remove();
+                    }
+                    if (data.fav_count == 0) {
+                         $('#empty').attr('class', 'empty');
+                         $('#fav').attr('class', 'hide');
+                    }
                 },
                 error: function () {
                     console.log('I want to die');

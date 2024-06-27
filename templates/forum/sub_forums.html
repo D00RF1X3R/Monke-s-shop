@@ -3,10 +3,23 @@
     Форумы
 {% endblock %}
 {% block content %}
-    <a href="{% url 'forum:forums' %}">Назад</a>
-    <p>{{ category.name }} > </p>
-    {% for universe in object_list %}
-        <a href="{% url 'forum:chats' category.id universe.id %}">{{ universe.name }}</a>
-        <br>
-    {% endfor %}
+{% load static %}
+    <div class="universes">
+        <div class="container">
+            <div class="universes__content flex--column">
+                <a href="{% url 'forum:forums' %}" class="back">
+                    <img src="{% static 'svg/back.svg' %}">
+                    <p class="text--default">Форум / {{ category.name }}</p>
+                </a>
+                <p class="categories__title">Подфорумы</p>
+                <div class="universes__main flex--row">
+                    {% for universe in object_list %}
+                    <a href="{% url 'forum:chats' category.id universe.id %}" class="universes_main__card">
+                        <p class="universes_main_card__text text--default">{{ universe.name }}</p>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
