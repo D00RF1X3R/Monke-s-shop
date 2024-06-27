@@ -8,17 +8,17 @@
                 <header class="main__header flex--row">
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="../../static_dev/images/placeholderImage.png">
+                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
                         </a>
                     </div>
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="../../static_dev/images/placeholderImage.png">
+                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
                         </a>
                     </div>
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="../../static_dev/images/placeholderImage.png">
+                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
                         </a>
                     </div>
                 </header>
@@ -98,17 +98,21 @@
                 <div id="filtered-product" class="main__products flex--row">
                     {% for product in products %}
                         <div class="main_products__card">
-                            <img class="main_products_card__image image" src="{% if product.preview %}{{ product.preview.url }}{% else %}{ ../../static_dev/images/placeholderImage.png }{% endif %}">
+                            <img class="main_products_card__image image" src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'images/placeholderImage.png' %}{% endif %}">
                             <a class="main_products_card__name text--default" href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a>
                             <p class="main_products_card__price text--default">{{ product.price }} &#8381;</p>
-                            <div class="main_products_card__buttons flex--row">
-                                <button class="main_products_card_buttons_button button button--dgreen text--default">
+                            <form action="." method="POST" class="main_products_card__buttons flex--row">
+                                {% csrf_token %}
+                                <input hidden name="id" value="{{ product.id }}">
+                                <button class="main_products_card_buttons_button button button--dgreen text--default" type="button" 
+                                onclick="addCart(this)">
                                     В корзину
                                 </button>
-                                <button class="main_products_card_buttons_button button button--lgreen text--default">
+                                <button class="main_products_card_buttons_button button button--lgreen text--default" type="button"
+                                onclick="addCart(this); window.location.href = '{% url "users:cart" %}';">
                                     Купить
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     {% endfor %}
                 </div>

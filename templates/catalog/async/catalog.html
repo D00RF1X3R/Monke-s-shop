@@ -1,6 +1,11 @@
 {% for product in products %}
-    <div class="main_products__card">
-        <img class="main_products_card__image image" src="{% if product.preview %}{{ product.preview.url }}{% else %}{ ../../static_dev/images/placeholderImage.png }{% endif %}">
+    <form action="." method="POST" class="main_products__card">
+        {% csrf_token %}
+        <input hidden name="id" value="{{ product.id }}">
+        <img class="main_products_card__image image" src="{% if product.preview %}{{ product.preview.url }}{% endif %}">
+        <button onclick="addFavorite(this)" class="main_products_card__favorite" type="button">
+            <img id="favorite_image" class="main_products_card_favorite__image" src="{% static 'svg/favorite.svg' %}">
+        </button>
         <a class="main_products_card__name text--default" href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a>
         <p class="main_products_card__price text--default">{{ product.price }} &#8381;</p>
         <form action="." method="POST" class="main_products_card__buttons flex--row">
@@ -11,30 +16,9 @@
                 В корзину
             </button>
             <button class="main_products_card_buttons_button button button--lgreen text--default" type="button"
-            onclick="addCart(this)">
+            onclick="addCart(this); window.location.href = '{% url "users:cart" %}';">
                 Купить
             </button>
         </form>
-        <script>
-            function addCart(clickedElement){
-                var frm = $(clickedElement).parent();
-                var csrf_token = frm.csrfmiddlewaretoken.val()
-                var button = $(clickedElement);
-                var data = $(frm).serialize();
-                data.csrfmiddlewaretoken = csrf_token;
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    url: 'filter-products/',
-                    success:  function (data) {
-                        console.log("OK Adding");
-                    },
-                    error: function () {
-                        console.log('I want to die');
-                    }
-                });
-                return false;
-            }
-        </script>
-    </div>
+    </form>
 {% endfor %}

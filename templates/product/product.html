@@ -37,46 +37,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="product_page__buying flex--column">
+                <form action="." method="POST" class="product_page__buying flex--column">
+                    {% csrf_token %}
                     <input hidden name="id" value="{{ product.id }}">
                     <p class="product_page_buying__price text--default">{{ product.price }} &#8381;</p>
-                    <form action="." method="POST">
-                        {% csrf_token %}
-                        <button class="product_page_button button button--lgreen text--default" type="button" 
-                        onclick="addCart(this)">
-                            В корзину
-                        </button>
-                    </form>
-                    <form action="{% url 'users:cart' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="product_page_button button button--lgreen text--default" type="button" 
-                        onclick="addCart(this)">
-                            Купить
-                        </button>
-                    </form>
+                    <button class="product_page_button button button--lgreen text--default" type="button" 
+                    onclick="addCart(this)">
+                        В корзину
+                    </button>
+                    <button class="product_page_button button button--lgreen text--default" type="button" 
+                    onclick="addCart(this); window.location.href = '{% url "users:cart" %}';">
+                        Купить
+                    </button>
                     <button onclick="window.location.href = '{% url "forum:product_discussion" product.id %}';" class="product_page_button button button--lgreen text--default">
                         Форум
                     </button>
-                </div>
-                <script>
-                    function addCart(clickedElement){
-                        var frm = $(clickedElement).parent();
-                        var button = $(clickedElement);
-                        var data = $(frm).serialize();
-                        $.ajax({
-                            type: 'POST',
-                            data: data,
-                            url: '',
-                            success:  function (data) {
-                                console.log("OK Adding");
-                            },
-                            error: function () {
-                                console.log('I want to die');
-                            }
-                        });
-                        return false;
-                    }
-                </script>
+                </form>
             </div>
         </div>
     </div>

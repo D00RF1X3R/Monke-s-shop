@@ -1,13 +1,3 @@
-function favoriteColor(button){
-    var svg = document.getElementsByClassName("main_products_card_favorite__image")[0];
-    console.log(svg);
-    if (document.svg == "black"){
-        svg.fill  = "red";
-    } else {
-        svg.fill = "black";
-    }
-    return false;
-}
 var checkboxesU = document.getElementById("checkboxesU");
 checkboxesU.style.display = "none";
 var checkboxesC = document.getElementById("checkboxesC");
@@ -16,6 +6,50 @@ var checkboxesS = document.getElementById("checkboxesS");
 checkboxesS.style.display = "none";
 var checkboxesP = document.getElementById("price-filter");
 checkboxesP.style.display = "none";
+
+function addFavorite(clickedElement){
+    var frm = $(clickedElement).parent();
+    var button = $(clickedElement);
+    var data = $(frm).serialize() + '&' + 'type=favorite';
+    var svg = document.getElementById("favorite_image");
+    console.log(svg);
+    if (svg.style == "fill: black"){
+        svg.style.fill  = "red";
+    } else {
+        svg.style.fill = "black";
+    }
+    $.ajax({
+        type: 'POST',
+        data: data,
+        url: '',
+        success:  function (data) {
+            console.log("OK Adding");
+        },
+        error: function () {
+            console.log('I want to die');
+        }
+    });
+    return false;
+}
+
+function addCart(clickedElement){
+    var frm = $(clickedElement).parent();
+    var button = $(clickedElement);
+    var data = $(frm).serialize() + '&' + 'type=to_cart';
+    console.log("Data object is:", data);
+    $.ajax({
+        type: 'POST',
+        data: data,
+        url: '',
+        success:  function (data) {
+            console.log("OK Adding");
+        },
+        error: function () {
+            console.log('I want to die');
+        }
+    });
+    return false;
+}
 
 var expandedU = false;
 function showCheckboxesU() {

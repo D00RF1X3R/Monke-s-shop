@@ -14,13 +14,21 @@ class ProductListView(TemplateView):
     def post(self, request):
         product = get_object_or_404(Product, id=request.POST.get("id"))
         customer_data = get_object_or_404(CustomerData, user=request.user)
-        Cart.objects.get_or_create(
-            customer=customer_data.user,
-            product=product,
-            count=1,
-        )
-        data = render_to_string("catalog/catalog.html", {"product": product, "customer": customer_data})
+        action_type = request.POST.get("type")
+        if action_type == 'favorite':
+            if product in customer_data.favorite_products.all():
+                customer_data.favorite_products.remove(product)
+            else:
+                customer_data.favorite_products.add(product)
+        elif action_type == 'to_cart':
+            Cart.objects.get_or_create(
+                customer=customer_data.user,
+                product=product,
+                count=1,
+            )
+        data = render_to_string("catalog/catalog.html", {"product": product, "customer": customer_data, "type": action_type})
         return JsonResponse({"data": data})
+        
     def get_context_data(self):
         context = {}
         search_query = self.request.GET.get("q")
@@ -38,8 +46,10 @@ class ProductListView(TemplateView):
         context["categories"] = Category.objects.all()
         context["universes"] = Universe.objects.all()
         context["sellers"] = Seller.objects.all()
-        context["min_max_price"] = Product.objects.aggregate(Min("price"), Max("price"))
-
+        min_max_price = Product.objects.aggregate(Min("price"), Max("price"))
+        context["min_max_price"] = min_max_price
+        products = products.filter(price__gte=min_max_price["price__min"])
+        products = products.filter(price__lte=min_max_price["price__max"]).order_by("-price")
         return context
     def get_popular_products(self):
         context = self.get_context_data()
@@ -97,7 +107,7 @@ class filter_product(View):
         max_price = request.GET["max_price"]
         search_query = request.GET.get('q')
 
-        products = Product.objects.all().order_by("name")
+        products = Product.objects.all()
 
         if len(universes) > 0:
             products = products.filter(universe__id__in=universes).distinct()
@@ -110,7 +120,8 @@ class filter_product(View):
             products = products.filter(q_aux)
         
         products = products.filter(price__gte=min_price)
-        products = products.filter(price__lte=max_price)
+        products = products.filter(price__lte=max_price).order_by("price")
+
 
         data = render_to_string("catalog/async/catalog.html", {"products": products})
         return JsonResponse({"data": data})
