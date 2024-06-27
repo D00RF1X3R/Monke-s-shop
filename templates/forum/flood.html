@@ -3,20 +3,54 @@
     Флуд
 {% endblock %}
 {% block content %}
-    <a href="{% url 'forum:chats' category_id universe_id %}">Назад</a>
-    <p>{{ category.name }} > {{ universe.name }} > Флуд</p>
-    <div>
-        <div id="chat-messages">
-            {% for message in messages %}
-                <b>{{ message.user.username }}</b>: {{ message.message }}<br>
-            {% endfor %}
+    {% load static %}
+    <div id="template" class="flud_main__message hide flex--column">
+        <div class="flud_main_message__body">
+            <p id="username" class="flud_main_message__name"></p>
+            <p id="message" class="flud_main_message__text"></p>
+            <p id="time" class="flud_main_message__time"></p>
         </div>
-        <form method="post" action="." class="flex">
-            <input type="text" name="content" placeholder="Your message..." id="chat-message-input">
-            <button id="chat-message-submit">Submit</button>
-        </form>
+        <img class="flud_main_message__tail" src="{% static 'svg/triangle.svg' %}">
     </div>
+
+    <div class="flud">
+        <a href="{% url 'forum:chats' category_id universe_id %}" class="back back-chat">
+            <img src="{% static 'svg/back.svg' %}">
+            <p class="text--default">Форум / {{ category.name }} / {{ universe.name }} / Флуд</p>
+        </a>
+        <div class="flud__content flex--column">
+            <div class="flud__background"></div>
+            <div id="chat" class="flud__main flex--column">
+                <div class="margin">  </div>
+                <div class="flud__messages" id="chat-messages">
+                {% for message in messages %}
+                <div class="flud_main__message flex--column">
+                    <div class="flud_main_message__body">
+                        <p class="flud_main_message__name">{{ message.user.username }}</p>
+                        <p class="flud_main_message__text">{{ message.message }}</p>
+                        <p class="flud_main_message__time">{{ message.time }}</p>
+                    </div>
+                    <svg class="flud_main_message__tail" width="40" height="33" viewBox="0 0 40 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 0L39.0526 33H0.947441L20 0Z" fill="white"/>
+                    </svg>
+                </div>
+                {% endfor %}
+                </div>
+
+                <div id="bottom"></div>
+            </div>
+            <form method="post" action="." class="flud_main__bar flex--row">
+                <input id="chat-message-input" class="flud_main_bar__input" type="text" placeholder="Введите сообщение">
+
+                <button class="flud_main_bar__image button" id="chat-message-submit">
+                    <img  src="{% static 'svg/send.svg' %}">
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        location.href = '#bottom';
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -31,9 +65,12 @@
             const data = JSON.parse(e.data);
 
             if (data.message) {
-                document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-            } else {
-                alert('The message was empty!')
+                var new_message = $('#template').clone();
+                new_message.removeClass('hide');
+                new_message.find('#username').text(data.username);
+                new_message.find('#message').text(data.message);
+                new_message.find('#time').text(data.time);
+                new_message.appendTo('#chat-messages');
             }
 
             scrollToBottom();
@@ -58,7 +95,7 @@
         };
 
         function scrollToBottom() {
-            let objDiv = document.getElementById("chat-messages");
+            let objDiv = document.getElementById("chat");
             objDiv.scrollTop = objDiv.scrollHeight;
         }
         scrollToBottom();

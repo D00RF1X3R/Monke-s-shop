@@ -7,6 +7,7 @@ from core.models import User, Category, Universe
 class BaseMessage(models.Model):
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
     message = models.TextField('Сообщение')
+    time = models.TimeField(auto_now=True)
 
     class Meta:
         abstract = True

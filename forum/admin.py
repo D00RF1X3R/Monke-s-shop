@@ -6,7 +6,7 @@ from forum.models import ProductMessage, FloodMessage
 
 @admin.register(FloodMessage)
 class FloodMessageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'category', 'universe', 'short_message')
+    list_display = ('id', 'user', 'category', 'universe', 'short_message', 'time')
     fields = ('user', 'category', 'universe', 'message')
 
     def short_message(self, obj):

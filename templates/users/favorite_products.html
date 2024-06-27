@@ -22,7 +22,7 @@
 
                         <div class="favorites_main_card__info flex--column">
                             <div class="favorites_main_card_info__title flex--row">
-                                <p class="favorites_main_card_info_title__name">Название товара</p>
+                                <p class="favorites_main_card_info_title__name">{{ product.name }}</p>
                                 <button class="favorites_main_card_info_title__button" value="favorite" type="button" onclick="productChange(this)">
                                     <img class="favorites_main_card_info_title__image" src="{% static 'svg/trash.svg' %}">
                                 </button>

@@ -3,9 +3,18 @@
     Форумы
 {% endblock %}
 {% block content %}
-    <h1>Форумы</h1>
-    {% for category in object_list %}
-        <a href="{% url 'forum:sub_forums' category.id %}">{{ category.name }}</a>
-        <br>
-    {% endfor %}
+    <div class="categories">
+        <div class="container">
+            <div class="categories__content flex--column">
+                <p class="categories__title">Форум</p>
+                <div class="categories__main flex--row">
+                    {% for category in object_list %}
+                        <a href="{% url 'forum:sub_forums' category.id %}" class="categories_main__card">
+                            <p class="categories_main_card__text text--default">{{ category.name }}</p>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

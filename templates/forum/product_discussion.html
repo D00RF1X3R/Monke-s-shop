@@ -3,49 +3,133 @@
     Обсуждение продукта
 {% endblock %}
 {% block content %}
-    <a href="{% url 'forum:chats' product.category.id product.universe.id %}">Назад</a>
-    <p>{{ product.category.name }} > {{ product.universe.name }} > {{ product.name }}</p>
-    <div>
-        {% if product.preview %}
-            <img width="100" height="100" src="{{ product.preview.url }}">
-        {% else %}
-            Нет картинки
-        {% endif %}
-        {{ product.name }}
-    </div>
-    <div>
-        <div id="chat-messages">
-            {% for message in messages %}
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    <input hidden name="message_rating" value="{{ message.rating }}">
-                    <input hidden name="message_id" value="{{ message.id }}">
+    {% load static %}
 
-                    <button name="downvote" type="button" onclick="changeRating(this)">-</button>
-                    <span id="rating">{{message.rating }}</span>
-                    <button name="upvote" type="button" onclick="changeRating(this)">+</button>
-                    <b>{{ message.user.username }}</b>: {{ message.message }} /
-                    {% if  message.user.id == product.seller.id %}
-                        author
+    <div id="template" class="flud_main__message flex--column hide">
+        <div id="body" class="flud_main_message__body">
+            <form method="post" action="." class="flud_main_message__rating flex--column">
+                {% csrf_token %}
+                <input hidden name="message_rating" value="0">
+                <input id="message_id" hidden name="message_id" value="{{ message.id }}">
+
+                <button class="flud_main_message_rating__image" value="upvote" type="button" onclick="chatChange(this)">
+                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.8789 9.40531L13.4635 4.80087C13.27 4.63606 13.0403 4.50531 12.7873 4.4161C12.5344 4.32689 12.2632 4.28097 11.9894 4.28097C11.7156 4.28097 11.4444 4.32689 11.1915 4.4161C10.9385 4.50531 10.7087 4.63606 10.5153 4.80087L5.09985 9.40531C3.80349 10.5253 4.72349 12.4453 6.5844 12.4453H17.3944C19.2762 12.4453 20.1962 10.5253 18.8789 9.40531Z" fill="black"/>
+                    </svg>
+                </button>
+                <p id="rating" class="flud_main_message_rating__text text--default">0</p>
+                <button class="flud_main_message_rating__image" value="downvote" type="button" onclick="chatChange(this)">
+                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.12106 6.59469L10.5365 11.1991C10.73 11.3639 10.9597 11.4947 11.2127 11.5839C11.4656 11.6731 11.7368 11.719 12.0106 11.719C12.2844 11.719 12.5556 11.6731 12.8085 11.5839C13.0615 11.4947 13.2913 11.3639 13.4847 11.1991L18.9001 6.59469C20.1965 5.47469 19.2765 3.55469 17.4156 3.55469L6.6056 3.55469C4.72379 3.55469 3.80379 5.47469 5.12106 6.59469Z" fill="black"/>
+                    </svg>
+                </button>
+            </form>
+            <span>
+                <span id="username" class="flud_main_message__name">{{ message.user.username }}</span>
+                <span id="not_buy" class="flud_main_message__buyed hide">Не покупал товар</span>
+            </span>
+            <p id="message" class="flud_main_message__text">{{ message.message }}</p>
+            <p id="time"  class="flud_main_message__time">{{ message.time }}</p>
+            <svg class="flud_main_message__tail" width="40" height="33" viewBox="0 0 40 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 0L39.0526 33H0.947441L20 0Z" fill="white"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="flud">
+        <a href="{% url 'forum:chats' product.category.id product.universe.id %}" class="back back-chat">
+            <img src="{% static 'svg/back.svg' %}">
+            <p class="text--default">Форум / {{ product.category.name }} / {{ product.universe.name }} / {{ product.name }}</p>
+        </a>
+        <div class="flud__card flex--row">
+            {% if product.preview %}
+                <img class="flud_card__image" src="{{ product.preview.url }}">
+            {% else %}
+                <img class="flud_card__image" src="{% static 'images/placeholderImage.png' %}">
+            {% endif %}
+            <div class="flud_card__info flex--column">
+                <p class="flud_card_info__name">{{ product.name }}</p>
+                <p class="flud_card_info__description">{{ product.description|truncatechars:250 }}</p>
+                <form id="product_rating" action="." method="post" class="flud_card_info__images flex--row">
+                    {% csrf_token %}
+                    <input id="id" name="id" hidden value="{{ product.id }}">
+                    {% if is_buyed %}
+                        {% for i in range %}
+                            <svg onclick="chatChange(this);" value="{{ i|add:1 }}" class="{% if i < product_rating %} star_active {% else %} star_disable {% endif %} history_main_card_info_stats_rating__star" viewBox="0 0 260 245">
+                                <path d="m56,237 74-228 74,228L10,96h240"/>
+                            </svg>
+                        {% endfor %}
                     {% else %}
-                        {% if message.is_buyed %}
-                            Пользователь покупал товар
-                        {% else %}
-                            Пользователь не покупал товар
-                        {% endif %}
+                        <p class="text--default"> Купите товар, чтобы оценить его</p>
                     {% endif %}
                 </form>
-            {% endfor %}
+            </div>
+            <form action="." method="post" class="flud_card__buying flex--column">
+                {% csrf_token %}
+                <p class="flud_card_buying__price">{{ product.price }} &#8381;</p>
+                <button type="button" value="to_cart" onclick="chatChange(this)" class="flud_card_buying__button margin--button button button--lgreen text--default">
+                    В корзину
+                </button>
+                <a href="{% url 'users:cart' %}" target="_blank" value="to_cart" onclick="chatChange(this)" class="flud_card_buying__button button button--dgreen text--default">
+                    Купить
+                </a>
+            </form>
         </div>
-        <form method="post" action="." class="flex">
-            <input type="text" name="content" placeholder="Your message..." id="chat-message-input">
-            <button id="chat-message-submit">Submit</button>
-        </form>
-    </div>
-    <script>
-        const message_part_first = '<form method="post" action="."> {% csrf_token %} <input hidden name="message_rating" value="0"><input hidden name="message_id" value="';
-        const message_part_second = '"><button name="downvote" type="button" onclick="changeRating(this)">-</button> <span id="rating">0</span> <button name="upvote" type="button" onclick="changeRating(this)">+</button>';
+        <div class="flud__content flex--column">
+            <div class="flud__background"></div>
+            <div id="chat" class="flud__main flex--column">
+                <div class="margin">  </div>
+                <div class="flud__messages" id="chat-messages">
+                {% for message in messages %}
+                    <div class="flud_main__message flex--column">
+                        <div class="flud_main_message__body {% if message.user.id == product.seller.id %} forum_card--seller {% endif %}">
+                            <form method="post" action="." class="flud_main_message__rating flex--column">
+                                {% csrf_token %}
+                                <input hidden name="message_rating" value="{{ message.rating }}">
+                                <input hidden name="message_id" value="{{ message.id }}">
 
+                                <button class="flud_main_message_rating__image {% if message.is_upvoted %} rating_active_green {% endif%}" value="upvote" type="button" onclick="chatChange(this)">
+                                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18.8789 9.40531L13.4635 4.80087C13.27 4.63606 13.0403 4.50531 12.7873 4.4161C12.5344 4.32689 12.2632 4.28097 11.9894 4.28097C11.7156 4.28097 11.4444 4.32689 11.1915 4.4161C10.9385 4.50531 10.7087 4.63606 10.5153 4.80087L5.09985 9.40531C3.80349 10.5253 4.72349 12.4453 6.5844 12.4453H17.3944C19.2762 12.4453 20.1962 10.5253 18.8789 9.40531Z" fill="black"/>
+                                    </svg>
+                                </button>
+                                <p id="rating" class="flud_main_message_rating__text text--default">{{message.rating }}</p>
+                                <button class="flud_main_message_rating__image {% if message.is_downvoted %} rating_active_red {% endif%}" value="downvote" type="button" onclick="chatChange(this)">
+                                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.12106 6.59469L10.5365 11.1991C10.73 11.3639 10.9597 11.4947 11.2127 11.5839C11.4656 11.6731 11.7368 11.719 12.0106 11.719C12.2844 11.719 12.5556 11.6731 12.8085 11.5839C13.0615 11.4947 13.2913 11.3639 13.4847 11.1991L18.9001 6.59469C20.1965 5.47469 19.2765 3.55469 17.4156 3.55469L6.6056 3.55469C4.72379 3.55469 3.80379 5.47469 5.12106 6.59469Z" fill="black"/>
+                                    </svg>
+                                </button>
+                            </form>
+                            <span>
+                                <span class="flud_main_message__name">{{ message.user.username }}</span>
+                                {% if not message.is_buyed and message.user.id != product.seller.id  %}
+                                    <span class="flud_main_message__buyed">Не покупал товар</span>
+                                {% endif %}
+                            </span>
+                            <p class="flud_main_message__text">{{ message.message }}</p>
+                            <p class="flud_main_message__time">{{ message.time }}</p>
+                            <svg class="flud_main_message__tail" width="40" height="33" viewBox="0 0 40 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 0L39.0526 33H0.947441L20 0Z" fill="white"/>
+                            </svg>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+                <div id="bottom"></div>
+            </div>
+            <form method="post" action="." class="flud_main__bar flex--row">
+                {% csrf_token %}
+                <input id="chat-message-input" class="flud_main_bar__input" type="text" placeholder="Введите сообщение">
+                <button class="flud_main_bar__image button" id="chat-message-submit">
+                    <img  src="{% static 'svg/send.svg' %}">
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        location.href = '#bottom';
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -60,17 +144,16 @@
             const data = JSON.parse(e.data);
 
             if (data.message) {
-                var message = message_part_first + data.message_id + message_part_second;
-                message += '<b>' + data.username + '</b>: ' + data.message;
-                if (data.is_buyed) {
-                    message += ' / Пользователь покупал товар <br>'
-                } else {
-                    message += ' / Пользователь не покупал товар <br>'
+                var new_message = $('#template').clone();
+                new_message.find('#username').text(data.username);
+                new_message.find('#message').text(data.message);
+                new_message.find('#time').text(data.time);
+                if (!data.is_buyed){
+                   new_message.find('#not_buy').removeClass('hide');
                 }
-                message += '</form>';
-                document.querySelector('#chat-messages').innerHTML += message;
-            } else {
-                alert('The message was empty!')
+                new_message.find('#message_id').attr('value', data.message_id);
+
+                new_message.appendTo('#chat-messages');
             }
 
             scrollToBottom();
@@ -94,22 +177,52 @@
         };
 
         function scrollToBottom() {
-            let objDiv = document.getElementById("chat-messages");
+            let objDiv = document.getElementById("chat");
             objDiv.scrollTop = objDiv.scrollHeight;
         }
         scrollToBottom();
 
-        function changeRating(clickedElement){
+        function chatChange(clickedElement){
             var frm = $(clickedElement).parent();
-            var button = $(clickedElement);
-            var result = $(frm).serialize() + '&button_type' + '=' + encodeURI(button.attr('name'));
+            var action = $(clickedElement).attr('value');
+            var result = $(frm).serialize() + '&action' + '=' + encodeURI(action);
             $.ajax({
                 type: 'POST',
                 data: result,
                 url: '{% url "forum:product_discussion" product.id %}',
                 success:  function (data) {
-                    $(frm).find('#rating').text(data.new_count);
-                    $(frm).find('input[name="message_rating"]').attr('value', data.new_count);
+                    if (action == 'upvote' || action == 'downvote') {
+                        $(frm).find('#rating').text(data.new_count);
+                        $(frm).find('input[name="message_rating"]').attr('value', data.new_count);
+
+                        console.log(data.upvote);
+                        console.log(data.downvote);
+                        if (typeof data.upvote !== 'undefined') {
+                            if (data.upvote) {
+                                $(frm).find('button[value="upvote"]').addClass('rating_active_green');
+                            } else {
+                                $(frm).find('button[value="upvote"]').removeClass('rating_active_green');
+                            }
+                        }
+
+                        if (typeof data.downvote !== 'undefined') {
+                            if (data.downvote) {
+                                $(frm).find('button[value="downvote"]').addClass('rating_active_red');
+                            } else {
+                                $(frm).find('button[value="downvote"]').removeClass('rating_active_red');
+                            }
+                        }
+                    } else if (action != 'to_cart') {
+                        $('#product_rating').children('.history_main_card_info_stats_rating__star').each(function () {
+                            if ($(this).attr('value') <= data.mark) {
+                                $(this).addClass('star_active');
+                                $(this).removeClass('star_disable');
+                            } else {
+                                $(this).addClass('star_disable');
+                                $(this).removeClass('star_active');
+                            }
+                        });
+                    }
                 },
                 error: function () {
                     console.log('I want to die');

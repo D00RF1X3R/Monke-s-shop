@@ -32,6 +32,9 @@ class FloodConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data['message']
+        if message == '':
+            return
+
         username = data['username']
         category_id = data['category_id']
         universe_id = data['universe_id']
@@ -43,17 +46,20 @@ class FloodConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': message,
-                'username': username
+                'username': username,
+                'time': self.time
             }
         )
 
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
+        time = event['time']
 
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'time': time
         }))
 
     @sync_to_async
@@ -62,12 +68,13 @@ class FloodConsumer(AsyncWebsocketConsumer):
         category = get_object_or_404(Category, id=category_id)
         universe = get_object_or_404(Universe, id=universe_id)
 
-        FloodMessage.objects.create(
+        flood_message = FloodMessage.objects.create(
             user=user,
             category=category,
             universe=universe,
             message=message
         )
+        self.time = flood_message.time.strftime('%H:%M')
 
 
 class ProductDiscussionConsumer(AsyncWebsocketConsumer):
@@ -91,6 +98,9 @@ class ProductDiscussionConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data['message']
+        if message == '':
+            return
+
         username = data['username']
         product_id = data['product_id']
 
@@ -104,7 +114,8 @@ class ProductDiscussionConsumer(AsyncWebsocketConsumer):
                 'message': message,
                 'username': username,
                 'is_buyed': self.is_buyed,
-                'message_id': self.message_id
+                'message_id': self.message_id,
+                'time': self.time
             }
         )
 
@@ -115,6 +126,7 @@ class ProductDiscussionConsumer(AsyncWebsocketConsumer):
             'username': event['username'],
             'is_buyed': event['is_buyed'],
             'message_id': event['message_id'],
+            'time': event['time'],
         }))
 
     @sync_to_async
@@ -128,8 +140,11 @@ class ProductDiscussionConsumer(AsyncWebsocketConsumer):
             message=message
         )
         self.message_id = msg.id
+        self.time = msg.time.strftime('%H:%M')
 
     @sync_to_async
     def check_is_buyed(self, username, product_id):
         user = get_object_or_404(User, username=username)
-        self.is_buyed = BuyHistory.objects.filter(customer=user, product=product_id).exists()
+        product = get_object_or_404(Product, id=product_id)
+        self.is_buyed = BuyHistory.objects.filter(customer=user, product=product).exists()
+        self.is_buyed |= product.seller.id == user.id
