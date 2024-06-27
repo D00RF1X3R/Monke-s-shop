@@ -97,13 +97,8 @@
                 </div>
                 <div id="filtered-product" class="main__products flex--row">
                     {% for product in products %}
-                        <form action="." method="POST" class="main_products__card">
-                            {% csrf_token %}
-                            <input hidden name="id" value="{{ product.id }}">
+                        <div class="main_products__card">
                             <img class="main_products_card__image image" src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'images/placeholderImage.png' %}{% endif %}">
-                            <button onclick="addFavorite(this)" class="main_products_card__favorite" type="button">
-                                <img id="favorite_image" class="main_products_card_favorite__image" src="{% static 'svg/favorite.svg' %}">
-                            </button>
                             <a class="main_products_card__name text--default" href="{% url 'catalog:product_detail' product.id %}">{{ product.name }}</a>
                             <p class="main_products_card__price text--default">{{ product.price }} &#8381;</p>
                             <form action="." method="POST" class="main_products_card__buttons flex--row">
@@ -118,7 +113,7 @@
                                     Купить
                                 </button>
                             </form>
-                        </form>
+                        </div>
                     {% endfor %}
                 </div>
             </div>

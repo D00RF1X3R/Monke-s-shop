@@ -7,8 +7,12 @@ from core.models import Universe, Category
 from users.models import Rating, Cart, CustomerData
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class ProductListView(TemplateView):
     template_name = 'catalog\catalog.html'
     def post(self, request):
@@ -58,6 +62,7 @@ class ProductListView(TemplateView):
         context = self.get_context_data()
         context["products"] = Product.objects.annotate(num_marks=Count('marks')).order_by('num_marks')
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ProductDetailView(TemplateView):
     template_name = 'product\product.html'
     def post(self, request, id):
@@ -86,7 +91,8 @@ class ProductDetailView(TemplateView):
         context["marks_count"] = marks_count
         context["is_verified"] = get_object_or_404(SellerData.objects.filter(user=product.seller)).is_verified
         return context
-
+    
+@method_decorator(csrf_exempt, name='dispatch')
 class filter_product(View):
     def post(self, request):
         product = get_object_or_404(Product, id=request.POST.get("id"))
