@@ -13,7 +13,7 @@ function addFavorite(clickedElement){
     var data = $(frm).serialize() + '&' + 'type=favorite';
     var svg = document.getElementById("favorite_image");
     console.log(svg);
-    if (svg.style == "fill: black"){
+    if (svg.style == "black"){
         svg.style.fill  = "red";
     } else {
         svg.style.fill = "black";

@@ -106,15 +106,22 @@ class filter_product(View):
         return JsonResponse({"data": data})
 
     def get(self, request):
+        sortid = request.GET.get("sortid")
         universes = request.GET.getlist("universe[]")
         categories = request.GET.getlist("category[]")
         sellers = request.GET.getlist("seller[]")
-        min_price = request.GET["min_price"]
-        max_price = request.GET["max_price"]
-        search_query = request.GET.get('q')
-
-        products = Product.objects.all()
-
+        min_price = request.GET.get("min_price")
+        max_price = request.GET.get("max_price")
+        search_query = request.GET.get("q")
+        
+        if sortid == "populate-low":
+            products = Product.objects.all()
+            products = products.annotate(cnt=Count('marks')).order_by('cnt')
+        elif sortid == "populate-high":
+            products = Product.objects.all()
+            products = products.annotate(cnt=Count('marks')).order_by('-cnt')
+        else:
+            products = Product.objects.all()
         if len(universes) > 0:
             products = products.filter(universe__id__in=universes).distinct()
         if len(categories) > 0:
@@ -124,10 +131,9 @@ class filter_product(View):
         if search_query:
             q_aux = Q(name__icontains=search_query)
             products = products.filter(q_aux)
-        
-        products = products.filter(price__gte=min_price)
-        products = products.filter(price__lte=max_price).order_by("price")
-
+        if min_price or max_price:
+            products = products.filter(price__gte=min_price)
+            products = products.filter(price__lte=max_price)
 
         data = render_to_string("catalog/async/catalog.html", {"products": products})
         return JsonResponse({"data": data})

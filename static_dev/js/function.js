@@ -1,8 +1,26 @@
 $(document).ready(function(){
+    let filter_object = {}
+    $("#sort").on("change", function(){
+        var sortid = $("#sort").val();
+        filter_object["sortid"] = sortid;
+        console.log("Sort-id is:", sortid);
+        console.log("Filter Object is: ", filter_object);
+        $.ajax({
+            url: 'filter-products/',
+            data: filter_object,
+            dataType: 'json', 
+            beforeSend: function() {
+                console.log("Trying to filter product...");
+            },
+            success: function(response){
+                console.log(response)
+                console.log("Data filtered successfully...");
+                $("#filtered-product").html(response.data)
+            }
+        })
+    })
     $(".filter-checkbox, #price-filter-btn").on("click", function(){
         console.log("A checkbox have been clicked");
-
-        let filter_object = {}
         $("#max_price").each(function(){
             let max_price = $(this).val()
             filter_object.max_price = max_price

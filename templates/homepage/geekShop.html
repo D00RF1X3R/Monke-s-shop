@@ -27,10 +27,14 @@
                         Все фильтры
                     </button>
                     <div class="main_categories__list flex--row">
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
-                            По поулярности
-                        </button>
-                        <div class="multiselect">
+                        <div class="multiselect text--default">
+                            <select id="sort">
+                                <option selected="selected" hidden>По популярности</option>
+                                <option value="populate-low">По возрастанию</option>
+                                <option value="populate-high">По убыванию</option>
+                            </select>
+                        </div>
+                        <div class="multiselect text--default">
                             <div class="selectBox" onclick="showCheckboxesC()">
                                 <select>
                                     <option>Категория</option>
