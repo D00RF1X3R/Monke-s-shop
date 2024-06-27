@@ -18,7 +18,7 @@ class ProductListView(TemplateView):
     def post(self, request):
         product = get_object_or_404(Product, id=request.POST.get("id"))
         customer_data = get_object_or_404(CustomerData, user=request.user)
-        action_type = request.POST.get("type")
+        action_type = request.POST.get("action")
         if action_type == 'favorite':
             if product in customer_data.favorite_products.all():
                 customer_data.favorite_products.remove(product)
@@ -31,12 +31,12 @@ class ProductListView(TemplateView):
                 count=1,
             )
         data = render_to_string("catalog/catalog.html", {"product": product, "customer": customer_data, "type": action_type})
-        return JsonResponse({"data": data})
+        return JsonResponse({"data": data, "is_favorite": product in customer_data.favorite_products.all()})
         
     def get_context_data(self):
         context = {}
         search_query = self.request.GET.get("q")
-        
+        customer_data = get_object_or_404(CustomerData, user=self.request.user.id)
         products = Product.objects.all()
         context["products"] = products
         if search_query:
@@ -54,6 +54,8 @@ class ProductListView(TemplateView):
         context["min_max_price"] = min_max_price
         products = products.filter(price__gte=min_max_price["price__min"])
         products = products.filter(price__lte=min_max_price["price__max"]).order_by("-price")
+        for product in products:
+            product.is_favorite = product in customer_data.favorite_products.all()
         return context
     def get_popular_products(self):
         context = self.get_context_data()

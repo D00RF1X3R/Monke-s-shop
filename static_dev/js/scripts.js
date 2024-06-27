@@ -34,24 +34,7 @@ function addFavorite(clickedElement){
     return false;
 }
 
-function addCart(clickedElement){
-    var frm = $(clickedElement).parent();
-    var button = $(clickedElement);
-    var data = $(frm).serialize() + '&' + 'type=to_cart';
-    console.log("Data object is:", data);
-    $.ajax({
-        type: 'POST',
-        data: data,
-        url: '',
-        success:  function (data) {
-            console.log("OK Adding");
-        },
-        error: function () {
-            console.log('I want to die');
-        }
-    });
-    return false;
-}
+
 
 var expandedU = false;
 var buttonU = document.getElementById("btn-u");
