@@ -217,7 +217,8 @@ body {
     justify-content: unset;
 }
 .main_categories__list button{
-    padding: 2% 5%;
+    padding: 10% 10%;
+    font-size: 24px;
     border: none;
     width: 100%;
     white-space: nowrap;
@@ -685,19 +686,42 @@ body {
 }
 
 .multiselect {
-    width: 100px;
+    width: 150px;
+    border: none;
+    outline: none;
+}
+.multiselect:nth-child(1) {
+    width: 230px;
+    height: 75px;
+}
+
+.filter-checkbox{
+    flex-wrap: nowrap;
+    margin-right: 5px;
+    margin-left: 10px;
+    font-size: 24px;
 }
 
 .selectBox {
     position: relative;
+    border: none;
+    outline: none;
 }
 
-.selectBox select {
-    width: 100px;
-    font-weight: bold;
+.selectBox button {
+    background-color: #51C878;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-radius: 10px 10px 10px 10px;
 }
 
 .overSelect {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    box-shadow: none;
     position: absolute;
     left: 0;
     right: 0;
@@ -705,26 +729,45 @@ body {
     bottom: 0;
 }
 
-#checkboxes {
+
+#checkboxesC, #checkboxesU,
+#checkboxesS, #price-filter,
+#populate-filter {
+    position: absolute;
+    border-radius: 10px;
     display: none;
-    border: 1px #dadada solid;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    width: 150px;
 }
 
-#checkboxes label {
+#populate-filter {
+    width: 230px;
+    height: 75px;
+}
+
+
+
+#checkboxesC label, #checkboxesU label,
+#checkboxesS label, #price-filter, #populate-filter {
     display: block;
+    font-size: 18px;
+    background-color: #51C878;
 }
 
-#price-list {
-    display: none;
-    border: 1px #dadada solid;
+#checkboxesC label:nth-last-child(1),
+#checkboxesU label:nth-last-child(1),
+#checkboxesS label:nth-last-child(1),
+#price-filter button,
+#populate-filter button:nth-child(2) {
+    border-radius: 0 0 10px 10px;
 }
 
-#price-list label {
-    display: block;
-}
 
-#checkboxes label:hover {
-    background-color: #d1d1d1;
+#checkboxesC label:hover, #checkboxesU label:hover, 
+#checkboxesS label:hover, #populate-filter button:hover {
+    background-color: #ffffff;
 }
 
 .catalog__content{

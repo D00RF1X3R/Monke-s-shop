@@ -64,7 +64,7 @@ class ProductListView(TemplateView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ProductDetailView(TemplateView):
-    template_name = 'product\product.html'
+    template_name = 'catalog\product.html'
     def post(self, request, id):
         product = get_object_or_404(Product, id=id)
         customer_data = get_object_or_404(CustomerData, user=request.user)
@@ -132,8 +132,12 @@ class filter_product(View):
             q_aux = Q(name__icontains=search_query)
             products = products.filter(q_aux)
         if min_price or max_price:
-            products = products.filter(price__gte=min_price)
-            products = products.filter(price__lte=max_price)
+            if min_price > max_price:
+                products = products.filter(price__gte=max_price)
+                products = products.filter(price__lte=min_price).order_by("-price")
+            else:
+                products = products.filter(price__gte=min_price)
+                products = products.filter(price__lte=max_price).order_by("price")
 
         data = render_to_string("catalog/async/catalog.html", {"products": products})
         return JsonResponse({"data": data})

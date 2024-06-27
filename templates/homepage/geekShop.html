@@ -27,18 +27,19 @@
                         Все фильтры
                     </button>
                     <div class="main_categories__list flex--row">
-                        <div class="multiselect text--default">
-                            <select id="sort">
-                                <option selected="selected" hidden>По популярности</option>
-                                <option value="populate-low">По возрастанию</option>
-                                <option value="populate-high">По убыванию</option>
-                            </select>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showBlockPopulate()">
+                                <button id="btn-populate" class="main_categories__button button button--lgreen text--default">По популярности</button>
+                                <div class="overSelect button"></div>
+                            </div>
+                            <div id="populate-filter">
+                                <button class="button--lgreen" id="populate-low">По возрастанию</button>
+                                <button class="button--lgreen" id="populate-high">По убыванию</button>
+                            </div>
                         </div>
-                        <div class="multiselect text--default">
+                        <div class="multiselect">
                             <div class="selectBox" onclick="showCheckboxesC()">
-                                <select>
-                                    <option>Категория</option>
-                                </select>
+                                <button id="btn-c" class="main_categories__button button button--lgreen text--default">Категория</button>
                                 <div class="overSelect"></div>
                             </div>
                             <div id="checkboxesC">
@@ -50,51 +51,45 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="multiselect text--default">
-                            <div class="selectBox text--default" onclick="showCheckboxesU()">
-                                <select>
-                                    <option>Вселенные</option>
-                                </select>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxesU()">
+                                <button id="btn-u" class="main_categories__button button button--lgreen text--default">Вселенная</button>
                                 <div class="overSelect"></div>
                             </div>
                             <div id="checkboxesU">
                                 {% for u in universes %}
-                                    <label for="exampleChekbox3{{ u.id }}">
-                                        <input  class="form-check-input filter-checkbox text--default" type="checkbox"
-                                        name="checkbox" data-filter="category" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
-                                    </label>
+                                <label for="exampleChekbox3{{ u.id }}">
+                                    <input  class="form-check-input filter-checkbox" type="checkbox"
+                                    name="chekbox" data-filter="category" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
+                                </label>
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="multiselect text--default">
-                            <div class="selectBox text--default" onclick="showCheckboxesS()">
-                                <select>
-                                    <option>Продавец</option>
-                                </select>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxesS()">
+                                <button id="btn-s" class="main_categories__button button button--lgreen text--default">Продавец</button>
                                 <div class="overSelect"></div>
                             </div>
                             <div id="checkboxesS">
                                 {% for s in sellers %}
-                                    <label for="exampleChekbox4{{ s.id }}">
-                                        <input  class="form-check-input filter-checkbox text--default" type="checkbox"
-                                        name="checkbox" data-filter="category" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
-                                    </label>
+                                <label for="exampleChekbox4{{ s.id }}">
+                                    <input  class="form-check-input filter-checkbox" type="checkbox"
+                                    name="chekbox" data-filter="category" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
+                                </label>
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="multiselect text--default">
-                            <div class="selectBox text--default" onclick="showPriceFilter()">
-                                <select>
-                                    <option>Цена</option>
-                                </select>
-                                <div class="overSelect"></div>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showBlockPrice()">
+                                <button id="btn-price" class="main_categories__button button button--lgreen text--default">Цена</button>
+                                <div class="overSelect button"></div>
                             </div>
                             <div id="price-filter">
                                 <div style="display: flex; gap: 1%;">
                                     <input type="number" id="min_price" name="min_price" style="width: 48%;" min="{{ min_max_price.price__min }}" value="{{ min_max_price.price__min }}">-
                                     <input type="number" id="max_price" name="max_price" style="width: 48%;" max="{{ min_max_price.price__max }}" value="{{ min_max_price.price__max }}">
                                 </div>
-                                <button id="price-filter-btn" type="submit" style="width: 100%;">Фильтр</button>
+                                <button id="price-filter-btn" class="button button--lgreen" type="submit" style="width: 100%;">Фильтр</button>
                             </div>
                         </div>
                     </div>
