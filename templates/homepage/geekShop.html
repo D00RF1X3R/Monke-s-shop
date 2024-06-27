@@ -7,8 +7,62 @@
     <link rel="script" href="../../static_dev/js/scripts.js">
     <title>PrICoop.Shop</title>
 </head>
-<body>
-    
+<body id="body">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar__content flex--row">
+                <ul class="navbar__list text--default flex--row">
+                    <li class="navbar_list__item">
+                        <a href="" class="navbar_list_item__link">
+                            Г<span class="navbar_list_item_link__span">лавна</span>я
+                        </a>
+                    </li>
+                    <li class="navbar_list__item">
+                        <a href="" class="navbar_list_item__link">
+                            Каталог
+                        </a>
+                    </li>
+                    <li class="navbar_list__item">
+                        <a href="" class="navbar_list_item__link">
+                            О нас
+                        </a>
+                    </li>
+                    <li class="navbar_list__item">
+                        <a href="" class="navbar_list_item__link">
+                            Профиль
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar__search">
+                    <input class="navbar_search__string text--default" placeholder="Поиск" type="text">
+                    <img class="navbar_search__pic" src="../../static_dev/svg/search.svg">
+                </div>
+
+                
+                <div class="navbar__forum" >
+                    <a href="" class="navbar_forum__link">
+                        <button class="navbar_forum__button button button--dgreen text--default">
+                            Форум
+                        </button>
+                    </a>
+                </div>
+                <div class="navbar__purchase flex--row">
+                    <a href="" class="navbar_purchase_favorites__link" >
+                        <div class="navbar_purchase__favorites">
+                            <img class="navbar_purchase_favorites__svg" src="../../static_dev/svg/heart.svg">
+                            <p class="navbar_purchase_favorites__text text--default">Избранное</p>
+                        </div>
+                    </a>
+                    <a href="" class="navbar_purchase_basket__link" >
+                        <div class="navbar_purchase__basket">
+                            <img class="navbar_purchase_basket__svg" src="../../static_dev/svg/basket.svg">
+                            <p class="navbar_purchase_basket__text text--default">Корзина</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <main class="main">
         <div class="container">
             <div class="main__content flex--column">
@@ -34,7 +88,7 @@
                         Все фильтры
                     </button>
                     <div class="main_categories__list flex--row">
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default" id="popularityBut">
                             По поулярности
                         </button>
                         <button class="main_categories_list_item__button button--lgreen button text--default">
@@ -52,6 +106,10 @@
                         <button class="main_categories_list_item__button button--lgreen button text--default">
                             Срок доставки
                         </button>
+                    </div>
+                    <div class="main_categories__popularity flex--column" id="popularityBlock">
+                        <button class="asc button button--lgreen text--default">По возрастанию</button>
+                        <button class="desc button button--dgreen text--default">По ubivaniyu</button>
                     </div>
                 </div>
                 <div class="main__products flex--row">
@@ -200,7 +258,7 @@
                     </div>
                     <div class="main_products__card">
                         <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <button onclick="favoriteColor(this)" class="main_products_card__favorite">
+                        <button id="cardOne" class="main_products_card__favorite">
                             <svg class="main_products_card_favorite__image"  width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                 <path clip-rule="evenodd" d="M5.624 4.42399C3.965 5.18199 2.75 6.98599 2.75 9.13699C2.75 11.334 3.65 13.028 4.938 
                                 14.48C6.001 15.676 7.287 16.668 8.541 17.634C8.839 17.864 9.135 18.093 9.426 18.322C9.952 18.737 10.421 19.1 10.874 19.365C11.326 19.629 
@@ -254,137 +312,7 @@
                     </div>
                     <div class="main_products__card">
                         <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <p class="main_products_card__name text--default">Название товара</p>
-                        <p class="main_products_card__price text--default">1703 &#8381;</p>
-                        <div class="main_products_card__buttons flex--row">
-                            <button class="main_products_card_buttons_button button button--dgreen text--default">
-                                В корзину
-                            </button>
-                            <button class="main_products_card_buttons_button button button--lgreen text--default">
-                                Купить
-                            </button>
-                        </div>
-                    </div>
-                    <div class="main_products__card">
-                        <img class="main_products_card__image image" src="../../static_dev/images/placeholderImage.png">
-                        <button onclick="favoriteColor(this)" class="main_products_card__favorite">
+                        <button id="cardOne" class="main_products_card__favorite">
                             <svg class="main_products_card_favorite__image"  width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                 <path clip-rule="evenodd" d="M5.624 4.42399C3.965 5.18199 2.75 6.98599 2.75 9.13699C2.75 11.334 3.65 13.028 4.938 
                                 14.48C6.001 15.676 7.287 16.668 8.541 17.634C8.839 17.864 9.135 18.093 9.426 18.322C9.952 18.737 10.421 19.1 10.874 19.365C11.326 19.629 
