@@ -118,7 +118,7 @@ body{
     border-radius: 0 20px 20px 0;
     padding: 1.2%;
     position: absolute;
-    right: 27%;
+    right: 28%;
 }
 .navbar__forum{
     align-content: center;  
@@ -151,8 +151,12 @@ body{
     color: var(--light-green) !important;  
 }
 
-.navbar_purchase_favorites__svg, .navbar_purchase_basket__svg{
+.navbar_purchase_favorites__svg, .navbar_purchase_basket__svg, 
+.navbar_purchase_logout__svg, .navbar_purchase_singin__svg, 
+.navbar_purchase_singup__svg{
     margin: 0 auto;
+    width: 40px;
+    height: 40px;
 }
 .main__content{
     gap: 80px;
@@ -200,15 +204,26 @@ body{
 .main_categories__list button, .multiselect{
     padding: 0.5% 2%;
     border: none;
-    width: 100%;
+    width: fit-content;
     white-space: nowrap;
 }
 .multiselect select{
     border: none;
     outline: none;
     font-size: 1.4rem;
-
     background-color: var(--light-green);
+    display: block;
+}
+#checkboxesC{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    position: absolute;
+    border-radius: 10px;
+    border: black solid 1px;
+}
+.multiselect option{
+    position: absolute;
 }
 .main_categories_list__item{
     max-width: 10%;
@@ -368,7 +383,8 @@ body{
     font-weight: 600;
     line-height: 48.76px;
 }
-.profile_card_user_info__e-mail, .profile_card_user_info__e-mail, .profile_card_clickable_description__text{
+.profile_card_user_info__e-mail, .profile_card_user_info__e-mail, 
+.profile_card_clickable_description__text{
     font-size: 24px;
     font-weight: 500;
     color: var(--dark-grey );
@@ -1258,6 +1274,80 @@ body{
 .forum_card--seller{
     background-color: var(--dark-green);
 }
+.forumpage{
+    margin-top: 260px;
+}
+.forumpage__content{
+    gap: 40px;
+    align-items: center;
+}
+.forumpage__title{
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 58.51px;
+    text-align: center;
+}
+.forumpage__block{
+    gap: 24px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.forum_page_block__flud{
+    width: 908px;
+    padding: 1%;
+    gap: 213px;
+    background-color: var(--dark-white);
+    border-radius: 12px;
+    justify-content: space-between;
+}
+.block--flud{
+    width: 50% !important;
+}
+.forum_page_block_flud__text{
+    gap: 4px;
+}
+.forum_page_block_flud_text__title{
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 39.01px;
+}
+.forum_page_block_flud_text__description{
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19.5px;
+}
+.forum_page_block_flud__messages{
+    gap: 1px;
+}
+.forum_page_block_flud_messages__amount{
+    font-size: 24px;
+}
+.forum_page_block_flud_messages__pic{
+    width: 28px;
+    height: 28px;
+}
+.flud__image{
+    width: 55px;
+    height: 67px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.forum_page_block_flud_text__info{
+    justify-content: flex-start;
+    gap: 16px;
+}
+.forum_page_block_flud_text_info__stats{
+    gap:7px;
+}
+.flud__stars{
+    gap: 8px;
+}
+.flud_stars__star{
+    width: 13px;
+    height: 12px;
+}
+
+
 .main_categories__popularity{
     display: none;
     position: absolute;

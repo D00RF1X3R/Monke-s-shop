@@ -38,7 +38,7 @@
                     <div class="main_categories__list flex--row">
                         <div class="multiselect button button--lgreen text--default">
                             <select id="sort">
-                                <option selected="selected" hidden>По популярности</option>
+                                <option selected>По популярности</option>
                                 <option value="populate-low">По возрастанию</option>
                                 <option value="populate-high">По убыванию</option>
                             </select>
@@ -50,14 +50,14 @@
                                 </select>
                                 <div class="overSelect"></div>
                             </div>
-                            <!-- <div id="checkboxesC">
+                            <div id="checkboxesC">
                                 {% for c in categories %}
                                 <label for="exampleChekbox2{{ c.id }}">
                                     <input  class="form-check-input filter-checkbox" type="checkbox"
                                     name="chekbox" data-filter="category" id="exampleChekbox2{{ c.id }}" value="{{ c.id }}"/>{{ c.name }}
                                 </label>
                                 {% endfor %}
-                            </div> -->
+                            </div>
                         </div>
                         <div class="multiselect button button--lgreen text--default">
                             <div class="selectBox text--default" onclick="showCheckboxesU()">
