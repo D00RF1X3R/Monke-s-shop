@@ -3,6 +3,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    
 }
 
 body{
@@ -1354,14 +1355,28 @@ body{
 }
 
 
-.main_categories__popularity{
+.hidden--block{
     display: none;
     position: absolute;
-    gap:100px;
-    width: 300px;
-    height: 1268px;
+    gap: 7px;
+    width: 30%;
+    height: 1068px;
+    padding: 3%;
+    text-align: left;
     background-color: var(--dark-white);
     border-radius: 16px;
+    justify-content: flex-start;
     right: 0;
-    top: 330px;
+    top: 200px;
+    overflow-y: overlay;
+    scrollbar-width: none;
+}
+.main_categories_popularity__banner{
+    width: 100%;
+    height: auto;
+    align-self: flex-end;
+}
+.main_categories_popularity__button{
+    padding: 2%;
+    text-align: left;
 }

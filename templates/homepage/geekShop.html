@@ -4,71 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static_dev/css/style.css">
-    <link rel="script" href="../../static_dev/js/scripts.js">
+    <link rel="script" href="../../static_dev/js/scriptsHomepage.js">
     <title>PrICoop.Shop</title>
 </head>
-<body id="body">
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar__content flex--row">
-                <ul class="navbar__list text--default flex--row">
-                    <li class="navbar_list__item">
-                        <a href="" class="navbar_list_item__link">
-                            Г<span class="navbar_list_item_link__span">лавна</span>я
-                        </a>
-                    </li>
-                    <li class="navbar_list__item">
-                        <a href="" class="navbar_list_item__link">
-                            Каталог
-                        </a>
-                    </li>
-                    <li class="navbar_list__item">
-                        <a href="" class="navbar_list_item__link">
-                            О нас
-                        </a>
-                    </li>
-                    <li class="navbar_list__item">
-                        <a href="" class="navbar_list_item__link">
-                            Профиль
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar__search">
-                    <input class="navbar_search__string text--default" placeholder="Поиск" type="text">
-                    <img class="navbar_search__pic" src="../../static_dev/svg/search.svg">
-                </div>
-
-                
-                <div class="navbar__forum" >
-                    <a href="" class="navbar_forum__link">
-                        <button class="navbar_forum__button button button--dgreen text--default">
-                            Форум
-                        </button>
-                    </a>
-                </div>
-                <div class="navbar__purchase flex--row">
-                    <a href="" class="navbar_purchase_favorites__link" >
-                        <div class="navbar_purchase__favorites">
-                            <img class="navbar_purchase_favorites__svg" src="../../static_dev/svg/heart.svg">
-                            <p class="navbar_purchase_favorites__text text--default">Избранное</p>
-                        </div>
-                    </a>
-                    <a href="" class="navbar_purchase_basket__link" >
-                        <div class="navbar_purchase__basket">
-                            <img class="navbar_purchase_basket__svg" src="../../static_dev/svg/basket.svg">
-                            <p class="navbar_purchase_basket__text text--default">Корзина</p>
-                        </div>
-                    </a>
-                    <a href="" class="navbar_purchase_basket__link" >
-                        <div class="navbar_purchase__basket">
-                            <img class="navbar_purchase_logout__svg" src="../../static_dev/svg/logout.svg">
-                            <p class="navbar_purchase_logout__text text--default">Выйти</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body id="bodyHome">
     <main class="main">
         <div class="container">
             <div class="main__content flex--column">
@@ -97,25 +36,74 @@
                         <button class="main_categories_list_item__button button--lgreen button text--default" id="popularityBut">
                             По поулярности
                         </button>
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default" id="categoryBut">
                             Категория
                         </button>
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default" id="universeBut">
                             Вселенная
                         </button>
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default " id="sellerBut">
                             Продавец
                         </button>
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default" id="priceBut">
                             Цена
                         </button>
-                        <button class="main_categories_list_item__button button--lgreen button text--default">
+                        <button class="main_categories_list_item__button button--lgreen button text--default" id="deliveryBut">
                             Срок доставки
                         </button>
                     </div>
-                    <div class="main_categories__popularity flex--column" id="popularityBlock">
-                        <button class="asc button button--lgreen text--default">По возрастанию</button>
-                        <button class="desc button button--dgreen text--default">По ubivaniyu</button>
+                    <div class="main_categories__popularity hidden--block flex--column" id="popularityBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/cattwo.jpg">
+                    </div>
+                    <div class="main_categories__category hidden--block flex--column" id="categoryBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/catfour.jpg">
+                    </div>
+                    <div class="main_categories__universe hidden--block flex--column" id="universeBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/catsix.jpg">
+                    </div>
+                    <div class="main_categories__seller hidden--block flex--column" id="sellerBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                            <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/catthree.jpg">
+                    </div>
+                    <div class="main_categories__price hidden--block flex--column" id="priceBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                            <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                            <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/catfive.jpg">
+                    </div>
+                    <div class="main_categories__delivery hidden--block flex--column" id="deliveryBlock">
+                        <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                            <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                            <button class="main_categories_popularity__button button button--dgreen text--default">По ubivaniyu</button>
+                            <button class="main_categories_popularity__button button button--lgreen text--default">По возрастанию</button>
+                        <img class="main_categories_popularity__banner flex--row" src="../../static_dev/images/catjpg.jpg">
                     </div>
                 </div>
                 <div class="main__products flex--row">
@@ -367,6 +355,6 @@
 
 
 
-    <script src="../../static_dev/js/scripts.js"></script>
+    <script src="../../static_dev/js/scriptsHomepage.js"></script>
 </body>
 </html>
