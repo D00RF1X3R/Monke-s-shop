@@ -43,7 +43,7 @@
                                 {% for u in universes %}
                                 <label for="exampleChekbox3{{ u.id }}">
                                     <input  class="form-check-input filter-checkbox" type="checkbox"
-                                    name="chekbox" data-filter="category" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
+                                    name="chekbox" data-filter="universes" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
                                 </label>
                                 {% endfor %}
                             </div>
@@ -57,7 +57,7 @@
                                 {% for s in sellers %}
                                 <label for="exampleChekbox4{{ s.id }}">
                                     <input  class="form-check-input filter-checkbox" type="checkbox"
-                                    name="chekbox" data-filter="category" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
+                                    name="chekbox" data-filter="sellers" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
                                 </label>
                                 {% endfor %}
                             </div>
