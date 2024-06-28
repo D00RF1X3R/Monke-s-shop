@@ -9,33 +9,6 @@ checkboxesP.style.display = "none";
 var checkboxesPop = document.getElementById("populate-filter");
 checkboxesPop.style.display = "none";
 
-function addFavorite(clickedElement){
-    var frm = $(clickedElement).parent();
-    var button = $(clickedElement);
-    var data = $(frm).serialize() + '&' + 'type=favorite';
-    var svg = document.getElementById("favorite_image");
-    console.log(svg);
-    if (svg.style == "black"){
-        svg.style.fill  = "red";
-    } else {
-        svg.style.fill = "black";
-    }
-    $.ajax({
-        type: 'POST',
-        data: data,
-        url: '',
-        success:  function (data) {
-            console.log("OK Adding");
-        },
-        error: function () {
-            console.log('I want to die');
-        }
-    });
-    return false;
-}
-
-
-
 var expandedU = false;
 var buttonU = document.getElementById("btn-u");
 buttonU.style['border-radius'] = '10px 10px 10px 10px';

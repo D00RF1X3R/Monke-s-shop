@@ -809,12 +809,6 @@ body {
     margin-bottom: 40px;
 }
 
-/* .product_page_info_block_buying__price::after{
-    color: var(--dark-grey);
-    text-decoration:line-through;
-    margin-left: 32px;
-} */
-
 .product_page_info_block_buying__button{
     width: 362px;
     border-radius: 8px;
