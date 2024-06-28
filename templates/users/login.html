@@ -3,11 +3,17 @@
     Вход
 {% endblock %}
 {% block content %}
-    <h1>Вход</h1>
-    <form action="." method="post">
-        {% include "includes/form.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Войти</button>
-    </form>
-    <a href="{% url 'users:password_reset_start' %}">Забыли пароль?</a>
+    <div class="form__container container">
+      <form class="singin__form" method="post" action=".">
+            <div class="singin_form__content create_form flex--column">
+                <p class="singin_form__title">
+                    Вход
+                </p>
+                {% include "includes/form.html" %}
+                {% include "includes/form_errors.html" %}
+                <a href="{% url 'users:password_reset_start' %}" class="singin_form__link text--default">Забыли пароль?</a>
+                <button class="singin_form__button text--default button button--dgreen">Войти</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

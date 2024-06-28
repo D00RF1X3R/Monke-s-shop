@@ -3,40 +3,88 @@
     Корзина
 {% endblock %}
 {% block content %}
-    <h1>Корзина</h1>
-    {% if cart_products %}
-        <form action="." method="POST" style="margin-bottom: 50px;">
-            {% csrf_token %}
-            <p>Стоимость всего: <span id="sum_price">{{ sum_price }}</span></p>
-            <p>Ваш баланс: {{ balance }}</p>
-            <button id="buy_button" {% if balance < sum_price %} disabled {% endif %}>Купить</button>
-        </form>
-        {% for cart_product in cart_products %}
-            <form action="." method="POST" style="margin-bottom: 20px;">
-                {% csrf_token %}
-                <input hidden name="id" value="{{ cart_product.id }}">
+    {% load static %}
+    <div id="cart" class="basket {% if not cart_products %} hide {% endif %}">
+        <div class="container">
+            <div class="basket__content flex--column">
+                <p class="basket__title">Ваша корзина</p>
+                <div class="basket__main flex--row">
+                    <div class="basket_main__product flex--column">
+                        {% for cart_product in cart_products %}
+                        <form action="." method="POST" class="basket_main_product__card flex--row">
+                            {% csrf_token %}
+                            <input hidden name="id" value="{{ cart_product.id }}">
+                            <div class="basket_main_product_card__info flex--row">
+                                {% if cart_product.product.preview %}
+                                    <img class="basket_main_product_card_info_image" src="{{ cart_product.product.preview.url }}">
+                                {% else %}
+                                    <img class="basket_main_product_card_info_image" src="{% static 'images/placeholderImage.png' %}">
+                                {% endif %}
+                                <div class="basket_main_product_card_info__functions flex--column">
+                                    <div class="basket_main_product_card_info_functions__title flex--row">
+                                        <a href="{% url 'catalog:product_detail' cart_product.product.id %}" class="basket_main_product_card_info_functions_title__name">
+                                            {{ cart_product.product.name }}
+                                        </a>
+                                        <button class="basket_main_product_card_info_functions_title__image minus" id="sub_button" type="button" name="action" {% if cart_product.count == 1 %} disabled {% endif %} onclick="changeCart(this)" value="subtract">
+                                            <svg width="14" height="3" viewBox="0 0 14 2" class="basket_main_product_card_info_functions_title_image__pic">
+                                                <path d="M12.25 1L1 1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <p id="product_count" class="basket_main_product_card_info_functions_title__amount text--default">{{ cart_product.count }}</p>
+                                        <button class="basket_main_product_card_info_functions_title__image" type="button" name="action" onclick="changeCart(this)" value="add">
+                                            <img class="basket_main_product_card_info_functions_title_image__pic" src="{% static 'svg/minplus.svg' %}">
+                                        </button>
+                                        <button class="basket_main_product_card_info_functions_title__favorite" type="button" name="action" onclick="changeCart(this)" value="favorite">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path id="favorite_heart" class="{% if cart_product.is_favorite %} heart_active {% else %} heart_standard {% endif %}" clip-rule="evenodd" d="M5.624 4.42399C3.965 5.18199 2.75 6.98599 2.75 9.13699C2.75 11.334 3.65 13.028 4.938 14.48C6.001 15.676 7.287 16.668 8.541 17.634C8.839 17.864 9.135 18.093 9.426 18.322C9.952 18.737 10.421 19.1 10.874 19.365C11.326 19.629 11.69 19.75 12 19.75C12.31 19.75 12.674 19.63 13.126 19.365C13.579 19.1 14.048 18.737 14.574 18.322C14.864 18.092 15.161 17.864 15.459 17.635C16.713 16.667 17.999 15.676 19.062 14.48C20.351 13.028 21.25 11.334 21.25 9.13699C21.25 6.98699 20.035 5.18199 18.376 4.42399C16.764 3.68699 14.598 3.88199 12.54 6.02099C12.47 6.09358 12.3862 6.15132 12.2934 6.19075C12.2006 6.23019 12.1008 6.25051 12 6.25051C11.8992 6.25051 11.7994 6.23019 11.7066 6.19075C11.6138 6.15132 11.53 6.09358 11.46 6.02099C9.402 3.88199 7.236 3.68699 5.624 4.42399ZM12 4.45999C9.688 2.38999 7.099 2.09999 5 3.05899C2.786 4.07399 1.25 6.42599 1.25 9.13799C1.25 11.803 2.36 13.837 3.817 15.477C4.983 16.79 6.41 17.889 7.671 18.859C7.957 19.079 8.234 19.293 8.497 19.501C9.01 19.905 9.56 20.335 10.117 20.661C10.674 20.986 11.31 21.251 12 21.251C12.69 21.251 13.326 20.986 13.883 20.661C14.441 20.335 14.99 19.905 15.503 19.501C15.7769 19.2852 16.0522 19.0712 16.329 18.859C17.589 17.889 19.017 16.789 20.183 15.477C21.64 13.837 22.75 11.803 22.75 9.13799C22.75 6.42599 21.215 4.07399 19 3.06099C16.901 2.10099 14.312 2.39099 12 4.45999Z" fill="black"/>
+                                            </svg>
+                                        </button>
 
-                {% if cart_product.product.preview %}
-                    <img width="100" height="100" src="{{ cart_product.product.preview.url }}">
-                {% else %}
-                    Нет картинки
-                {% endif %}
-                {{ cart_product.product.name }}
-                <button id="sub_button" type="button" name="action" {% if cart_product.count == 1 %} disabled {% endif %} onclick="changeCart(this)" value="subtract">-</button>
-                <span id="product_count">{{ cart_product.count }}</span>
-                <button type="button" name="action" onclick="changeCart(this)" value="add">+</button>
-                {{ cart_product.product.price }}
-                <button type="button" name="action" onclick="changeCart(this)" value="favorite">Избранное</button>
-                <button type="button" name="action" onclick="changeCart(this)" value="delete">Удалить</button>
-            </form>
-        {% endfor %}
-    {% else %}
-        Тут пусто!
-    {% endif %}
+
+                                    </div>
+                                    <p class="basket_main_product_card_info_functions__description">{{ cart_product.product.description|truncatechars:20 }}</p>
+                                    <button type="button" name="action" onclick="changeCart(this)" value="delete" class="basket_main_product_card_info_functions__button button button--lgreen text--default">
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="basket_main_product_card__price"><span id="product_price">{% widthratio cart_product.product.price 1 cart_product.count %}</span> &#8381;</p>
+                        </form>
+                        {% endfor %}
+                    </div>
+                    <form action="." method="POST" class="basket_main__sum flex--row">
+                        {% csrf_token %}
+                        <div class="basket_main_balance__info flex--column">
+                            <p class="basket_main_sum_info__title">Итого</p>
+                            <p class="basket_main_sum_info__count"><span id="sum_price">{{ sum_price }}</span> &#8381;</p>
+                            <p class="basket_main_sum_info__amount">Кол-во товаров: <span id="sum_count">{{ sum_count }}</span></p>
+                            <button id="buy_button" {% if balance < sum_price %} disabled {% endif %} class="basket_main_sum__button button button--dgreen text--default">
+                                Купить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="empty" class="empty {% if cart_products %} hide {% endif %}">
+        <div class="container">
+            <div class="empty__content flex--column">
+                <p class="empty__title">Ваша корзина пока пуста</p>
+                <a href="{% url 'catalog:products' %}" class="empty__button button button--dgreen">Перейти к товарам</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         function changeCart(clickedElement){
-            var frm = $(clickedElement).parent();
             var button = $(clickedElement);
+            var frm = $(clickedElement).parent().parent().parent();
+            if (button.attr('value') != 'delete') {
+                frm = frm.parent();
+            }
+
             var data = $(frm).serialize() + '&' + encodeURI(button.attr('name')) + '=' + encodeURI(button.attr('value'));
             $.ajax({
                 type: 'POST',
@@ -46,13 +94,26 @@
                     var actionType = button.attr('value');
                     if (actionType == 'add' || actionType == 'subtract') {
                         frm.find('#product_count').text(data.new_count);
+                        frm.find('#product_price').text(data.new_price);
                         frm.find('#sub_button').prop('disabled', data.new_count == 1);
-                        $('#buy_button').prop('disabled', data.new_sum_price > "{{ balance }}");
-                        $('#sum_price').text(data.new_sum_price);
+                        $('#buy_button').prop('disabled', data.new_sum_price > {{ balance }});
                     } else if (actionType == 'delete') {
-                        $('#buy_button').prop('disabled', data.new_sum_price > "{{ balance }}");
-                        $('#sum_price').text(data.new_sum_price);
+                        $('#buy_button').prop('disabled', data.new_sum_price > {{ balance }});
                         frm.remove();
+                    } else if (actionType == 'favorite') {
+                        var favorite = frm.find('#favorite_heart');
+                        if (data.is_favorite) {
+                            favorite.attr('class', 'heart_active');
+                        } else {
+                            favorite.attr('class', 'heart_standard');
+                        }
+                    }
+                    $('#sum_price').text(data.new_sum_price);
+                    $('#sum_count').text(data.new_sum_count);
+
+                    if (data.product_cart_count == 0) {
+                         $('#empty').attr('class', 'empty');
+                         $('#cart').attr('class', 'hide');
                     }
                 },
                 error: function () {

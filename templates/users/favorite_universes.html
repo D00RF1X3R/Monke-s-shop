@@ -3,10 +3,15 @@
     Любимые вселенные
 {% endblock %}
 {% block content %}
-    <h1>Любимые вселенные</h1>
-    <form action="." method="post">
-        {% include "includes/form.html" %}
-        {% include "includes/form_errors.html" %}
-        <button type="submit">Сохранить</button>
-    </form>
+    <div class="form__container container">
+      <form class="singin__form" method="post" action=".">
+            <div class="singin_form__content create_form flex--column">
+                {% include "includes/profile_return.html" %}
+                <p class="singin_form__title">Любимые вселенные</p>
+                {% include "includes/form.html" %}
+                {% include "includes/form_errors.html" %}
+                <button class="singin_form__button text--default button--dgreen">Изменить</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

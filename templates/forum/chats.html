@@ -3,18 +3,60 @@
     Чаты
 {% endblock %}
 {% block content %}
-    <a href="{% url 'forum:sub_forums' category_id %}">Назад</a>
-    <p>{{ category.name }} > {{ universe.name }}</p>
-    <a href="{% url 'forum:flood' category_id universe_id %}">Флудилка</a>
-    {% for product in products %}
-        <a href="{% url 'forum:product_discussion' product.id %}" style="margin-bottom: 50px; display: block">
-            {{ product.chat_rating }}
-            {% if product.preview %}
-                <img width="100" height="100" src="{{ product.preview.url }}">
-            {% else %}
-                Нет картинки
-            {% endif %}
-            {{ product.name }}
-        </a>
-    {% endfor %}
+    {% load static %}
+    <div class="forumpage">
+        <div class="container">
+            <div class="forumpage__content flex--column">
+                <a href="{% url 'forum:sub_forums' category_id %}" class="back">
+                    <img src="{% static 'svg/back.svg' %}">
+                    <p class="text--default">Форум / {{ category.name }} / {{ universe.name }}</p>
+                </a>
+                <p class="forumpage__title">Чаты</p>
+
+                <a href="{% url 'forum:flood' category_id universe_id %}" class="forum_page_block__flud flex--row block--flud">
+                    <div class="forum_page_block_flud__text flex--column">
+                        <p class="forum_page_block_flud_text__title">Флуд</p>
+                    </div>
+                    <div class="forum_page_block_flud__messages flex--row">
+                        <img class="forum_page_block_flud_messages__pic" src="{% static 'svg/flud.svg' %}">
+                        <p class="forum_page_block_flud_messages__amount">{{ flood_count }}</p>
+                    </div>
+                </a>
+                <div class="forumpage__block flex--row">
+                    {% for product in products %}
+                    <a href="{% url 'forum:product_discussion' product.id %}" class="forum_page_block__flud flex--row">
+                        <div class="forum_page_block_flud__text flex--column">
+                            <p class="forum_page_block_flud_text__title">
+                                Обсуждение товара "{{ product.name }}"
+                            </p>
+                            <div class="forum_page_block_flud_text__info flex--row">
+                                {% if product.preview %}
+                                    <img class="flud__image" src="{{ product.preview.url }}">
+                                {% else %}
+                                    <img class="flud__image" src="{% static 'images/placeholderImage.png' %}">
+                                {% endif %}
+                                <div class="forum_page_block_flud_text_info__stats flex--column">
+                                    <p class="forum_page_block_flud_text__description ">
+                                    {{ product.description|truncatechars:60 }}
+                                    </p>
+                                    <p class="forum_page_block_flud_text__description ">
+                                        {% if product.chat_rating %}
+                                            Рейтинг: {{ product.chat_rating }}
+                                        {% else %}
+                                            Оценок нет.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forum_page_block_flud__messages flex--row">
+                            <img class="forum_page_block_flud_messages__pic" src="{% static 'svg/flud.svg' %}">
+                            <p class="forum_page_block_flud_messages__amount">{{ product.message_count }}</p>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

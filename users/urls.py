@@ -7,6 +7,8 @@ from django.contrib.auth.views import (LoginView,
                                        PasswordResetDoneView,
                                        PasswordResetConfirmView,
                                        PasswordResetCompleteView)
+
+from core.forms import UserAuthenticationForm, UserResetPasswordForm, UserSetPasswordForm, UserPasswordChangeForm
 from users.views import (ProfileView,
                          SignupView,
                          CartView,
@@ -19,13 +21,16 @@ from users.views import (ProfileView,
 
 app_name = 'users'
 urlpatterns = [
-    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('login/', LoginView.as_view(template_name='users/login.html',
+                                     authentication_form=UserAuthenticationForm),
+         name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path(
         'password_change/',
         PasswordChangeView.as_view(
             template_name='users/password_change/start.html',
-            success_url=reverse_lazy('users:password_change_done')
+            success_url=reverse_lazy('users:password_change_done'),
+            form_class=UserPasswordChangeForm
         ),
         name='password_change_start',
     ),
@@ -38,7 +43,8 @@ urlpatterns = [
         'password_reset/',
         PasswordResetView.as_view(template_name='users/password_reset/start.html',
                                   success_url=reverse_lazy('users:password_reset_done'),
-                                  email_template_name='users/password_reset/email.html'),
+                                  email_template_name='users/password_reset/email.html',
+                                  form_class=UserResetPasswordForm),
         name='password_reset_start'
     ),
     path(
@@ -49,7 +55,8 @@ urlpatterns = [
     path(
         'reset/<uidb64>/<token>/',
         PasswordResetConfirmView.as_view(template_name='users/password_reset/confirm.html',
-                                         success_url=reverse_lazy('users:password_reset_complete')),
+                                         success_url=reverse_lazy('users:password_reset_complete'),
+                                         form_class=UserSetPasswordForm),
         name='password_reset_confirm',
     ),
     path(

@@ -20,7 +20,7 @@ class Seller(User):
 
 
 class SellerData(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(Seller, on_delete=models.CASCADE)
     is_verified = models.BooleanField('Подтверждён', default=False)
 
     def __str__(self):

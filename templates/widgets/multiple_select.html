@@ -1,0 +1,17 @@
+{% with id=widget.attrs.id %}
+    <div {% if id %} id="{{ id }}"{% endif %}>
+        <p class="text--default form-create_title"> {{ widget.attrs.label }} </p>
+        <div class="form-create_checkboxes">
+            {% for group, options, index in widget.optgroups %}
+                {% for option in options %}
+                    <div class="form-create_checkbox">
+                        <input class="form-create_input-check" type="{{ option.type }}" name="{{ option.name }}"{% if option.value != None %} value="{{ option.value|stringformat:'s' }}"{% endif %}{% for name, value in option.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}>
+                        <label class="form-create_label text--default" {% if option.attrs.id %} for="{{ option.attrs.id }}" {% endif %} >
+                            {{ option.label }}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endwith %}
