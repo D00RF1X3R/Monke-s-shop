@@ -48,7 +48,7 @@
                 <img class="flud_card__image" src="{% static 'images/placeholderImage.png' %}">
             {% endif %}
             <div class="flud_card__info flex--column">
-                <p class="flud_card_info__name">{{ product.name }}</p>
+                <a href="{% url 'catalog:product_detail' product.id %}" class="flud_card_info__name">{{ product.name }}</a>
                 <p class="flud_card_info__description">{{ product.description|truncatechars:250 }}</p>
                 <form id="product_rating" action="." method="post" class="flud_card_info__images flex--row">
                     {% csrf_token %}

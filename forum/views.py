@@ -41,7 +41,7 @@ class ChatsView(TemplateView):
 
         context['products'] = Product.objects.filter(universe=context['universe'], category=context['category'])
         context['products'] = context['products'].annotate(
-            chat_rating=Avg('rating__mark'),
+            chat_rating=Avg('marks__mark'),
             message_count=Count('productmessage', distinct=True)
         )
         context['products'] = context['products'].order_by('-chat_rating')
