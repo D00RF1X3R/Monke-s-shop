@@ -1,5 +1,5 @@
 <p align="center" object-fit: cover;>
-	<img width="400" height="400" src="https://github.com/D00RF1X3R/MonkesShop/tree/main/readme-images/logo.png">
+	<img width="400" height="400" src="/readme_images/logo.png">
 </p>
 
 # BigGeek
@@ -31,7 +31,7 @@ BigGeek - Магазин товаров для geek'ов, заинтересов
    ```
    python manage.py createsuperuser
 	```
-- Для корректной работы программы необходимо вручную открыть базу данных с помощью СУБД и в таблицу users_customerdata пользователя с id = 1.
+- Для корректной работы программы необходимо вручную открыть базу данных с помощью СУБД и добавить в таблицу users_customerdata пользователя с id = 1.
 - Зайти в админ панель, кнопка для которой появится в навигационной панели после авторизации в аккаунт админа.
 - Добавить вселенные и категории.
 # Технические моменты
@@ -41,7 +41,7 @@ BigGeek - Магазин товаров для geek'ов, заинтересов
 ## Архитектура базы данных
 
 <p align="center" object-fit: cover;>
-	<img width="838" height="1027" src="https://github.com/D00RF1X3R/MonkesShop/tree/main/readme-images/database.png">
+	<img width="838" height="1027" src="/readme_images/database.png">
 </p>
 
 
