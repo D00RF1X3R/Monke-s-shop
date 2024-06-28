@@ -41,12 +41,12 @@ $(document).ready(function(){
     $(".filter-checkbox, #price-filter-btn").on("click", function(){
         console.log("A checkbox have been clicked");
         $("#max_price").each(function(){
-            let max_price = $(this).val()
+            let max_price = parseInt($(this).val())
             filter_object.max_price = max_price
             console.log("Max price is:", max_price);
         })
         $("#min_price").each(function(){
-            let min_price = $(this).val()
+            let min_price = parseInt($(this).val())
             filter_object.min_price = min_price
             console.log("Min price is:", min_price);
         })

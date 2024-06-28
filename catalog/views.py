@@ -118,8 +118,8 @@ class filter_product(View):
         universes = request.GET.getlist("universe[]")
         categories = request.GET.getlist("category[]")
         sellers = request.GET.getlist("seller[]")
-        min_price = request.GET.get("min_price")
-        max_price = request.GET.get("max_price")
+        min_price = int(request.GET.get("min_price"))
+        max_price = int(request.GET.get("max_price"))
         search_query = request.GET.get("q")
         
         if sortid == "populate-low":
@@ -139,14 +139,15 @@ class filter_product(View):
         if search_query:
             q_aux = Q(name__icontains=search_query)
             products = products.filter(q_aux)
-        if min_price or max_price:
-            if min_price > max_price:
-                products = products.filter(price__gte=max_price)
-                products = products.filter(price__lte=min_price).order_by("-price")
-            else:
+        if min_price and max_price:
+            if max_price > min_price:
                 products = products.filter(price__gte=min_price)
                 products = products.filter(price__lte=max_price).order_by("price")
+            else:
+                products = products.filter(price__gte=max_price)
+                products = products.filter(price__lte=min_price).order_by("-price")
+
 
         data = render_to_string("catalog/async/catalog.html", {"products": products})
-        return JsonResponse({"data": data})
+        return JsonResponse({"data": data, })
 
