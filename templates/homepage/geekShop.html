@@ -8,17 +8,17 @@
                 <header class="main__header flex--row">
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
+                            <img class="main_header_card__image" src="{% static 'images/banner-vertical1.jpg' %}">
                         </a>
                     </div>
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
+                            <img class="main_header_card__image" src="{% static 'images/banner-vertical2.jpg' %}">
                         </a>
                     </div>
                     <div class="main_header__card">
                         <a href="" class="main_header_card__link">
-                            <img class="main_header_card__image" src="{% static 'images/placeholderImage.png' %}">
+                            <img class="main_header_card__image" src="{% static 'images/banner-flat.png' %}">
                         </a>
                     </div>
                 </header>
@@ -60,7 +60,7 @@
                                 {% for u in universes %}
                                 <label for="exampleChekbox3{{ u.id }}">
                                     <input  class="form-check-input filter-checkbox" type="checkbox"
-                                    name="chekbox" data-filter="category" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
+                                    name="chekbox" data-filter="universe" id="exampleChekbox3{{ u.id }}" value="{{ u.id }}"/>{{ u.name }}
                                 </label>
                                 {% endfor %}
                             </div>
@@ -74,7 +74,7 @@
                                 {% for s in sellers %}
                                 <label for="exampleChekbox4{{ s.id }}">
                                     <input  class="form-check-input filter-checkbox" type="checkbox"
-                                    name="chekbox" data-filter="category" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
+                                    name="chekbox" data-filter="seller" id="exampleChekbox4{{ s.id }}" value="{{ s.id }}"/>{{ s.username }}
                                 </label>
                                 {% endfor %}
                             </div>

@@ -214,6 +214,8 @@ body {
     margin: 0 auto;
     object-fit: cover;
 }
+
+
 .main_header__card:hover{
     filter: brightness(80%);
 }
@@ -1734,4 +1736,15 @@ body {
 .flud_stars__star{
     width: 13px;
     height: 12px;
+}
+
+.main_header_card__link {
+    width: 100%;
+    height: 100%;
+}
+
+.main_header_card__link img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
