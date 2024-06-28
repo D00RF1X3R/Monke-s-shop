@@ -1,5 +1,5 @@
 <p align="center" object-fit: cover;>
-	<img width="400" height="400" src="https://github.com/D00RF1X3R/MonkesShop/tree/main/readme-images/logo.png">
+	<img width="400" height="400" src="/readme_images/logo.png">
 </p>
 
 # BigGeek
@@ -41,7 +41,7 @@ BigGeek - Магазин товаров для geek'ов, заинтересов
 ## Архитектура базы данных
 
 <p align="center" object-fit: cover;>
-	<img width="838" height="1027" src="https://github.com/D00RF1X3R/MonkesShop/tree/main/readme-images/database.png">
+	<img width="838" height="1027" src="/readme_images/database.png">
 </p>
 
 
