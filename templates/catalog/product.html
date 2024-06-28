@@ -1,100 +1,69 @@
-<!-- {% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %} {{ product.name }} {% endblock %}
-{% block content %}
+{% block content %}\
     <div class="product__page">
         <div class="container">
             <div class="product_page__content flex--row">
                 <div class="product_page__images flex--column">
                     <img class="product_page_images__bigimg" src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'images/placeholderImage.png' %}{% endif %}">
                     <div class="product_page_images__block flex--row">
-                    {% for image in images %}
-                        <img class="product_page_images_block__image" src="{{ image.image.url }}">
-                    {% endfor %}
+                        {% for image in images %}
+                            <img class="product_page_images_block__image" src="{{ image.image.url }}">
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="product_page__info flex--column">
                     <p class="product_page_info__seller text--default">{{ product.seller.username }}</p>
                     <p class="product_page_info__title">{{ product.name }}</p>
-                    <div class="product_page_info__main flex--column">
-                        <div class="product_page_info_main__rating flex--row">
-                            <p class="product_page_info_main_rating__mark">{{ product_rating }}</p>
-                            <img class="product_page_info_main_rating__pic" src="{% static 'svg/star.svg' %}">
-                            <p class="product_page_info_main_rating__count">
-                                <a href="{% url 'forum:product_discussion' product.id %}" class="product_page_info_main_rating_count__link">{{ marks_count }} оценок</a>
-                            </p>
+                    <div class="product_page_info__rating flex--row">
+                        <p class="product_page_info_rating__mark">{{ product_rating }}</p>
+                        <img class="product_page_info_rating__pic" src="{% static 'svg/star.svg' %}">
+                        <p class="product_page_info_rating__count">
+                            <a href="{% url 'forum:product_discussion' product.id %}" class="product_page_info_main_count__link">{{ marks_count }} оценок</a>
+                        </p>
+                    </div>
+                    <div class="product_page_info__block flex--row">
+                        <div class="product_page_info_block__main flex--column">
+                            <div class="product_page_info_block_main__images flex--row">
+                            </div>
+                            <div class="product_page_info_block_main_info__stats flex--column">
+                                <p class="product_page_info_block_main_stats__title text--default">Описание</p>
+                                <p class="product_page_info_block_main_stats__text text text--default">{{ product.description }}</p>
+                            </div>
                         </div>
-                        <div class="product_page_main_info__stats flex--column">
-                            <p class="product_page_main_info_stats__title text--default">Описание</p>
-                            <p class="product_page_main_info_stats__text text text--default">{{ product.description }}</p>
-                        </div>
+                        <form action="." method="POST" class="product_page_info_block__buying flex--column">
+                            {% csrf_token %}
+                            <input hidden name="id" value="{{ product.id }}">
+                            <p class="product_page_info_block_buying__price text--default">{{ product.price }} &#8381;</p>
+                            <a class="product_page_info_block_buying__button button button--lgreen text--default" onclick="addCart(this)">В корзину</a>
+                            <a class="product_page_info_block_buying__button button button--lgreen text--default" onclick="addCart(this)" href="{% url 'users:cart' %}" style="text-decoration: none;">Купить сейчас</a>
+                            <a class="product_page_info_block_buying__button button button--lgreen text--default" href="{% url 'forum:product_discussion' product.id %}" style="text-decoration: none;">Форум</a>
+                        </form>
                     </div>
                 </div>
-                <div class="product_page__buying flex--column">
-                    <p class="product_page_buying__price text--default">{{ product.price }} &#8381;</p>
-                    <button class="product_page_button button button--lgreen text--default" onclick="addCart(this)">В корзину</button>
-                    <a class="product_page_button button button--lgreen text--default" onclick="addCart(this)" href="{% url 'users:cart' %}" style="text-decoration: none;">Купить сейчас</a>
-                    <a class="product_page_button button button--lgreen text--default" href="{% url 'forum:product_discussion' product.id %}" style="text-decoration: none;">Форум</a>
-                </div>
+                
             </div>
         </div>
     </div>
-{% endblock %} -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static_dev/css/style.css">
-    <title>produrt page</title>
-</head>
-<body>
-    <div class="product__page">
-        <div class="container">
-            <div class="product_page__content flex--row">
-                <div class="product_page__images flex--column">
-                    <img class="product_page_images__bigimg" src="../..//static_dev/images/gutsTest.jpg">
-                    <div class="product_page_images__block flex--row">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                    </div>
-                </div>
-                <div class="product_page__info flex--column">
-                    <p class="product_page_info__seller text--default">Продавец</p>
-                    <p class="product_page_info__title">Название товара</p>
-                    <div class="product_page_info__main flex--column">
-                        <div class="product_page_info_main__rating flex--row">
-                            <p class="product_page_info_main_rating__mark">3.2</p>
-                            <img class="product_page_info_main_rating__pic" src="../../static_dev/svg/star.svg">
-                            <p class="product_page_info_main_rating__count">
-                                <a href class="product_page_info_main_rating_count__link">12345 оценок</a>
-                            </p>
-                        </div>
-                        <div class="product_page__info_main__images flex--row">
-                            <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                            <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                            <img class="product_page_images_block__image" src="../../static_dev/images/gutsTest.jpg">
-                        </div>
-                        <div class="product_page_main_info__stats flex--column">
-                            <p class="product_page_main_info_stats__title text--default">Характеристики</p>
-                            <p class="product_page_main_info_stats__text text text--default">smth</p>
-                            <p class="product_page_main_info_stats__title text--default">Описание</p>
-                            <p class="product_page_main_info_stats__text text text--default">smth</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product_page__buying flex--column">
-                    <p class="product_page_buying__price text--default">1703 &#8381;</p>
-                    <button class="product_page_button button button--lgreen text--default">В корзину</button>
-                    <button class="product_page_button button button--lgreen text--default">Купить сейчас</button>
-                    <button class="product_page_button button button--lgreen text--default">Форум</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+    <script>
+        function addCart(clickedElement){
+            var frm = $(clickedElement).parent();
+            var button = $(clickedElement);
+            var data = $(frm).serialize() + '&' + 'action=to_cart';
+            console.log("Data object is:", data);
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: '{% url 'catalog:products' %}',
+                success:  function (data) {
+                    console.log("OK Adding");
+                },
+                error: function () {
+                    console.log('I want to die');
+                }
+            });
+            return false;
+        }
+    </script>
+{% endblock %}
