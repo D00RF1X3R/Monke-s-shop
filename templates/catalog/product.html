@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="product_page__info flex--column">
-                    <p class="product_page_info__seller text--default">{{ product.seller.username }}</p>
+                    <p class="product_page_info__seller text--default">{{ product.seller.username }}<img style="height: 20px;" src="{% if is_verified %}{% static 'svg/verified.svg' %}{% endif %}" alt=""></p>
                     <p class="product_page_info__title">{{ product.name }}</p>
                     <div class="product_page_info__rating flex--row">
                         <p class="product_page_info_rating__mark">{{ product_rating }}</p>
