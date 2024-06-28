@@ -593,6 +593,7 @@ body{
     width: 675px;
     height: 942px;
     justify-content: unset;
+    align-items: flex-start;
 }
 .product_page_images__bigimg{
     width: 675px;
@@ -613,11 +614,15 @@ body{
 }
 .product_page__info{
     justify-content: flex-start;
-    margin-top: 50px;
     margin-left: 34px;
 }
 .product_page_info__seller{
     margin-bottom: 42px;
+}
+.product_page_info__block{
+    align-items: flex-start;
+    gap: 134px;
+    margin-left: 34px;
 }
 .product_page_info__title{
     font-size: 48px;
@@ -626,56 +631,57 @@ body{
     white-space: nowrap;
     margin-bottom: 16px;
 }
-.product_page_info_main__rating{
+.product_page_info__rating{
     justify-content: flex-start;
     font-size: 20px;
+    align-items: baseline;
 }
-.product_page_info_main_rating__pic{
+.product_page_info_rating__pic{
     margin: 0 29px 40px 9px;
 }
-.product_page_info_main_rating__count{
+.product_page_info_rating__count{
     text-decoration: underline;
     color: black !important;
 }
-.product_page_info_main_rating__count a{
+.product_page_info_rating__count a{
     color: black !important;
 }
-.product_page__info_main__images{
+.product_page_info_block_main__images{
     justify-content: flex-start;
     gap: 16px;
     margin-bottom: 11px;
 }
-.product_page_main_info_stats__title{
+.product_page_info_block_main_stats__title{
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 12px;
     margin-top: 21px;
 }
-.product_page_main_info_stats__text{
+.product_page_info_block_main_stats__text{
     margin-bottom: 8px;
 }
-.product_page__buying{
-    align-self: center;
+.product_page_info_block__buying{
+    align-self: baseline;
     background-color: var(--dark-white);
     padding: 4% ;
     gap:20px;
     border-radius: 12px;
     margin-bottom: 132px;
 }
-.product_page_buying__price{
+.product_page_info_block_buying__price{
     font-size: 40px;
     font-weight: 600;
     line-height: 48.76px;
     white-space: nowrap;
     margin-bottom: 40px;
 }
-.product_page_buying__price::after{
+.product_page_info_block_buying__price::after{
     content: '1999 ₽';
     color: var(--dark-grey);
     text-decoration:line-through;
     margin-left: 32px;
 }
-.product_page_button{
+.product_page_info_block_buying__button{
     width: 362px;
     border-radius: 8px;
     padding: 2%;
