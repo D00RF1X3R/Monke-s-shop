@@ -65,6 +65,7 @@ body {
     text-align: center;
     align-content: center;
     cursor: pointer;
+  	font-family: Montserrat, sans-serif;
 }
 .singin_form__link {
     margin-top: 20px;
@@ -147,6 +148,7 @@ body {
     height: 100%;
     width: 72px;
     border: none;
+  	cursor: pointer;
 }
 
 .navbar__forum{
@@ -228,14 +230,12 @@ body {
     padding: 1%;
 }
 .main_categories__list{
-    /* list-style: none; */
     max-width: 70%;
     gap: 44px;
     justify-content: unset;
 }
 .main_categories__list button{
     padding: 10% 10%;
-    font-size: 24px;
     border: none;
     width: 100%;
     white-space: nowrap;
@@ -414,16 +414,12 @@ body {
 .profile_card_user_image__pic{
     height: 100%;
     width: 100%;
-}
-.profile_card_user__info{
     object-fit: cover;
 }
 .profile_card_user_info__name{
     font-size: 40px;
     font-weight: 600;
     line-height: 48.76px;
-}
-.profile_card_user_info__e-mail, .profile_card_clickable_description__text{
     margin-bottom: 16px;
     font-family: Montserrat, sans-serif;
     border: none;
@@ -512,7 +508,6 @@ body {
 }
 .profile_card_finances__text:hover{
     color: var(--light-green) !important;
-}
 
 }
 .profile_card__basket{
@@ -732,6 +727,7 @@ body {
     right: 0;
     top: 0;
     bottom: 0;
+
 }
 
 
@@ -751,6 +747,12 @@ body {
 #populate-filter {
     width: 230px;
     height: 75px;
+    
+}
+
+#populate-filter button{
+    font-size: 18px;
+    font-family: "Montserrat", sans-serif;;
 }
 
 
@@ -864,6 +866,7 @@ body {
     border-radius: 8px;
     padding: 2%;
     border: none;
+}
 
 .prodlist{
     margin: 40px 0;
@@ -1461,17 +1464,17 @@ body {
     outline: none;
 }
 .flud_main_bar__image{
-   background-color: var(--dark-green);
-   width: 83px;
-   height: 64px;
-   border-radius: 8px;
-   padding: 13px 22px;
-   outline: none;
-   border: none;
+    background-color: var(--dark-green);
+    width: 83px;
+    height: 64px;
+    border-radius: 8px;
+    padding: 13px 22px;
+    outline: none;
+    border: none;
 }
 .flud_main_bar__image img{
-   width: 37px;
-   height: 37px;
+    width: 37px;
+    height: 37px;
 }
 .margin{
     height: 10px;
@@ -1515,14 +1518,14 @@ body {
     font-size: 36px;
     line-height: 43.88px;
 }
-.flud_card_buying__button{
-  font-size: 24px;
-  padding: 1%;
-  white-space: nowrap;
-  width: 157px;
-  height: 53px;
-  border: none;
-  text-decoration: none;
+.flud_card_buying__button {
+    font-size: 24px;
+    padding: 1%;
+    white-space: nowrap;
+    width: 157px;
+    height: 53px;
+    border: none;
+    text-decoration: none;
 }
 .margin--button{
     margin: 64px 0 12px 0;
