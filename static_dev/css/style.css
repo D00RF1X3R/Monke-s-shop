@@ -1368,7 +1368,7 @@ body{
     justify-content: flex-start;
     right: 0;
     top: 200px;
-    overflow-y: overlay;
+    overflow: overlay;
     scrollbar-width: none;
 }
 .main_categories_popularity__banner{
