@@ -632,6 +632,8 @@ body {
 .singup_form__favorites{
     gap: 22px;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 .singup_form_favorites__universe, .singup_form_favorites__category{
     width: 100%;
@@ -1576,6 +1578,7 @@ body {
 .form-create {
     display: flex;
     flex-direction: column;
+    max-width: 525px;
     gap: 20px;
 }
 
@@ -1598,6 +1601,7 @@ body {
 .form-create_checkboxes {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 6px;
 }
 
