@@ -90,6 +90,18 @@
                         </div>
                      </a>
                 {% endif %}
+
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button class="navbar_button" type="submit">
+                        <div class="navbar_purchase__basket">
+                            <img class="navbar_purchase_basket__svg" src="{% static '/svg/logout.svg' %}">
+                            <p class="navbar_purchase_basket__text text--default">Выйти</p>
+                        </div>
+                    </button>
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>

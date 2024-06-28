@@ -89,7 +89,7 @@
             $.ajax({
                 type: 'POST',
                 data: data,
-                url: '{% url 'users:cart' %}',
+                url: '{% url "users:cart" %}',
                 success:  function (data) {
                     var actionType = button.attr('value');
                     if (actionType == 'add' || actionType == 'subtract') {
