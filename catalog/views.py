@@ -56,8 +56,9 @@ class ProductListView(TemplateView):
         context["sellers"] = Seller.objects.all()
         min_max_price = Product.objects.aggregate(Min("price"), Max("price"))
         context["min_max_price"] = min_max_price
-        products = products.filter(price__gte=min_max_price["price__min"])
-        products = products.filter(price__lte=min_max_price["price__max"]).order_by("-price")
+        if min_max_price["price__min"] or min_max_price["price__max"]:
+            products = products.filter(price__gte=min_max_price["price__min"])
+            products = products.filter(price__lte=min_max_price["price__max"]).order_by("-price")
         return context
     def get_popular_products(self):
         context = self.get_context_data()

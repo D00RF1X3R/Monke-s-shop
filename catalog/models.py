@@ -7,11 +7,11 @@ from core.models import Category, Universe
 
 
 def get_default_category():
-    return Category.objects.get_or_create(name='Прочее')[0]
+    return Category.objects.get_or_create(name='Прочее')[0].id
 
 
 def get_default_universe():
-    return Universe.objects.get_or_create(name='Прочее')[0]
+    return Universe.objects.get_or_create(name='Прочее')[0].id
 
 
 class Product(models.Model):
